@@ -5,6 +5,7 @@ import { pt, enUS, es, fr } from 'date-fns/locale';
 import { useI18n } from '@/lib/i18n';
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 import { useSupabaseAuth } from '@/lib/SupabaseAuth';
+import ForumWordmark from '@/components/landing/ForumWordmark';
 
 const YELLOW   = '#d4a017';
 const BLUE     = '#1d4ed8';
@@ -189,7 +190,9 @@ export default function ForumThread() {
 
   return (
     <main style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
-      <div className="max-w-[800px] mx-auto px-6 sm:px-8" style={{ paddingTop: '4rem', paddingBottom: '6rem' }}>
+      <div className="max-w-[800px] mx-auto px-6 sm:px-8" style={{ paddingTop: '3rem', paddingBottom: '6rem' }}>
+
+        <ForumWordmark />
 
         {/* Breadcrumb */}
         <div className="font-mono uppercase mb-8" style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}>
@@ -562,7 +565,10 @@ function Linkify({ text }) {
 function ShellMessage({ title, body, backTo, backLabel }) {
   return (
     <main style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
-      <div className="max-w-[640px] mx-auto px-6 sm:px-8 text-center" style={{ paddingTop: '8rem' }}>
+      <div className="max-w-[640px] mx-auto px-6 sm:px-8" style={{ paddingTop: '3rem' }}>
+        <ForumWordmark />
+      </div>
+      <div className="max-w-[640px] mx-auto px-6 sm:px-8 text-center" style={{ paddingTop: '5rem' }}>
         {title && (
           <h1 className="font-data m-0 mb-4" style={{ fontSize: 28, fontWeight: 400, color: '#fff' }}>
             {title}

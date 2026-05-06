@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useI18n } from '@/lib/i18n';
 import { useSupabaseAuth } from '@/lib/SupabaseAuth';
 import { isSupabaseConfigured } from '@/lib/supabaseClient';
+import ForumWordmark from '@/components/landing/ForumWordmark';
 
 const YELLOW = '#d4a017';
 const BLUE   = '#1d4ed8';
@@ -39,7 +40,9 @@ export default function Login() {
 
   return (
     <main style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
-      <div className="max-w-[480px] mx-auto px-6 sm:px-8" style={{ paddingTop: '6rem', paddingBottom: '6rem' }}>
+      <div className="max-w-[480px] mx-auto px-6 sm:px-8" style={{ paddingTop: '3rem', paddingBottom: '6rem' }}>
+
+        <ForumWordmark />
 
         <Link
           to="/comunidade/foro"

@@ -5,6 +5,7 @@ import { pt, enUS, es, fr } from 'date-fns/locale';
 import { useI18n } from '@/lib/i18n';
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 import { useSupabaseAuth } from '@/lib/SupabaseAuth';
+import ForumWordmark from '@/components/landing/ForumWordmark';
 
 const YELLOW   = '#d4a017';
 const BLUE     = '#1d4ed8';
@@ -71,7 +72,9 @@ export default function ForumList() {
 
   return (
     <main style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh' }}>
-      <div className="max-w-[1100px] mx-auto px-6 sm:px-8" style={{ paddingTop: '4rem', paddingBottom: '6rem' }}>
+      <div className="max-w-[1100px] mx-auto px-6 sm:px-8" style={{ paddingTop: '3rem', paddingBottom: '6rem' }}>
+
+        <ForumWordmark />
 
         {/* KICKER */}
         <div className="flex items-center gap-3 mb-8">
