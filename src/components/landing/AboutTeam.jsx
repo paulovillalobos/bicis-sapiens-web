@@ -13,11 +13,14 @@ import { useScrollReveal } from '@/lib/useScrollReveal';
 const ADVISORS = [
   { slug: 'paulo', initial: 'P', hasPhoto: true },
 ];
-const ADVISOR_GRID_COLS = 4;
+// 3-column grid (was 4) — gives each advisor cell ~33% width on desktop,
+// roughly 1.3× the prior footprint. Bigger photo, more breathing room,
+// still clearly a "card" not a profile section.
+const ADVISOR_GRID_COLS = 3;
 
 // --- Atoms -----------------------------------------------------------------
 
-function AdvisorCell({ slug, initial, hasPhoto, role, name, desc }) {
+function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, desc2, pullQuote }) {
   const [photoFailed, setPhotoFailed] = useState(false);
   const showInitial = !hasPhoto || photoFailed;
 
@@ -42,30 +45,69 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, desc }) {
           <span
             aria-hidden="true"
             className="font-data leading-none"
-            style={{ fontSize: 64, fontWeight: 400, color: 'rgba(255,255,255,0.3)' }}
+            style={{ fontSize: 72, fontWeight: 400, color: 'rgba(255,255,255,0.3)' }}
           >
             {initial}
           </span>
         )}
       </div>
+
       <p
-        className="font-mono uppercase font-medium m-0 mt-4"
-        style={{ fontSize: 10, letterSpacing: '0.3em', color: '#d4a017' }}
+        className="font-mono uppercase font-medium m-0 mt-5"
+        style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
       >
         {role}
       </p>
+
       <h4
-        className="font-data leading-tight font-normal text-white m-0 mt-1"
-        style={{ fontSize: 20 }}
+        className="font-data leading-tight font-normal text-white m-0 mt-2"
+        style={{ fontSize: 26 }}
       >
         {name}
       </h4>
-      <p
-        className="m-0 mt-2 max-w-prose"
-        style={{ fontSize: 12, lineHeight: 1.5, color: 'rgba(255,255,255,0.7)' }}
-      >
-        {desc}
-      </p>
+
+      {subtitle && (
+        <p
+          className="font-mono uppercase m-0 mt-2"
+          style={{ fontSize: 11, letterSpacing: '0.15em', color: '#1d4ed8' }}
+        >
+          {subtitle}
+        </p>
+      )}
+
+      {desc1 && (
+        <p
+          className="m-0 mt-4"
+          style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(255,255,255,0.75)' }}
+        >
+          {desc1}
+        </p>
+      )}
+      {desc2 && (
+        <p
+          className="m-0 mt-3"
+          style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(255,255,255,0.75)' }}
+        >
+          {desc2}
+        </p>
+      )}
+
+      {/* Pull quote — same blue-italic-with-left-border treatment as
+          Ricardo's, but smaller (16px vs 24px) and tighter so the card
+          stays an "advisor card", not a "profile section". */}
+      {pullQuote && (
+        <blockquote
+          className="font-data italic font-normal m-0 mt-5 pl-4"
+          style={{
+            fontSize: 16,
+            lineHeight: 1.4,
+            color: '#1d4ed8',
+            borderLeft: '2px solid #1d4ed8',
+          }}
+        >
+          {pullQuote}
+        </blockquote>
+      )}
     </div>
   );
 }
@@ -237,7 +279,7 @@ export default function AboutTeam() {
           </h3>
           <div className="border-t border-white/15 mb-10" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {ADVISORS.map((adv) => (
               <AdvisorCell
                 key={adv.slug}
@@ -246,7 +288,10 @@ export default function AboutTeam() {
                 hasPhoto={adv.hasPhoto}
                 role={t(`about.advisors.${adv.slug}.role`)}
                 name={t(`about.advisors.${adv.slug}.name`)}
-                desc={t(`about.advisors.${adv.slug}.desc`)}
+                subtitle={t(`about.advisors.${adv.slug}.subtitle`)}
+                desc1={t(`about.advisors.${adv.slug}.desc1`)}
+                desc2={t(`about.advisors.${adv.slug}.desc2`)}
+                pullQuote={t(`about.advisors.${adv.slug}.pullQuote`)}
               />
             ))}
             {/* Intentional empty grid cells. No border, no bg, no '+ Add'.
