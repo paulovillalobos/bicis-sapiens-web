@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --font-display: 'Playfair Display', Georgia, serif;
+    --font-data: 'Fraunces', 'Playfair Display', Georgia, serif;
     --font-body: 'Inter', system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
@@ -583,56 +584,60 @@
 }
 
 /* =========================================================================
-   INTERSTITIAL — quiet starfield panel between Hero and Manifesto.
-   Pure obsidian background, parallax stars, centered editorial type.
-   The breath before the film starts.
+   INTERSTITIAL — "A Pause" panel between Hero and Manifesto.
+   Starfield sky on top, urban signs flanking the title, sculpted 3D
+   hero word, top-down crosswalk at the bottom. Min-height 120vh so
+   the user actually feels they walked into a different space.
    ========================================================================= */
-.bs-interstitial {
+.bs-pause {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 120vh;
   background: #0A0A0A;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7rem 1.5rem 5rem;
+  padding: 7rem 1.5rem 0;
 }
 @media (min-width: 768px) {
-  .bs-interstitial { padding: 8rem 3rem 6rem; }
+  .bs-pause { padding: 8rem 3rem 0; }
 }
 
-/* Very subtle nebula glow — dark blue + violet radial gradients,
-   nowhere near saturated. Just a hint of color in the void. */
-.bs-interstitial-nebula {
+/* Sky region occupies the top ~70% of the section */
+.bs-pause-sky {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70%;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
+}
+
+.bs-pause-nebula {
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 28% 65%, rgba(46, 79, 140, 0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 28% 65%, rgba(46, 79, 140, 0.18) 0%, transparent 60%),
     radial-gradient(ellipse 50% 45% at 72% 35%, rgba(80, 50, 110, 0.12) 0%, transparent 60%);
 }
 
-/* Starfield layer (parallax-translated via JS) */
-.bs-interstitial-stars {
+.bs-pause-stars {
   position: absolute;
-  /* Extend top + bottom so the parallax translate doesn't reveal the edge */
-  top: -15%;
-  bottom: -15%;
+  top: -10%;
+  bottom: -10%;
   left: 0;
   right: 0;
-  z-index: 1;
   will-change: transform;
-  pointer-events: none;
 }
 
 .bs-star {
   position: absolute;
   background: #FAFAF7;
   border-radius: 9999px;
-  opacity: var(--bs-o-min, 0.3);
+  opacity: var(--bs-o-min, 0.4);
   animation-name: bs-star-pulse;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
@@ -641,71 +646,164 @@
 .bs-star--bright {
   box-shadow:
     0 0 4px rgba(250, 250, 247, 0.7),
-    0 0 12px rgba(250, 250, 247, 0.25);
+    0 0 12px rgba(250, 250, 247, 0.28);
   animation-name: bs-star-twinkle;
 }
-
 @keyframes bs-star-pulse {
-  0%, 100% { opacity: var(--bs-o-min, 0.3); }
-  50%      { opacity: var(--bs-o-max, 0.85); }
+  0%, 100% { opacity: var(--bs-o-min, 0.4); }
+  50%      { opacity: var(--bs-o-max, 0.9); }
 }
 @keyframes bs-star-twinkle {
-  0%, 100% { opacity: var(--bs-o-min, 0.45); transform: scale(1); }
-  50%      { opacity: var(--bs-o-max, 1);    transform: scale(1.2); }
+  0%, 100% { opacity: var(--bs-o-min, 0.5); transform: scale(1); }
+  50%      { opacity: var(--bs-o-max, 1);   transform: scale(1.2); }
 }
 
-/* Center text stack */
-.bs-interstitial-content {
+/* Centered text stack */
+.bs-pause-content {
   position: relative;
   z-index: 2;
   text-align: center;
-  max-width: 56rem;
+  max-width: 72rem;
   width: 100%;
+  padding-bottom: 8rem;     /* breathing above the crosswalk */
 }
 
-.bs-interstitial-eyebrow {
+.bs-pause-eyebrow {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
   color: #FFD60A;
-  margin: 0 0 2.5rem;
+  margin: 0 0 3rem;
 }
 
-/* Title — generous letterspacing + subtle EU-blue depth shadow.
-   The shadow is split into a tight color offset (gives the type a
-   slight 3D lift) plus a soft blue glow that sits against the dark sky. */
-.bs-interstitial-title {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(34px, 5.5vw, 76px);
-  line-height: 1.1;
-  letter-spacing: -0.015em;
+/* Title row: STOP-sign (left) — title — bike-sign (right) */
+.bs-pause-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 4vw, 3.5rem);
+  margin: 0 0 2rem;
+}
+
+.bs-pause-sign-slot {
+  flex: 0 0 auto;
+}
+.bs-pause-sign {
+  width: clamp(56px, 9vw, 124px);
+  height: auto;
+  display: block;
+  /* Slight cinematic lift from the sky */
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.4));
+}
+
+/* Title is SANS-SERIF Inter — explicit override of the global h2 rule
+   that defaults to Playfair. */
+.bs-pause-title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(28px, 4.6vw, 60px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
   color: #FAFAF7;
-  margin: 0 auto 2rem;
+  margin: 0;
   max-width: 22ch;
-  text-shadow:
-    0 1px 0 rgba(0, 51, 153, 0.55),
-    0 2px 0 rgba(0, 51, 153, 0.35),
-    0 6px 28px rgba(0, 51, 153, 0.30);
 }
 
-.bs-interstitial-supporting {
+.bs-pause-supporting {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: clamp(15px, 1.4vw, 19px);
-  line-height: 1.65;
-  color: rgba(250, 250, 247, 0.7);
-  max-width: 42ch;
-  margin: 0 auto;
+  font-size: clamp(16px, 1.5vw, 22px);
+  line-height: 1.55;
+  color: rgba(250, 250, 247, 0.65);
+  max-width: 44ch;
+  margin: 0 auto 4rem;
 }
 
-/* Scroll hint pinned to bottom-center, slow vertical bounce */
-.bs-interstitial-hint {
+/* The 3D hero word — sculptural, solid, the punctum of the section.
+   10 stacked text-shadows offset down-and-left, each progressively
+   darker, fade from #003399 (front) toward #001433 (deepest back).
+   The element itself is the front layer. */
+.bs-pause-hero-word {
+  font-family: var(--font-body);
+  font-weight: 900;
+  font-size: clamp(80px, 16vw, 200px);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  color: #003399;
+  margin: 0 auto;
+  display: inline-block;
+  text-transform: uppercase;
+  text-shadow:
+    -1px  1px 0 #002F8F,
+    -2px  2px 0 #002C84,
+    -3px  3px 0 #00297A,
+    -4px  4px 0 #002670,
+    -5px  5px 0 #002366,
+    -6px  6px 0 #00205C,
+    -7px  7px 0 #001D52,
+    -8px  8px 0 #001A47,
+    -9px  9px 0 #00173D,
+    -10px 10px 0 #001433;
+  /* Slow breathing scale — the word feels alive */
+  animation: bs-pause-breath 7s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+@keyframes bs-pause-breath {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.012); }
+}
+
+/* Crosswalk band — top-down view of zebra stripes, bottom 25% of section */
+.bs-pause-crosswalk {
   position: absolute;
-  bottom: 2.25rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 26vh;
+  min-height: 180px;
+  z-index: 1;
+  overflow: hidden;
+}
+.bs-pause-crosswalk-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(180deg, #0A0A0A 0%, #1a1a1a 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+.bs-pause-crosswalk-asphalt {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1a1a1a;
+  /* very subtle asphalt grain via dual gradients */
+  background-image:
+    radial-gradient(circle at 25% 30%, rgba(255,255,255,0.012) 0, transparent 1.5px),
+    radial-gradient(circle at 75% 70%, rgba(255,255,255,0.010) 0, transparent 1.5px);
+  background-size: 8px 8px, 12px 12px;
+}
+.bs-pause-crosswalk-stripe {
+  position: absolute;
+  top: 14%;
+  bottom: 14%;
+  width: 5.5%;
+  transform: translateX(-50%);
+  background: rgba(250, 250, 247, 0.93);
+}
+
+/* Continue hint — pinned over the crosswalk */
+.bs-pause-hint {
+  position: absolute;
+  bottom: 2rem;
   left: 50%;
-  z-index: 2;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
@@ -713,38 +811,44 @@
   font-size: 10px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: rgba(250, 250, 247, 0.42);
+  color: rgba(250, 250, 247, 0.55);
   text-decoration: none;
   transform: translateX(-50%);
-  animation: bs-interstitial-hint-bounce 3.2s ease-in-out infinite;
+  animation: bs-pause-hint-bounce 3.2s ease-in-out infinite;
   transition: color 0.3s ease;
 }
-.bs-interstitial-hint:hover { color: rgba(250, 250, 247, 0.8); }
-
-@keyframes bs-interstitial-hint-bounce {
+.bs-pause-hint:hover { color: rgba(250, 250, 247, 0.95); }
+@keyframes bs-pause-hint-bounce {
   0%, 100% { transform: translate(-50%, 0); }
   50%      { transform: translate(-50%, 8px); }
 }
 
-/* Viewport-triggered fade for the inner text. Stars stay visible
-   immediately so they pulse from the start; only type fades in. */
-.bs-interstitial .bs-interstitial-content {
+/* Staggered fade-in on viewport entry (eyebrow → signs → title → 3D word
+   → subtitle). Stars + crosswalk stay visible immediately; only the text
+   layers fade up. */
+.bs-pause .bs-pause-eyebrow,
+.bs-pause .bs-pause-sign-slot,
+.bs-pause .bs-pause-title,
+.bs-pause .bs-pause-hero-word,
+.bs-pause .bs-pause-supporting {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(20px);
   transition:
-    opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
-    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+    opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.bs-interstitial.visible .bs-interstitial-content {
-  opacity: 1;
-  transform: translateY(0);
-}
+.bs-pause.visible .bs-pause-eyebrow     { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
+.bs-pause.visible .bs-pause-sign-slot   { opacity: 1; transform: translateY(0); transition-delay: 200ms; }
+.bs-pause.visible .bs-pause-title       { opacity: 1; transform: translateY(0); transition-delay: 400ms; }
+.bs-pause.visible .bs-pause-hero-word   { opacity: 1; transform: scale(1) translateY(0); transition-delay: 800ms; }
+.bs-pause.visible .bs-pause-supporting  { opacity: 1; transform: translateY(0); transition-delay: 1200ms; }
 
-/* Reduce motion: no bounce / no twinkle / no parallax-y feel */
+/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   .bs-star, .bs-star--bright,
-  .bs-interstitial-hint {
+  .bs-pause-hero-word,
+  .bs-pause-hint {
     animation: none;
   }
-  .bs-interstitial-stars { transform: none !important; }
+  .bs-pause-stars { transform: none !important; }
 }

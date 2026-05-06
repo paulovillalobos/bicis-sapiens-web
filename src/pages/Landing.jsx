@@ -11,7 +11,6 @@ import BikeBus from '@/components/landing/BikeBus';
 import AppCTA from '@/components/landing/AppCTA';
 import CommunityHub from '@/components/landing/CommunityHub';
 import Municipalities from '@/components/landing/Municipalities';
-import Resources from '@/components/landing/Resources';
 import AboutTeam from '@/components/landing/AboutTeam';
 import Donate from '@/components/landing/Donate';
 import Footer from '@/components/landing/Footer';
@@ -34,7 +33,6 @@ function LandingContent() {
       <AppCTA />
       <CommunityHub onJoinClick={openJoin} />
       <Municipalities />
-      <Resources />
       <AboutTeam />
       <Donate />
       <Footer />

@@ -6,6 +6,7 @@ module.exports = {
   	extend: {
   		fontFamily: {
   			display: ['var(--font-display)'],
+  			data: ['var(--font-data)'],
   			body: ['var(--font-body)'],
   			mono: ['var(--font-mono)'],
   		},

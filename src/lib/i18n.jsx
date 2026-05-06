@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 const translations = {
   pt: {
-    nav: { manifesto: 'Manifesto', dados: 'Dados', solucao: 'Solução', mapa: 'Mapa', comboios: 'Comboios', app: 'App', comunidade: 'Comunidade', municipios: 'Municípios', recursos: 'Recursos', sobre: 'Sobre', doar: 'Doar' },
+    nav: { manifesto: 'Manifesto', dados: 'Dados', solucao: 'Solução', mapa: 'Mapa', comboios: 'Comboios', app: 'App', comunidade: 'Comunidade', municipios: 'Municípios', sobre: 'Sobre', doar: 'Doar' },
     hero: {
       tagline: 'O espaço público é de todos.\nA cidade também.',
       tagline_html: 'O espaço público<br>é de <em>todos</em>.<br>A cidade também.',
@@ -18,7 +18,8 @@ const translations = {
       eyebrow: 'Uma pausa',
       title: 'Esta informação é para todos.',
       subtitle: 'Para entendermos juntos. Para imaginarmos juntos. Para decidirmos juntos.',
-      hint: 'Boa viagem',
+      heroWord: 'JUNTOS',
+      hint: 'Continuar',
     },
     manifesto: {
       title: 'Manifesto',
@@ -113,17 +114,6 @@ const translations = {
       engaged: 'municípios contactados',
       proposals: 'propostas entregues',
     },
-    resources: {
-      title: 'Recursos & Educação',
-      guides: [
-        { title: 'Como conduzir respeitando o ciclista', desc: 'Guia para condutores.' },
-        { title: 'Como começar a andar de bicicleta na cidade', desc: 'Primeiros passos para novos ciclistas.' },
-        { title: 'Como criar um Bike Bus na tua escola', desc: 'Guia passo a passo.' },
-        { title: 'Aprender a andar de bicicleta', desc: 'Noções básicas para todas as idades.' },
-      ],
-      blog: 'Últimos artigos',
-      cities: 'Cidades que nos inspiram',
-    },
     about: {
       title: 'Sobre Nós',
       founderRole: 'Fundador — Aprendiz perpétuo de mobilidade humana',
@@ -161,7 +151,7 @@ const translations = {
     },
   },
   en: {
-    nav: { manifesto: 'Manifesto', dados: 'Data', solucao: 'Solution', mapa: 'Map', comboios: 'Bike Bus', app: 'App', comunidade: 'Community', municipios: 'Municipalities', recursos: 'Resources', sobre: 'About', doar: 'Donate' },
+    nav: { manifesto: 'Manifesto', dados: 'Data', solucao: 'Solution', mapa: 'Map', comboios: 'Bike Bus', app: 'App', comunidade: 'Community', municipios: 'Municipalities', sobre: 'About', doar: 'Donate' },
     hero: {
       tagline: 'Public space belongs to everyone.\nSo does the city.',
       tagline_html: 'Public space<br>belongs to <em>everyone</em>.<br>The city too.',
@@ -177,6 +167,7 @@ const translations = {
       eyebrow: 'A pause',
       title: 'This information is for all of us.',
       subtitle: 'To understand together. To imagine together. To decide together.',
+      heroWord: 'TOGETHER',
       hint: 'Continue',
     },
     manifesto: {
@@ -272,17 +263,6 @@ const translations = {
       engaged: 'municipalities contacted',
       proposals: 'proposals delivered',
     },
-    resources: {
-      title: 'Resources & Education',
-      guides: [
-        { title: 'How to drive respecting cyclists', desc: 'Guide for drivers.' },
-        { title: 'How to start cycling in the city', desc: 'First steps for new cyclists.' },
-        { title: 'How to create a Bike Bus at your school', desc: 'Step by step guide.' },
-        { title: 'Learn to ride a bike', desc: 'Basics for all ages.' },
-      ],
-      blog: 'Latest articles',
-      cities: 'Cities that inspire us',
-    },
     about: {
       title: 'About Us',
       founderRole: 'Founder — Lifelong learner of human mobility',
@@ -320,7 +300,7 @@ const translations = {
     },
   },
   es: {
-    nav: { manifesto: 'Manifiesto', dados: 'Datos', solucao: 'Solución', mapa: 'Mapa', comboios: 'Bici Bus', app: 'App', comunidade: 'Comunidad', municipios: 'Municipios', recursos: 'Recursos', sobre: 'Sobre', doar: 'Donar' },
+    nav: { manifesto: 'Manifiesto', dados: 'Datos', solucao: 'Solución', mapa: 'Mapa', comboios: 'Bici Bus', app: 'App', comunidade: 'Comunidad', municipios: 'Municipios', sobre: 'Sobre', doar: 'Donar' },
     hero: {
       tagline: 'El espacio público es de todos.\nLa ciudad también.',
       tagline_html: 'El espacio público<br>es de <em>todos</em>.<br>La ciudad también.',
@@ -336,7 +316,8 @@ const translations = {
       eyebrow: 'Una pausa',
       title: 'Esta información es para todos.',
       subtitle: 'Para entenderlo juntos. Para imaginarlo juntos. Para decidirlo juntos.',
-      hint: 'Buen viaje',
+      heroWord: 'JUNTOS',
+      hint: 'Continuar',
     },
     manifesto: {
       title: 'Manifiesto',
@@ -431,17 +412,6 @@ const translations = {
       engaged: 'municipios contactados',
       proposals: 'propuestas entregadas',
     },
-    resources: {
-      title: 'Recursos y Educación',
-      guides: [
-        { title: 'Cómo conducir respetando al ciclista', desc: 'Guía para conductores.' },
-        { title: 'Cómo empezar a ir en bici en la ciudad', desc: 'Primeros pasos para nuevos ciclistas.' },
-        { title: 'Cómo crear un Bici Bus en tu escuela', desc: 'Guía paso a paso.' },
-        { title: 'Aprender a ir en bicicleta', desc: 'Nociones básicas para todas las edades.' },
-      ],
-      blog: 'Últimos artículos',
-      cities: 'Ciudades que nos inspiran',
-    },
     about: {
       title: 'Sobre Nosotros',
       founderRole: 'Fundador — Aprendiz perpetuo de movilidad humana',
@@ -479,7 +449,7 @@ const translations = {
     },
   },
   fr: {
-    nav: { manifesto: 'Manifeste', dados: 'Données', solucao: 'Solution', mapa: 'Carte', comboios: 'Vélo Bus', app: 'App', comunidade: 'Communauté', municipios: 'Municipalités', recursos: 'Ressources', sobre: 'À propos', doar: 'Donner' },
+    nav: { manifesto: 'Manifeste', dados: 'Données', solucao: 'Solution', mapa: 'Carte', comboios: 'Vélo Bus', app: 'App', comunidade: 'Communauté', municipios: 'Municipalités', sobre: 'À propos', doar: 'Donner' },
     hero: {
       tagline: 'L\'espace public appartient à tous.\nLa ville aussi.',
       tagline_html: 'L\'espace public<br>appartient à <em>tous</em>.<br>La ville aussi.',
@@ -493,9 +463,10 @@ const translations = {
     },
     interstitial: {
       eyebrow: 'Une pause',
-      title: 'Cette information est pour tous.',
+      title: 'Cette information est pour nous tous.',
       subtitle: 'Pour comprendre ensemble. Pour imaginer ensemble. Pour décider ensemble.',
-      hint: 'Bon voyage',
+      heroWord: 'ENSEMBLE',
+      hint: 'Continuer',
     },
     manifesto: {
       title: 'Manifeste',
@@ -589,17 +560,6 @@ const translations = {
       meeting: 'Planifier Réunion',
       engaged: 'municipalités contactées',
       proposals: 'propositions livrées',
-    },
-    resources: {
-      title: 'Ressources & Éducation',
-      guides: [
-        { title: 'Conduire en respectant le cycliste', desc: 'Guide pour conducteurs.' },
-        { title: 'Commencer à rouler en ville', desc: 'Premiers pas pour nouveaux cyclistes.' },
-        { title: 'Créer un Vélo Bus dans ton école', desc: 'Guide étape par étape.' },
-        { title: 'Apprendre à faire du vélo', desc: 'Les bases pour tous les âges.' },
-      ],
-      blog: 'Derniers articles',
-      cities: 'Villes qui nous inspirent',
     },
     about: {
       title: 'À Propos',
