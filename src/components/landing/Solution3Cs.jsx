@@ -1,84 +1,185 @@
 import React from 'react';
 import { useI18n } from '@/lib/i18n';
-import { useScrollReveal } from '@/lib/useScrollReveal';
-import { motion } from 'framer-motion';
-import { BookOpen, Users, FileText } from 'lucide-react';
 
-const icons = [BookOpen, Users, FileText];
-const keys = ['info', 'consensus', 'proposal'];
-// Featured: Consenso — the differentiator of the movement (per brief).
-const FEATURED_INDEX = 1;
+// --- Theme tokens (this section uses the same dark editorial palette
+// as §02 — Porto in Numbers — to match the new visual system) ---
+const YELLOW   = '#d4a017';
+const BLUE     = '#1d4ed8';
+const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
+
+const PILLARS = [
+  { key: 'info',      numeral: 'I.'   },
+  { key: 'consensus', numeral: 'II.'  },
+  { key: 'proposal',  numeral: 'III.' },
+];
 
 export default function Solution3Cs() {
   const { t } = useI18n();
-  const ref = useScrollReveal();
+  const year = new Date().getFullYear();
 
   return (
-    <section id="solution" ref={ref} className="reveal-section py-24 sm:py-32 bg-background text-foreground">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-16">
-          <span className="font-mono text-xs tracking-widest uppercase text-accent">
-            03 / 13 · {t('solution.title')}
+    <section
+      id="solution"
+      style={{ background: '#0a0a0a', color: '#fff' }}
+    >
+      <div className="max-w-[1100px] mx-auto px-6 sm:px-8" style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
+
+        {/* KICKER — yellow line + label */}
+        <div className="flex items-center gap-3 mb-8">
+          <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
+          <span
+            className="font-mono uppercase font-medium m-0"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+          >
+            {t('solution.kicker')}
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-4 tracking-tightest text-foreground max-w-3xl">
-            {t('solution.title')}
-          </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-px bg-border">
-          {keys.map((key, i) => {
-            const Icon = icons[i];
-            const section = t(`solution.${key}`) || {};
-            const bullets = section.bullets || [];
-            const isFeatured = i === FEATURED_INDEX;
+        {/* HEADER — headline (italic blue accent) + tagline */}
+        <header
+          className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-end pb-6 mb-12"
+          style={{ borderBottom: `0.5px solid ${HAIRLINE}` }}
+        >
+          <h2
+            className="font-data leading-[1.1] tracking-tight m-0"
+            style={{ fontSize: 'clamp(32px, 4.5vw, 44px)', fontWeight: 400, color: '#fff' }}
+          >
+            {t('solution.headline.prefix')}{' '}
+            <span style={{ fontStyle: 'italic', color: BLUE }}>
+              {t('solution.headline.accent')}
+            </span>
+          </h2>
 
+          <div className="lg:justify-self-end lg:text-right">
+            <p
+              className="font-data m-0"
+              style={{
+                fontSize: 17,
+                fontStyle: 'italic',
+                fontWeight: 400,
+                lineHeight: 1.45,
+                color: 'rgba(255,255,255,0.7)',
+              }}
+            >
+              {t('solution.tagline.line1')}
+              <br />
+              {t('solution.tagline.line2')}
+            </p>
+          </div>
+        </header>
+
+        {/* THREE PILLARS — typography only, no cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
+          {PILLARS.map(({ key, numeral }) => {
+            const bullets = t(`solution.${key}.bullets`) || [];
             return (
-              <motion.div
-                key={key}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.15 }}
-                viewport={{ once: true }}
-                className={`group relative bg-bone text-obsidian p-8 sm:p-10 transition-transform duration-500 hover:-translate-y-0.5 ${isFeatured ? 'pl-9 sm:pl-11' : ''}`}
-              >
-                {isFeatured && (
-                  <span aria-hidden="true" className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
-                )}
+              <div key={key}>
 
-                <div className="w-11 h-11 bg-primary/10 flex items-center justify-center mb-8">
-                  <Icon className="w-5 h-5 text-primary" />
+                {/* META: roman numeral + role sub-label */}
+                <div className="flex items-baseline gap-3 mb-4">
+                  <span
+                    className="font-data"
+                    style={{
+                      fontSize: 22,
+                      fontWeight: 400,
+                      fontStyle: 'italic',
+                      color: YELLOW,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {numeral}
+                  </span>
+                  <span
+                    className="font-mono uppercase"
+                    style={{
+                      fontSize: 10,
+                      letterSpacing: '0.25em',
+                      color: 'rgba(255,255,255,0.4)',
+                    }}
+                  >
+                    {t(`solution.${key}.role`)}
+                  </span>
                 </div>
 
-                <p className="font-mono text-[10px] uppercase tracking-widest text-obsidian/55 mb-3">
-                  0{i + 1}
+                {/* TITLE — declarative period */}
+                <h3
+                  className="font-data m-0 mb-4"
+                  style={{
+                    fontSize: 'clamp(24px, 2.6vw, 28px)',
+                    fontWeight: 400,
+                    color: '#fff',
+                    lineHeight: 1.15,
+                    letterSpacing: '-0.005em',
+                  }}
+                >
+                  {t(`solution.${key}.title`)}.
+                </h3>
+
+                {/* DESCRIPTION */}
+                <p
+                  className="m-0 mb-6"
+                  style={{
+                    fontSize: 14,
+                    lineHeight: 1.6,
+                    color: 'rgba(255,255,255,0.65)',
+                  }}
+                >
+                  {t(`solution.${key}.desc`)}
                 </p>
 
-                <h3 className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-obsidian mb-4 leading-[1.05]">
-                  {section.title}
-                </h3>
-                <p className="text-obsidian/65 mb-6 font-body leading-relaxed">{section.desc}</p>
+                {/* HAIRLINE */}
+                <div style={{ borderTop: `0.5px solid ${HAIRLINE}` }} className="mb-5" />
 
-                <ul className="space-y-2.5 pt-5 border-t border-obsidian/12">
-                  {bullets.map((bullet, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm text-obsidian/80">
-                      <div className="w-1.5 h-1.5 bg-primary mt-2 shrink-0" />
-                      <span>{bullet}</span>
+                {/* DELIVERABLES — unstyled, no bullets, no icons */}
+                <ul className="list-none m-0 p-0">
+                  {Array.isArray(bullets) && bullets.map((item, j) => (
+                    <li
+                      key={j}
+                      style={{
+                        fontSize: 14,
+                        lineHeight: 2,
+                        color: 'rgba(255,255,255,0.85)',
+                      }}
+                    >
+                      {item}
                     </li>
                   ))}
                 </ul>
 
-                {/* Watermark number, very subtle */}
-                <span aria-hidden="true" className="absolute top-6 right-8 font-display text-7xl font-black tracking-tightest text-obsidian/[0.05] select-none leading-none">
-                  {i + 1}
-                </span>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
-        <p className="mt-12 max-w-3xl font-display text-xl sm:text-2xl text-foreground/60 italic leading-relaxed">
-          {t('solution.subtitle')}
-        </p>
+        {/* SIGNATURE — closes the section like a manifesto */}
+        <div
+          className="text-center"
+          style={{ borderTop: `0.5px solid ${HAIRLINE}`, paddingTop: '3rem' }}
+        >
+          <p
+            className="font-mono uppercase m-0"
+            style={{
+              fontSize: 11,
+              letterSpacing: '0.25em',
+              color: 'rgba(255,255,255,0.4)',
+              marginBottom: '0.75rem',
+            }}
+          >
+            {t('solution.signature.signed')} &middot; Porto, {year}
+          </p>
+          <p
+            className="font-data m-0"
+            style={{
+              fontSize: 20,
+              fontStyle: 'italic',
+              fontWeight: 400,
+              color: '#fff',
+            }}
+          >
+            {t('solution.signature.name')}
+          </p>
+        </div>
+
       </div>
     </section>
   );
