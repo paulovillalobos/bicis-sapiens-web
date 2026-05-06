@@ -78,6 +78,37 @@ function FlyToFeature({ feature }) {
   return null;
 }
 
+// Fit Greater Porto into the (possibly resized) container on mount
+function FitBoundsOnMount({ bounds, options }) {
+  const map = useMap();
+  const ranRef = useRef(false);
+  useEffect(() => {
+    if (ranRef.current) return;
+    ranRef.current = true;
+    map.fitBounds(bounds, options);
+  }, [map, bounds, options]);
+  return null;
+}
+
+// Scroll wheel zoom only when ⌘ / Ctrl is held — page scroll wins by default.
+// Capture-phase wheel listener toggles Leaflet's scrollWheelZoom enable/disable
+// before Leaflet's own (bubble-phase) listener fires for that same wheel tick.
+function CtrlWheelZoom() {
+  const map = useMap();
+  useEffect(() => {
+    map.scrollWheelZoom.disable();
+    const container = map.getContainer();
+    const onWheel = (e) => {
+      const wantsZoom = e.ctrlKey || e.metaKey;
+      if (wantsZoom && !map.scrollWheelZoom.enabled()) map.scrollWheelZoom.enable();
+      if (!wantsZoom && map.scrollWheelZoom.enabled()) map.scrollWheelZoom.disable();
+    };
+    container.addEventListener('wheel', onWheel, { capture: true, passive: true });
+    return () => container.removeEventListener('wheel', onWheel, { capture: true });
+  }, [map]);
+  return null;
+}
+
 // --- Stat row inside panel ------------------------------------------------
 function StatRow({ label, value, unit }) {
   return (
@@ -346,20 +377,21 @@ export default function InteractiveMap() {
 
   return (
     <section id="map" ref={sectionRef} className="reveal-section bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-6">
         <span className="font-mono text-xs tracking-widest uppercase text-accent">
           05 — {t('map.title') || 'Mapa'}
         </span>
-        <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-4 tracking-tightest text-foreground max-w-3xl">
+        <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-3 tracking-tightest text-foreground max-w-3xl">
           A cidade <i>vista</i> por freguesia.
         </h2>
-        <p className="text-foreground/60 max-w-2xl mt-4 font-body">
+        <p className="text-foreground/60 max-w-2xl mt-3 font-body">
           {t('map.subtitle') || 'Explora a Grande Área Metropolitana do Porto.'}
           {' '}Clica numa freguesia para ver os dados. Numa segunda para comparar.
         </p>
       </div>
 
-      <div className="relative w-full h-[640px] sm:h-[720px] bg-background border-y border-border overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full h-[60vh] min-h-[420px] max-h-[640px] bg-background border border-border overflow-hidden">
         {loading && <Skeleton />}
         {error && (
           <div className="absolute inset-0 grid place-items-center text-foreground/60 font-mono text-sm z-[400]">
@@ -374,13 +406,15 @@ export default function InteractiveMap() {
             minZoom={9}
             maxZoom={16}
             zoomControl={false}
-            scrollWheelZoom={true}
+            scrollWheelZoom={false}
             className="w-full h-full bs-map"
             style={{ background: '#050505' }}
           >
             <TileLayer url={TILE_URL} attribution={TILE_ATTR} subdomains="abcd" maxZoom={20} />
             <FreguesiasLayer data={geojson} onClick={handleClick} selectedDicofres={selectedDicofres} />
             <ZoomControl position="bottomright" />
+            <FitBoundsOnMount bounds={PORTO_BOUNDS} options={{ padding: [40, 40] }} />
+            <CtrlWheelZoom />
             <ResetController trigger={resetTick} />
             <FlyToFeature feature={flyTarget} />
           </MapContainer>
@@ -531,13 +565,28 @@ export default function InteractiveMap() {
             </div>
           </>
         )}
-      </div>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/30 leading-relaxed max-w-3xl">
-          Geometria CAOP via GeoAPI.pt &middot; População: INE 2021 (parcial) + estimativas baseadas em densidade municipal &middot;
-          Áreas verdes, escolas e comboios ativos: dados em desenvolvimento.
-        </p>
+        {/* Source attribution + scroll hint — sits below the map, breathes ~70px */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pt-5 pb-10">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/30 leading-relaxed max-w-3xl">
+            Geometria CAOP via GeoAPI.pt &middot; População: INE 2021 (parcial) + estimativas baseadas em densidade municipal &middot;
+            Áreas verdes, escolas e comboios ativos: dados em desenvolvimento.
+          </p>
+          <div className="hidden sm:flex items-center gap-2 text-foreground/35 font-mono text-[9px] uppercase tracking-[0.4em]">
+            <span>⌘ + scroll para zoom</span>
+          </div>
+        </div>
+
+        {/* Scroll hint — invites the user to continue past the map */}
+        <a
+          href="#bikeBus"
+          aria-label="Continuar para a próxima secção"
+          className="scroll-indicator flex flex-col items-center gap-1 pb-8 text-foreground/35 hover:text-foreground/80 transition-colors"
+        >
+          <span className="font-mono text-[9px] uppercase tracking-[0.5em]">Continuar</span>
+          <span aria-hidden="true" className="text-base leading-none">↓</span>
+        </a>
       </div>
     </section>
   );
