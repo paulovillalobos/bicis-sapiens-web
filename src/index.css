@@ -420,73 +420,103 @@
 .bs-manifesto {
   background: hsl(var(--background));
   color: hsl(var(--foreground));
-  padding: 8rem 0 6rem;
   overflow: hidden;
 }
-.bs-manifesto-header {
-  max-width: 80rem;
-  margin: 0 auto 6rem;
-  padding: 0 1.5rem;
-}
-@media (min-width: 768px) {
-  .bs-manifesto-header { padding: 0 2rem; margin-bottom: 8rem; }
-}
 
+/* Each principle = one full-screen poster panel.
+   Image is the background, dark overlay sits on top, centered text
+   stack is above the overlay. A24 poster, not magazine spread. */
 .bs-principle {
   position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   isolation: isolate;
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: clamp(8rem, 18vh, 14rem) 1.5rem;
+  text-align: center;
+  padding: 6rem 1.5rem 5rem;
 }
 @media (min-width: 768px) {
-  .bs-principle { padding-left: 2rem; padding-right: 2rem; }
+  .bs-principle { padding: 8rem 3rem 6rem; }
 }
 
-.bs-principle-watermark {
+.bs-principle-bg {
   position: absolute;
-  top: 50%;
-  font-family: var(--font-display);
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  font-size: clamp(220px, 38vw, 560px);
-  line-height: 0.78;
-  color: rgba(250, 250, 247, 0.038);
-  z-index: -1;
-  user-select: none;
-  pointer-events: none;
-  white-space: nowrap;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 0;
+  display: block;
+  /* Photos are below-the-fold; show obsidian until they decode. */
+  background: #0A0A0A;
 }
-.bs-principle--left .bs-principle-watermark   { left: -2vw;  transform: translateY(-50%); }
-.bs-principle--right .bs-principle-watermark  { right: -2vw; transform: translateY(-50%); }
-.bs-principle--center .bs-principle-watermark { left: 50%;   transform: translate(-50%, -50%); }
+
+/* Cinematic darken: stronger top/bottom, slightly lighter middle so
+   the photo still breathes around the centered text block. */
+.bs-principle-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10, 10, 10, 0.72) 0%,
+      rgba(10, 10, 10, 0.52) 35%,
+      rgba(10, 10, 10, 0.52) 65%,
+      rgba(10, 10, 10, 0.78) 100%
+    );
+}
+
+.bs-principle-content {
+  position: relative;
+  z-index: 2;
+  max-width: 64rem;
+  width: 100%;
+  /* Subtle drop-shadow so type holds against any zone of the photo
+     without looking embossed. */
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+}
+
+/* Small chapter mark above the eyebrow — yellow mono counter (the only
+   yellow allowed outside the keyword highlight, per palette rule). */
+.bs-principle-chapter {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #FFD60A;
+  margin-bottom: 1.5rem;
+  /* Marker doesn't get the parent text-shadow */
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
 
 .bs-principle-eyebrow {
   font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.4em;
-  color: rgba(250, 250, 247, 0.5);
-  margin: 0 0 2rem;
+  color: rgba(250, 250, 247, 0.7);
+  margin: 0 0 2.5rem;
 }
 
 .bs-principle-mega {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(48px, 11vw, 180px);
-  /* line-height >= 1 so the inline highlight on <em> never bleeds into
-     the line above or below. Was 0.94 (Apple-tight) but with a solid
-     marker background it crashed adjacent lines. */
-  line-height: 1.1;
+  font-size: clamp(48px, 9.5vw, 156px);
+  line-height: 1.05;
   letter-spacing: -0.045em;
   color: #FAFAF7;
-  margin: 0;
-  max-width: 16ch;
+  margin: 0 auto;
+  max-width: 18ch;
 }
 
-/* Highlighted keyword: solid EU-blue marker behind the word, italic
-   yellow type on top. box-decoration-break:clone keeps the background
-   continuous if the word ever wraps. Overrides the global h2 em rule. */
+/* Highlighted keyword: solid EU-blue marker, italic yellow type. */
 .bs-principle-mega em,
 .bs-principle-mega i {
   font-style: italic;
@@ -496,61 +526,19 @@
   padding: 0 0.15em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+  /* Marker is its own contrast — no parent text-shadow. */
+  text-shadow: none;
 }
 
 .bs-principle-supporting {
   font-family: var(--font-body);
   font-style: normal;
   font-weight: 400;
-  font-size: clamp(20px, 2.4vw, 32px);
-  line-height: 1.5;
-  color: rgba(250, 250, 247, 0.85);
-  margin: 2.5rem 0 0;
-  max-width: 38ch;
-}
-
-/* Alignment per principle */
-.bs-principle--left  { text-align: left; }
-.bs-principle--right { text-align: right; }
-.bs-principle--right .bs-principle-mega,
-.bs-principle--right .bs-principle-supporting,
-.bs-principle--right .bs-principle-eyebrow { margin-left: auto; }
-.bs-principle--center { text-align: center; }
-.bs-principle--center .bs-principle-mega,
-.bs-principle--center .bs-principle-supporting,
-.bs-principle--center .bs-principle-eyebrow { margin-left: auto; margin-right: auto; }
-
-/* Full-bleed editorial spread — viewport-wide, ~70vh tall, paired with
-   the principle either above or below (alternating rhythm). */
-.bs-manifesto-spread {
-  position: relative;
-  width: 100%;
-  height: clamp(420px, 70vh, 820px);
-  margin: 0;
-  background: #003399;
-  overflow: hidden;
-}
-@media (max-width: 768px) {
-  .bs-manifesto-spread { height: clamp(360px, 56vh, 600px); }
-}
-.bs-manifesto-spread > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-/* Reduce vertical breathing between a principle and its paired spread —
-   adjacent siblings should feel like a single editorial spread, not two
-   separated blocks. */
-.bs-principle + .bs-manifesto-spread,
-.bs-manifesto-spread + .bs-principle {
-  /* No extra margin needed; .bs-principle has its own padding. */
-}
-.bs-principle + .bs-manifesto-spread {
-  margin-top: clamp(-2rem, -4vh, -1rem);
-}
-.bs-manifesto-spread + .bs-principle {
-  padding-top: clamp(5rem, 10vh, 8rem);
+  font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.55;
+  color: #FAFAF7;
+  margin: 2.5rem auto 0;
+  max-width: 44ch;
 }
 
 /* Final colophon — magazine sign-off */
