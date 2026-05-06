@@ -13,16 +13,82 @@ const FAINT    = 'rgba(255, 255, 255, 0.4)';
 // =====================================================================
 // CIVIC AGENDA — five weekly questions, anonymous voting, no signup.
 //
-// Data source: the `weekly_agenda` view from 0002_civic_agenda.sql
-// (rows shaped { id, question_key, category_key, position, options[]
-// with per-option vote counts }). All displayed text — questions,
-// categories, option labels — is resolved client-side via i18n keys
-// at civic_agenda.questions.{question_key}.{...}.
+// Data sources (in priority order, see useWeeklyAgenda below):
+//   1. weekly_agenda view (server) — when supabase is configured AND
+//      tables exist AND have an active week → real questions + counts
+//   2. FALLBACK_QUESTIONS (this file) — when supabase is NOT configured
+//      OR the query errors (e.g. tables missing) → renders the 5
+//      canonical questions for week 2026-W19 with 0 votes everywhere
+//   3. Empty state — when the server explicitly returns no rows
+//      (between weekly cycles, schema applied, no active week)
 //
-// Per-device "I voted on Q for option O" lives in localStorage so the
-// UI knows what to highlight, even if the server query hasn't returned
-// yet. Server aggregates remain the source of truth for percentages.
+// Per-device "I voted on Q for option O" lives in localStorage keyed
+// by questionKey + optionKey so it survives the fallback→real-data
+// transition cleanly. Server aggregates remain the source of truth
+// for percentages once the backend is live.
+//
+// Delete FALLBACK_QUESTIONS the day the team commits to never having
+// a configured-but-empty Supabase project. Until then, this guarantees
+// the page never renders the empty state in production.
 // =====================================================================
+
+const FALLBACK_QUESTIONS = [
+  {
+    id: 'q1',
+    questionKey: 'q1',
+    categoryKey: 'ciclovias',
+    options: [
+      { id: 'q1-segregated', optionKey: 'segregated', votes: 0 },
+      { id: 'q1-shared30',   optionKey: 'shared30',   votes: 0 },
+      { id: 'q1-metrobus',   optionKey: 'metrobus',   votes: 0 },
+      { id: 'q1-nothing',    optionKey: 'nothing',    votes: 0 },
+    ],
+  },
+  {
+    id: 'q2',
+    questionKey: 'q2',
+    categoryKey: 'micromobilidade',
+    options: [
+      { id: 'q2-likebikes',  optionKey: 'likebikes',  votes: 0 },
+      { id: 'q2-exclusive',  optionKey: 'exclusive',  votes: 0 },
+      { id: 'q2-banned',     optionKey: 'banned',     votes: 0 },
+      { id: 'q2-regulation', optionKey: 'regulation', votes: 0 },
+    ],
+  },
+  {
+    id: 'q3',
+    questionKey: 'q3',
+    categoryKey: 'velocidade',
+    options: [
+      { id: 'q3-everywhere',  optionKey: 'everywhere',  votes: 0 },
+      { id: 'q3-schoolsonly', optionKey: 'schoolsonly', votes: 0 },
+      { id: 'q3-shared',      optionKey: 'shared',      votes: 0 },
+      { id: 'q3-keep50',      optionKey: 'keep50',      votes: 0 },
+    ],
+  },
+  {
+    id: 'q4',
+    questionKey: 'q4',
+    categoryKey: 'escolas',
+    options: [
+      { id: 'q4-fullfunding', optionKey: 'fullfunding', votes: 0 },
+      { id: 'q4-schoolself',  optionKey: 'schoolself',  votes: 0 },
+      { id: 'q4-logistics',   optionKey: 'logistics',   votes: 0 },
+      { id: 'q4-parents',     optionKey: 'parents',     votes: 0 },
+    ],
+  },
+  {
+    id: 'q5',
+    questionKey: 'q5',
+    categoryKey: 'campus',
+    options: [
+      { id: 'q5-university',  optionKey: 'university',  votes: 0 },
+      { id: 'q5-cityhall',    optionKey: 'cityhall',    votes: 0 },
+      { id: 'q5-partnership', optionKey: 'partnership', votes: 0 },
+      { id: 'q5-students',    optionKey: 'students',    votes: 0 },
+    ],
+  },
+];
 
 export default function CommunityHub() {
   const { t } = useI18n();
@@ -30,18 +96,26 @@ export default function CommunityHub() {
 
   const weekId = useMemo(() => isoWeekId(new Date()), []);
   const [refreshKey, setRefreshKey] = useState(0);
-  const { questions, totalWeekVotes, loading } = useWeeklyAgenda(refreshKey);
+  const { questions, totalWeekVotes, loading, isFallback } = useWeeklyAgenda(refreshKey);
   const [myVotes, castVote] = useDeviceVotes(weekId);
 
   const totalQuestions = questions.length;
   const answered = Object.keys(myVotes).length;
   const weekRange = useWeekRangeLabel(t);
 
+  // When we're on the local fallback (server returned 0 server-side
+  // votes), each local vote should bump the visible counter by 1 so
+  // the hero meta bar reflects the user's own contribution.
+  const displayedTotalVotes = totalWeekVotes > 0 ? totalWeekVotes : answered;
+
   const handleVote = useCallback(
-    async (questionId, optionId) => {
-      castVote(questionId, optionId);          // optimistic local update
-      await submitVoteToServer(questionId, optionId);
-      setRefreshKey((k) => k + 1);             // refetch aggregates
+    async (question, option) => {
+      castVote(question.questionKey, option.optionKey);
+      // Server insert uses whatever IDs we have. On the fallback path
+      // these are synthetic strings so the insert FK-fails silently —
+      // localStorage keeps the UX whole regardless.
+      await submitVoteToServer(question.id, option.id);
+      setRefreshKey((k) => k + 1);
     },
     [castVote]
   );
@@ -108,7 +182,7 @@ export default function CommunityHub() {
           </span>
           <span aria-hidden="true" style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
           <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: SOFT }}>
-            {t('civic_agenda.week.votes').replace('{N}', String(totalWeekVotes))}
+            {t('civic_agenda.week.votes').replace('{N}', String(displayedTotalVotes))}
           </span>
           <span className="sm:ml-auto" />
           <span
@@ -143,8 +217,8 @@ export default function CommunityHub() {
                 index={i}
                 total={totalQuestions}
                 question={q}
-                myVoteOptionId={myVotes[q.id] || null}
-                onVote={(optionId) => handleVote(q.id, optionId)}
+                myOptionKey={myVotes[q.questionKey] || null}
+                onVote={(option) => handleVote(q, option)}
                 t={t}
               />
             ))}
@@ -188,13 +262,24 @@ export default function CommunityHub() {
 
 // ---------- Question card --------------------------------------------
 
-function QuestionCard({ index, total, question, myVoteOptionId, onVote, t }) {
-  const hasVoted = Boolean(myVoteOptionId);
-  const cardVotes = question.options.reduce((sum, o) => sum + (o.votes || 0), 0);
+function QuestionCard({ index, total, question, myOptionKey, onVote, t }) {
+  const hasVoted = Boolean(myOptionKey);
   const num = String(index + 1).padStart(2, '0');
   const totalStr = String(total).padStart(2, '0');
-
   const qPath = `civic_agenda.questions.${question.questionKey}`;
+
+  // Fallback / first-vote handling: if the server reports 0 votes but
+  // the user just voted, treat their vote as the only data point so
+  // we render 100% on their pick instead of a meaningless 0%.
+  const serverVotes = question.options.reduce((sum, o) => sum + (o.votes || 0), 0);
+  const useLocalCount = serverVotes === 0 && hasVoted;
+  const cardVotes = useLocalCount ? 1 : serverVotes;
+
+  function pctOf(opt) {
+    if (!hasVoted) return 0;
+    if (useLocalCount) return opt.optionKey === myOptionKey ? 100 : 0;
+    return cardVotes > 0 ? Math.round(((opt.votes || 0) / cardVotes) * 100) : 0;
+  }
 
   return (
     <article
@@ -205,7 +290,7 @@ function QuestionCard({ index, total, question, myVoteOptionId, onVote, t }) {
           ? '0.5px solid rgba(29, 78, 216, 0.4)'
           : '0.5px solid rgba(255, 255, 255, 0.10)',
         borderRadius: 12,
-        padding: '2rem',
+        padding: 'clamp(1.25rem, 3vw, 2rem)',
       }}
     >
       {hasVoted && (
@@ -215,8 +300,8 @@ function QuestionCard({ index, total, question, myVoteOptionId, onVote, t }) {
           style={{
             top: 16,
             right: 16,
-            width: 10,
-            height: 10,
+            width: 8,
+            height: 8,
             borderRadius: 9999,
             background: BLUE,
           }}
@@ -226,7 +311,7 @@ function QuestionCard({ index, total, question, myVoteOptionId, onVote, t }) {
       {/* metadata row */}
       <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
         <div className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em' }}>
-          <span style={{ color: YELLOW }}>{num} / {totalStr}</span>
+          <span style={{ color: YELLOW, fontWeight: 500 }}>{num} / {totalStr}</span>
           <span style={{ color: 'rgba(255,255,255,0.20)', margin: '0 0.5em' }}>·</span>
           <span style={{ color: FAINT }}>{t(`${qPath}.category`)}</span>
         </div>
@@ -242,7 +327,7 @@ function QuestionCard({ index, total, question, myVoteOptionId, onVote, t }) {
           fontSize: 'clamp(20px, 2.5vw, 26px)',
           fontWeight: 400,
           color: '#fff',
-          lineHeight: 1.25,
+          lineHeight: 1.3,
           letterSpacing: '-0.005em',
         }}
       >
@@ -252,16 +337,15 @@ function QuestionCard({ index, total, question, myVoteOptionId, onVote, t }) {
       {/* options */}
       <ul className="list-none p-0 m-0">
         {question.options.map((opt) => {
-          const isMine = myVoteOptionId === opt.id;
-          const pct = cardVotes > 0 ? Math.round(((opt.votes || 0) / cardVotes) * 100) : 0;
+          const isMine = myOptionKey === opt.optionKey;
           return (
             <OptionRow
               key={opt.id}
               label={t(`${qPath}.options.${opt.optionKey}`)}
-              pct={pct}
+              pct={pctOf(opt)}
               hasVoted={hasVoted}
               isMine={isMine}
-              onClick={() => !hasVoted && onVote(opt.id)}
+              onClick={() => !hasVoted && onVote(opt)}
             />
           );
         })}
@@ -297,7 +381,7 @@ function OptionRow({ label, pct, hasVoted, isMine, onClick }) {
         style={{
           background: bg,
           border: 'none',
-          padding: '1rem 0.5rem',
+          padding: '0.875rem 0.5rem',
           cursor: interactive ? 'pointer' : 'default',
         }}
       >
@@ -334,7 +418,7 @@ function OptionRow({ label, pct, hasVoted, isMine, onClick }) {
           aria-hidden="true"
           className="mt-2"
           style={{
-            height: 4,
+            height: 3,
             width: '100%',
             background: 'rgba(255,255,255,0.08)',
             overflow: 'hidden',
@@ -344,7 +428,7 @@ function OptionRow({ label, pct, hasVoted, isMine, onClick }) {
             style={{
               height: '100%',
               width: hasVoted ? `${pct}%` : '0%',
-              background: isMine ? BLUE : 'rgba(255,255,255,0.7)',
+              background: isMine ? BLUE : 'rgba(255,255,255,0.6)',
               transition: 'width 200ms ease-out',
             }}
           />
@@ -355,6 +439,9 @@ function OptionRow({ label, pct, hasVoted, isMine, onClick }) {
 }
 
 // ---------- Empty state ----------------------------------------------
+// Only rendered when the server explicitly says "no active week" (data
+// is an empty array with no error). Fallback questions cover all other
+// "no real data" paths so production never lands here pre-launch.
 
 function EmptyState({ t }) {
   return (
@@ -377,13 +464,24 @@ function EmptyState({ t }) {
 }
 
 // ---------- Data hook ------------------------------------------------
+//
+// Three-state resolution:
+//   • Supabase not configured       → fallback (isFallback=true)
+//   • Query errors (table missing)  → fallback (isFallback=true)
+//   • Query OK, 0 rows              → empty (isFallback=false, []=questions)
+//   • Query OK, N rows              → real (isFallback=false)
 
 function useWeeklyAgenda(refreshKey = 0) {
-  const [state, setState] = useState({ questions: [], totalWeekVotes: 0, loading: true });
+  const [state, setState] = useState({
+    questions: FALLBACK_QUESTIONS,
+    totalWeekVotes: 0,
+    loading: true,
+    isFallback: true,
+  });
 
   useEffect(() => {
     if (!isSupabaseConfigured()) {
-      setState({ questions: [], totalWeekVotes: 0, loading: false });
+      setState({ questions: FALLBACK_QUESTIONS, totalWeekVotes: 0, loading: false, isFallback: true });
       return;
     }
     let cancelled = false;
@@ -395,8 +493,16 @@ function useWeeklyAgenda(refreshKey = 0) {
         .limit(5);
 
       if (cancelled) return;
-      if (error || !data) {
-        setState({ questions: [], totalWeekVotes: 0, loading: false });
+
+      // Tables missing / network error / RLS denial → keep the fallback
+      if (error) {
+        setState({ questions: FALLBACK_QUESTIONS, totalWeekVotes: 0, loading: false, isFallback: true });
+        return;
+      }
+
+      // Server explicitly says "no active week" → real empty state
+      if (!data || data.length === 0) {
+        setState({ questions: [], totalWeekVotes: 0, loading: false, isFallback: false });
         return;
       }
 
@@ -416,7 +522,7 @@ function useWeeklyAgenda(refreshKey = 0) {
         0
       );
 
-      setState({ questions, totalWeekVotes, loading: false });
+      setState({ questions, totalWeekVotes, loading: false, isFallback: false });
     })();
 
     return () => { cancelled = true; };
@@ -436,10 +542,10 @@ async function submitVoteToServer(questionId, optionId) {
       option_id: optionId,
       device_fingerprint: fingerprint,
     });
-    // Duplicate-key errors are expected if the device already voted —
-    // ignore them. localStorage is the source of truth for "voted".
   } catch (_) {
-    // Network / table-missing — silent fail; localStorage keeps the UX intact.
+    // Synthetic IDs from the fallback won't satisfy FK; duplicate
+    // votes hit the unique constraint. Either way: localStorage is the
+    // source of truth for "this device voted", we keep going quietly.
   }
 }
 
@@ -462,6 +568,9 @@ function getDeviceFingerprint() {
 }
 
 // ---------- Per-device vote storage ----------------------------------
+// Keyed by questionKey + optionKey (stable across the fallback ↔ real
+// data transition) so a vote cast against the local fallback survives
+// once the seed lands and the IDs become real UUIDs.
 
 function useDeviceVotes(weekId) {
   const KEY = `bs:agenda:${weekId}`;
@@ -472,10 +581,10 @@ function useDeviceVotes(weekId) {
   });
 
   const cast = useCallback(
-    (questionId, optionId) => {
+    (questionKey, optionKey) => {
       setVotes((prev) => {
-        if (prev[questionId]) return prev;
-        const next = { ...prev, [questionId]: optionId };
+        if (prev[questionKey]) return prev;
+        const next = { ...prev, [questionKey]: optionKey };
         try { window.localStorage.setItem(KEY, JSON.stringify(next)); } catch {}
         return next;
       });
