@@ -8,20 +8,38 @@ Fontes de dados, imagens e bibliotecas usados no projeto.
 
 Os 68 brasões das freguesias do Greater Porto são propriedade dos respetivos detentores (juntas de freguesia, câmaras municipais, ou domínio público).
 
-**50 de 68 brasões** atualmente integrados (73%), com origem em três tipos de fontes:
+**68 de 68 brasões** integrados (100%), com origem em quatro tipos de fontes:
 
 - **Wikimedia Commons** (44) — licenças maioritariamente CC BY-SA ou domínio público para heráldica histórica. Obtidos via:
   1. Consulta SPARQL ao **Wikidata** com `wdt:P31 wd:Q1131296` (freguesia portuguesa) + `wdt:P94` (coat of arms image).
-  2. Parsing do parâmetro `imagem_brasao` do infobox da página `pt.wikipedia.org` correspondente.
-  3. Pesquisa direta no Commons por nomes de ficheiro (`MTS-`, `VNG-`, `PRT-`, etc., convenção da Heráldica de Portugal por Sérgio Horta).
+  2. Parsing do parâmetro `imagem_brasao` ou `imagem_escudo` do infobox da página `pt.wikipedia.org` correspondente.
+  3. Para uniões de freguesias (UFs criadas pela Lei 11-A/2013), uso do brasão da freguesia constituinte pré-2013 (Massarelos pela UF Lordelo+Massarelos, Cedofeita pela UF Cedofeita+5, Aldoar pela UF Aldoar/Foz/Nevogilde, etc.).
+  4. Pesquisa direta no Commons por nomes de ficheiro convencionais (`MTS-`, `VNG-`, `PRT-`, etc., convenção da Heráldica de Portugal por Sérgio Horta).
+- **heraldicacivica.pt** (4) — repositório especializado de heráldica autárquica (Sérgio Horta), URLs `http://www.heraldicacivica.pt/{prefix}-{slug}.html`. Usado para Pedroso, Santa Marinha, São Pedro da Afurada, Seixezelo.
 - **pt.wikipedia.org Special:FilePath** (1) — para `Castêlo da Maia`, ficheiro carregado localmente em pt.wiki em vez do Commons.
-- **Sites oficiais das Juntas/Uniões de Freguesia** (5):
-  - **União das Freguesias de Sandim, Olival, Lever e Crestuma** (`uf-solc.pt`) — usado para `Sandim` e `Lever`, ambas membros da UF (logotipo da união, dado que estas freguesias deixaram de ter brasão próprio post-2013).
-  - **União das Freguesias de Nogueira e Silva Escura** (`nse.pt`) — logotipo institucional.
-  - **Junta de Freguesia de Anta** (`jf-anta.pt`) — brasão original da freguesia, redimensionado para 480 px de largura.
-  - **Junta de Freguesia de Silvalde** (`jf-silvalde.pt`) — logotipo institucional.
+- **Sites oficiais das Juntas/Uniões de Freguesia** (10):
+  - **Campanhã** — `campanha.net/index.php/brasao` (brasão completo 457×565).
+  - **Paranhos** — `jfparanhos-porto.pt/media/img/brasao.png` (352×352).
+  - **Avintes** — `jfavintes.pt/heraldica` (brasão original 1999×1999, redimensionado).
+  - **Anta** — `jf-anta.pt/wp-content/uploads/.../BrasaoAntag.png` (2301×2264, redimensionado).
+  - **Mafamude** — `jfmafamude.pt` (`Logotipo_Mafamude_Freguesiade_site.png`, 1260×1200 redimensionado).
+  - **Santa Cruz do Bispo** — `jf-santacruzbispo.pt/wp-content/uploads/2025/11/logo-jf-scbispo.png` (logotipo).
+  - **Grijó** — `viladegrijo.pt/frontend/images/logo.png` (logotipo).
+  - **Sandim e Lever** — `uf-solc.pt` (logotipo da União das Freguesias de Sandim, Olival, Lever e Crestuma).
+  - **Nogueira e Silva Escura** — `nse.pt` (logotipo institucional).
+  - **Silvalde** — `jf-silvalde.pt` (logotipo institucional).
 
 Transferências automatizadas com `User-Agent` identificado e ≥0,8 s de pausa entre pedidos para respeitar a infraestrutura do Wikimedia/CDN.
+
+---
+
+## Categoria de cada brasão
+
+Quatro níveis de oficialidade — ver tabela completa em [`/docs/missing-brasoes.md`](./missing-brasoes.md):
+
+- **A** · Brasão heráldico oficial aprovado pelo Conselho de Heráldica Portuguesa (~52 freguesias)
+- **B** · Brasão de freguesia constituinte pré-2013 usado pela UF atual (8 freguesias)
+- **C** · Logotipo institucional da junta (não heráldico formal — 8 freguesias)
 
 Detalhes por freguesia em [`/docs/missing-brasoes.md`](./missing-brasoes.md).
 

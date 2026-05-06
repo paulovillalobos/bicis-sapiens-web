@@ -13,9 +13,9 @@ ROOT = "/Users/baphomet/Downloads/bicis-sapiens-web"
 JSON_PATH = f"{ROOT}/public/data/freguesias-brasoes.json"
 PUBLIC_DIR = f"{ROOT}/public"
 
-# Source attributions for the new entries (collated from passes 1-4)
+# Source attributions for the new entries (collated across all passes)
 ATTRIBUTIONS = {
-    # Pass-1 — Wikipedia infobox imagem_brasao param (mostly heráldica-portugal style files on Commons)
+    # Pass-1 — Wikipedia infobox imagem_brasao (heráldica-portugal style files on Commons)
     "130815": "Wikimedia Commons · CC BY-SA",
     "130816": "Wikimedia Commons · CC BY-SA",
     "130817": "Wikimedia Commons · CC BY-SA",
@@ -39,6 +39,26 @@ ATTRIBUTIONS = {
     "130620": "Junta da União das Freguesias de Nogueira e Silva Escura · nse.pt (logotipo)",
     "010707": "Junta de Freguesia de Anta · jf-anta.pt",
     "010705": "Junta de Freguesia de Silvalde · jf-silvalde.pt (logotipo)",
+    # Pass-5 — constituent freguesias pre-2013 (Wikimedia Commons via pt.wiki imagem_escudo)
+    "131216": "Wikimedia Commons · brasão da freguesia constituente de Aldoar (pré-2013)",
+    "131217": "Wikimedia Commons · brasão da freguesia constituente de Cedofeita (pré-2013)",
+    "131218": "Wikimedia Commons · brasão da freguesia constituente de Massarelos (pré-2013)",
+    "130619": "Wikimedia Commons · brasão da freguesia constituente da Maia (pré-2013)",
+    "130413": "Wikimedia Commons · brasão da freguesia constituente de Fânzeres (pré-2013)",
+    "130414": "Wikimedia Commons · brasão da freguesia constituente do Covelo (pré-2013)",
+    "130415": "Wikimedia Commons · brasão da freguesia constituente de Valbom (pré-2013)",
+    "130416": "Wikimedia Commons · brasão da freguesia constituente de Melres (pré-2013)",
+    # Pass-6 — JF/UF official sites + heraldicacivica.pt
+    "131203": "Junta de Freguesia de Campanhã · campanha.net",
+    "131210": "Junta de Freguesia de Paranhos · jfparanhos-porto.pt",
+    "130822": "Junta de Freguesia de Santa Cruz do Bispo · jf-santacruzbispo.pt (logotipo)",
+    "131702": "Junta de Freguesia de Avintes · jfavintes.pt (heráldica)",
+    "131733": "Junta de Freguesia de Grijó · viladegrijo.pt (logotipo)",
+    "131736": "Junta de Freguesia de Mafamude · jfmafamude.pt (logotipo)",
+    "131738": "heraldicacivica.pt · UF Pedroso e Seixezelo",
+    "131741": "heraldicacivica.pt · antiga freguesia de Santa Marinha",
+    "131742": "heraldicacivica.pt · antiga freguesia de São Pedro da Afurada",
+    "131743": "heraldicacivica.pt · antiga freguesia de Seixezelo",
 }
 
 

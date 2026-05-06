@@ -13,8 +13,8 @@
     "municipio": "Porto",
     "slug": "campanha",
     "expected": "/brasoes/porto/campanha.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/porto/campanha.png",
+    "attribution": "Junta de Freguesia de Campanhã · campanha.net",
     "wikidata_qid": null
   },
   "131210": {
@@ -22,8 +22,8 @@
     "municipio": "Porto",
     "slug": "paranhos",
     "expected": "/brasoes/porto/paranhos.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/porto/paranhos.png",
+    "attribution": "Junta de Freguesia de Paranhos · jfparanhos-porto.pt",
     "wikidata_qid": null
   },
   "131211": {
@@ -40,8 +40,8 @@
     "municipio": "Porto",
     "slug": "aldoar-foz-do-douro-e-nevogilde",
     "expected": "/brasoes/porto/aldoar-foz-do-douro-e-nevogilde.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/porto/aldoar-foz-do-douro-e-nevogilde.png",
+    "attribution": "Wikimedia Commons · brasão da freguesia constituente de Aldoar (pré-2013)",
     "wikidata_qid": null
   },
   "131217": {
@@ -49,8 +49,8 @@
     "municipio": "Porto",
     "slug": "cedofeita-santo-ildefonso-se-miragaia-sao-nicolau-e-vitoria",
     "expected": "/brasoes/porto/cedofeita-santo-ildefonso-se-miragaia-sao-nicolau-e-vitoria.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/porto/cedofeita-santo-ildefonso-se-miragaia-sao-nicolau-e-vitoria.png",
+    "attribution": "Wikimedia Commons · brasão da freguesia constituente de Cedofeita (pré-2013)",
     "wikidata_qid": null
   },
   "131218": {
@@ -58,8 +58,8 @@
     "municipio": "Porto",
     "slug": "lordelo-do-ouro-e-massarelos",
     "expected": "/brasoes/porto/lordelo-do-ouro-e-massarelos.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/porto/lordelo-do-ouro-e-massarelos.png",
+    "attribution": "Wikimedia Commons · brasão da freguesia constituente de Massarelos (pré-2013)",
     "wikidata_qid": null
   },
   "130815": {
@@ -130,8 +130,8 @@
     "municipio": "Matosinhos",
     "slug": "santa-cruz-do-bispo",
     "expected": "/brasoes/matosinhos/santa-cruz-do-bispo.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/matosinhos/santa-cruz-do-bispo.png",
+    "attribution": "Junta de Freguesia de Santa Cruz do Bispo · jf-santacruzbispo.pt (logotipo)",
     "wikidata_qid": null
   },
   "130823": {
@@ -166,8 +166,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "avintes",
     "expected": "/brasoes/vila-nova-de-gaia/avintes.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/avintes.png",
+    "attribution": "Junta de Freguesia de Avintes · jfavintes.pt (heráldica)",
     "wikidata_qid": null
   },
   "131703": {
@@ -202,8 +202,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "grijo",
     "expected": "/brasoes/vila-nova-de-gaia/grijo.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/grijo.png",
+    "attribution": "Junta de Freguesia de Grijó · viladegrijo.pt (logotipo)",
     "wikidata_qid": null
   },
   "131734": {
@@ -238,8 +238,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "mafamude",
     "expected": "/brasoes/vila-nova-de-gaia/mafamude.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/mafamude.png",
+    "attribution": "Junta de Freguesia de Mafamude · jfmafamude.pt (logotipo)",
     "wikidata_qid": null
   },
   "131737": {
@@ -265,8 +265,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "pedroso",
     "expected": "/brasoes/vila-nova-de-gaia/pedroso.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/pedroso.gif",
+    "attribution": "heraldicacivica.pt · UF Pedroso e Seixezelo",
     "wikidata_qid": null
   },
   "131739": {
@@ -292,8 +292,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "santa-marinha",
     "expected": "/brasoes/vila-nova-de-gaia/santa-marinha.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/santa-marinha.gif",
+    "attribution": "heraldicacivica.pt · antiga freguesia de Santa Marinha",
     "wikidata_qid": null
   },
   "131717": {
@@ -310,8 +310,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "sao-pedro-da-afurada",
     "expected": "/brasoes/vila-nova-de-gaia/sao-pedro-da-afurada.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/sao-pedro-da-afurada.gif",
+    "attribution": "heraldicacivica.pt · antiga freguesia de São Pedro da Afurada",
     "wikidata_qid": null
   },
   "131743": {
@@ -319,8 +319,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "seixezelo",
     "expected": "/brasoes/vila-nova-de-gaia/seixezelo.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/seixezelo.gif",
+    "attribution": "heraldicacivica.pt · antiga freguesia de Seixezelo",
     "wikidata_qid": null
   },
   "131744": {
@@ -391,8 +391,8 @@
     "municipio": "Maia",
     "slug": "cidade-da-maia",
     "expected": "/brasoes/maia/cidade-da-maia.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/maia/cidade-da-maia.png",
+    "attribution": "Wikimedia Commons · brasão da freguesia constituente da Maia (pré-2013)",
     "wikidata_qid": null
   },
   "130603": {
@@ -490,8 +490,8 @@
     "municipio": "Gondomar",
     "slug": "fanzeres-e-sao-pedro-da-cova",
     "expected": "/brasoes/gondomar/fanzeres-e-sao-pedro-da-cova.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/gondomar/fanzeres-e-sao-pedro-da-cova.png",
+    "attribution": "Wikimedia Commons · brasão da freguesia constituente de Fânzeres (pré-2013)",
     "wikidata_qid": null
   },
   "130414": {
@@ -499,8 +499,8 @@
     "municipio": "Gondomar",
     "slug": "foz-do-sousa-e-covelo",
     "expected": "/brasoes/gondomar/foz-do-sousa-e-covelo.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/gondomar/foz-do-sousa-e-covelo.png",
+    "attribution": "Wikimedia Commons · brasão da freguesia constituente do Covelo (pré-2013)",
     "wikidata_qid": null
   },
   "130415": {
@@ -508,8 +508,8 @@
     "municipio": "Gondomar",
     "slug": "gondomar-sao-cosme-valbom-e-jovim",
     "expected": "/brasoes/gondomar/gondomar-sao-cosme-valbom-e-jovim.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/gondomar/gondomar-sao-cosme-valbom-e-jovim.png",
+    "attribution": "Wikimedia Commons · brasão da freguesia constituente de Valbom (pré-2013)",
     "wikidata_qid": null
   },
   "130416": {
@@ -517,8 +517,8 @@
     "municipio": "Gondomar",
     "slug": "melres-e-medas",
     "expected": "/brasoes/gondomar/melres-e-medas.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/gondomar/melres-e-medas.png",
+    "attribution": "Wikimedia Commons · brasão da freguesia constituente de Melres (pré-2013)",
     "wikidata_qid": null
   },
   "131501": {
