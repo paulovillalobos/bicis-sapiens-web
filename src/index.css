@@ -567,16 +567,15 @@
   vertical-align: -1px;
 }
 
-/* Hero entry stagger — counter → eyebrow → title → lead → cta */
+/* Hero entry stagger — eyebrow → title → lead → cta */
 .bs-hero-content > * {
   opacity: 0;
   animation: bs-hero-fade-up 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-.bs-hero-counter { animation-delay: 0ms; }
-.bs-hero-eyebrow { animation-delay: 200ms; }
-.bs-hero-title   { animation-delay: 400ms; }
-.bs-hero-lead    { animation-delay: 800ms; }
-.bs-hero-cta     { animation-delay: 1100ms; }
+.bs-hero-eyebrow { animation-delay: 0ms; }
+.bs-hero-title   { animation-delay: 200ms; }
+.bs-hero-lead    { animation-delay: 600ms; }
+.bs-hero-cta     { animation-delay: 900ms; }
 
 @keyframes bs-hero-fade-up {
   from { opacity: 0; transform: translateY(24px); }
