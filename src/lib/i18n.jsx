@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 const translations = {
   pt: {
-    nav: { manifesto: 'Manifesto', dados: 'Dados', solucao: 'Solução', mapa: 'Mapa', comboios: 'Comboios', app: 'App', comunidade: 'Comunidade', municipios: 'Municípios', sobre: 'Sobre', doar: 'Doar' },
+    nav: { manifesto: 'Manifesto', dados: 'Dados', solucao: 'Solução', mapa: 'Mapa', comboios: 'Comboios', app: 'App', comunidade: 'Comunidade', municipios: 'Municípios', sobre: 'Sobre', doar: 'Apoia-nos' },
     hero: {
       tagline: 'O espaço público é de todos.\nA cidade também.',
       tagline_html: 'O espaço público<br>é de <em>todos</em>.<br>A cidade também.',
@@ -319,13 +319,19 @@ const translations = {
       },
       allies: 'Aliados e Parceiros',
     },
-    donate: {
-      title: 'Transparência & Apoio',
-      subtitle: 'Cada euro conta. Todos os gastos são públicos.',
-      where: 'Para onde vai o teu dinheiro',
-      breakdown: { tech: 'Tecnologia & App', education: 'Educação & Materiais', operations: 'Operações', advocacy: 'Advocacy & Eventos' },
-      custom: 'Valor personalizado',
-      methods: 'Métodos de pagamento',
+    support: {
+      kicker: '§12 / 13 — Apoia-nos',
+      headline: { pre: 'O movimento precisa de ', accent: 'pessoas', post: '.' },
+      tagline: 'Hoje, mais do que dinheiro.',
+      volunteer: {
+        kicker: 'Voluntaria as tuas competências',
+        headline: 'Procuramos pessoas para construir isto connosco.',
+        body: 'Bicis Sapiens não é uma associação ainda. É um projecto em construção. A parte técnica já está em casa — procuramos quem vive o mundo da bicicleta e quer transformá-lo connosco.',
+        roles: 'Procuramos: pais e mães que queiram lançar Bike Bus na sua escola, ciclistas urbanos com histórias para contar, fotógrafos para documentar comboios, advogados e juristas que conheçam direito municipal, ativistas de mobilidade, urbanistas, professores, e quem queira voluntariar tempo regular.',
+        cta: 'Quero voluntariar',
+        trustLine: 'Resposta em 7 dias · Porto, Portugal',
+      },
+      future: 'Em breve, quando formos associação, abriremos donativos com relatórios financeiros públicos. Hoje, o melhor apoio é o teu tempo.',
     },
     footer: {
       newsletter: 'Subscreve a Newsletter',
@@ -423,9 +429,33 @@ const translations = {
         manageNotifications: 'Gerir notificações',
       },
     },
+    civic_agenda: {
+      kicker: '§07 / 13 — A Agenda Cívica',
+      headline: { prefix: 'Esta semana, Porto', accent: 'decide.' },
+      subline: 'Cinco perguntas. Noventa segundos. Sem registo.',
+      week: {
+        label: 'SEMANA',
+        votes: '{N} VOTOS ESTA SEMANA',
+        progress: 'RESPONDESTE {DONE} / {TOTAL}',
+      },
+      card: {
+        votes: '{N} VOTOS',
+        thanked: 'VOTASTE · OBRIGADO',
+      },
+      empty: {
+        headline: 'A próxima semana de decisões começa segunda-feira.',
+        cta: 'SUBSCREVE PARA SABER QUANDO ABRIR →',
+      },
+      deepForum: {
+        kicker: 'QUERES IR MAIS FUNDO?',
+        body: 'O fórum tem discussões longas, propostas, e debates abertos.',
+        cta: 'ENTRA NO FÓRUM →',
+      },
+      months: ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'],
+    },
   },
   en: {
-    nav: { manifesto: 'Manifesto', dados: 'Data', solucao: 'Solution', mapa: 'Map', comboios: 'Bike Bus', app: 'App', comunidade: 'Community', municipios: 'Municipalities', sobre: 'About', doar: 'Donate' },
+    nav: { manifesto: 'Manifesto', dados: 'Data', solucao: 'Solution', mapa: 'Map', comboios: 'Bike Bus', app: 'App', comunidade: 'Community', municipios: 'Municipalities', sobre: 'About', doar: 'Support us' },
     hero: {
       tagline: 'Public space belongs to everyone.\nSo does the city.',
       tagline_html: 'Public space<br>belongs to <em>everyone</em>.<br>The city too.',
@@ -742,13 +772,19 @@ const translations = {
       },
       allies: 'Allies & Partners',
     },
-    donate: {
-      title: 'Transparency & Support',
-      subtitle: 'Every euro counts. All spending is public.',
-      where: 'Where your money goes',
-      breakdown: { tech: 'Technology & App', education: 'Education & Materials', operations: 'Operations', advocacy: 'Advocacy & Events' },
-      custom: 'Custom amount',
-      methods: 'Payment methods',
+    support: {
+      kicker: '§12 / 13 — Support us',
+      headline: { pre: 'The movement needs ', accent: 'people', post: '.' },
+      tagline: 'Today, more than money.',
+      volunteer: {
+        kicker: 'Volunteer your skills',
+        headline: "We're looking for people to build this with us.",
+        body: "Bicis Sapiens is not an association yet. It's a project under construction. The tech side is already covered — we're looking for people who live the cycling world and want to transform it with us.",
+        roles: "We're looking for: parents who want to launch a Bike Bus at their school, urban cyclists with stories to tell, photographers to document the rides, lawyers familiar with municipal law, mobility activists, urban planners, teachers, and anyone who wants to volunteer regular time.",
+        cta: 'I want to volunteer',
+        trustLine: 'Reply within 7 days · Porto, Portugal',
+      },
+      future: "Soon, once we're an association, we'll open donations with public financial reports. Today, your time is the best support.",
     },
     footer: {
       newsletter: 'Subscribe to Newsletter',
@@ -846,9 +882,33 @@ const translations = {
         manageNotifications: 'Manage notifications',
       },
     },
+    civic_agenda: {
+      kicker: '§07 / 13 — The Civic Agenda',
+      headline: { prefix: 'This week, Porto', accent: 'decides.' },
+      subline: 'Five questions. Ninety seconds. No signup.',
+      week: {
+        label: 'WEEK',
+        votes: '{N} VOTES THIS WEEK',
+        progress: 'ANSWERED {DONE} / {TOTAL}',
+      },
+      card: {
+        votes: '{N} VOTES',
+        thanked: 'YOU VOTED · THANK YOU',
+      },
+      empty: {
+        headline: 'The next decision week starts Monday.',
+        cta: 'SUBSCRIBE TO BE NOTIFIED →',
+      },
+      deepForum: {
+        kicker: 'WANT TO GO DEEPER?',
+        body: 'The forum has long-form discussions, proposals, and open debates.',
+        cta: 'ENTER THE FORUM →',
+      },
+      months: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+    },
   },
   es: {
-    nav: { manifesto: 'Manifiesto', dados: 'Datos', solucao: 'Solución', mapa: 'Mapa', comboios: 'Bici Bus', app: 'App', comunidade: 'Comunidad', municipios: 'Municipios', sobre: 'Sobre', doar: 'Donar' },
+    nav: { manifesto: 'Manifiesto', dados: 'Datos', solucao: 'Solución', mapa: 'Mapa', comboios: 'Bici Bus', app: 'App', comunidade: 'Comunidad', municipios: 'Municipios', sobre: 'Sobre', doar: 'Apóyanos' },
     hero: {
       tagline: 'El espacio público es de todos.\nLa ciudad también.',
       tagline_html: 'El espacio público<br>es de <em>todos</em>.<br>La ciudad también.',
@@ -1165,13 +1225,19 @@ const translations = {
       },
       allies: 'Aliados y Socios',
     },
-    donate: {
-      title: 'Transparencia y Apoyo',
-      subtitle: 'Cada euro cuenta. Todos los gastos son públicos.',
-      where: 'Adónde va tu dinero',
-      breakdown: { tech: 'Tecnología y App', education: 'Educación y Materiales', operations: 'Operaciones', advocacy: 'Advocacy y Eventos' },
-      custom: 'Cantidad personalizada',
-      methods: 'Métodos de pago',
+    support: {
+      kicker: '§12 / 13 — Apóyanos',
+      headline: { pre: 'El movimiento necesita ', accent: 'personas', post: '.' },
+      tagline: 'Hoy, más que dinero.',
+      volunteer: {
+        kicker: 'Voluntaria tus habilidades',
+        headline: 'Buscamos personas para construir esto con nosotros.',
+        body: 'Bicis Sapiens todavía no es una asociación. Es un proyecto en construcción. La parte técnica ya está cubierta — buscamos a quien vive el mundo de la bici y quiere transformarlo con nosotros.',
+        roles: 'Buscamos: padres y madres que quieran lanzar Bike Bus en su escuela, ciclistas urbanos con historias para contar, fotógrafos para documentar las rutas, abogados y juristas que conozcan derecho municipal, activistas de movilidad, urbanistas, profesores, y quien quiera ser voluntario de forma regular.',
+        cta: 'Quiero ser voluntario',
+        trustLine: 'Respuesta en 7 días · Porto, Portugal',
+      },
+      future: 'Pronto, cuando seamos asociación, abriremos donativos con informes financieros públicos. Hoy, tu tiempo es el mejor apoyo.',
     },
     footer: {
       newsletter: 'Suscríbete al Newsletter',
@@ -1269,9 +1335,33 @@ const translations = {
         manageNotifications: 'Gestionar notificaciones',
       },
     },
+    civic_agenda: {
+      kicker: '§07 / 13 — La Agenda Cívica',
+      headline: { prefix: 'Esta semana, Porto', accent: 'decide.' },
+      subline: 'Cinco preguntas. Noventa segundos. Sin registro.',
+      week: {
+        label: 'SEMANA',
+        votes: '{N} VOTOS ESTA SEMANA',
+        progress: 'RESPONDISTE {DONE} / {TOTAL}',
+      },
+      card: {
+        votes: '{N} VOTOS',
+        thanked: 'VOTASTE · GRACIAS',
+      },
+      empty: {
+        headline: 'La próxima semana de decisiones empieza el lunes.',
+        cta: 'SUSCRÍBETE PARA SABER CUÁNDO ABRIR →',
+      },
+      deepForum: {
+        kicker: '¿QUIERES IR MÁS A FONDO?',
+        body: 'El foro tiene discusiones largas, propuestas y debates abiertos.',
+        cta: 'ENTRA EN EL FORO →',
+      },
+      months: ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'],
+    },
   },
   fr: {
-    nav: { manifesto: 'Manifeste', dados: 'Données', solucao: 'Solution', mapa: 'Carte', comboios: 'Vélo Bus', app: 'App', comunidade: 'Communauté', municipios: 'Municipalités', sobre: 'À propos', doar: 'Donner' },
+    nav: { manifesto: 'Manifeste', dados: 'Données', solucao: 'Solution', mapa: 'Carte', comboios: 'Vélo Bus', app: 'App', comunidade: 'Communauté', municipios: 'Municipalités', sobre: 'À propos', doar: 'Soutiens-nous' },
     hero: {
       tagline: 'L\'espace public appartient à tous.\nLa ville aussi.',
       tagline_html: 'L\'espace public<br>appartient à <em>tous</em>.<br>La ville aussi.',
@@ -1588,13 +1678,19 @@ const translations = {
       },
       allies: 'Alliés et Partenaires',
     },
-    donate: {
-      title: 'Transparence & Soutien',
-      subtitle: 'Chaque euro compte. Toutes les dépenses sont publiques.',
-      where: 'Où va ton argent',
-      breakdown: { tech: 'Technologie & App', education: 'Éducation & Matériaux', operations: 'Opérations', advocacy: 'Plaidoyer & Événements' },
-      custom: 'Montant personnalisé',
-      methods: 'Méthodes de paiement',
+    support: {
+      kicker: '§12 / 13 — Soutiens-nous',
+      headline: { pre: 'Le mouvement a besoin de ', accent: 'gens', post: '.' },
+      tagline: "Aujourd'hui, plus que d'argent.",
+      volunteer: {
+        kicker: 'Bénévole tes compétences',
+        headline: 'Nous cherchons des personnes pour construire ceci avec nous.',
+        body: "Bicis Sapiens n'est pas encore une association. C'est un projet en construction. La partie technique est déjà couverte — nous cherchons celles et ceux qui vivent le monde du vélo et veulent le transformer avec nous.",
+        roles: "Nous cherchons : parents qui veulent lancer un Vélobus dans leur école, cyclistes urbains avec des histoires à raconter, photographes pour documenter les sorties, avocats et juristes connaissant le droit municipal, activistes de la mobilité, urbanistes, enseignants, et quiconque souhaite donner du temps régulièrement.",
+        cta: 'Je veux être bénévole',
+        trustLine: 'Réponse sous 7 jours · Porto, Portugal',
+      },
+      future: "Bientôt, lorsque nous serons une association, nous ouvrirons les dons avec des rapports financiers publics. Aujourd'hui, ton temps est le meilleur soutien.",
     },
     footer: {
       newsletter: 'Abonne-toi à la Newsletter',
@@ -1691,6 +1787,30 @@ const translations = {
         digestSubject: 'Résumé quotidien · Bicis Sapiens',
         manageNotifications: 'Gérer les notifications',
       },
+    },
+    civic_agenda: {
+      kicker: '§07 / 13 — L\'Agenda Civique',
+      headline: { prefix: 'Cette semaine, Porto', accent: 'décide.' },
+      subline: 'Cinq questions. Quatre-vingt-dix secondes. Sans inscription.',
+      week: {
+        label: 'SEMAINE',
+        votes: '{N} VOTES CETTE SEMAINE',
+        progress: 'RÉPONDU {DONE} / {TOTAL}',
+      },
+      card: {
+        votes: '{N} VOTES',
+        thanked: 'TU AS VOTÉ · MERCI',
+      },
+      empty: {
+        headline: 'La prochaine semaine de décisions commence lundi.',
+        cta: 'ABONNE-TOI POUR ÊTRE NOTIFIÉ →',
+      },
+      deepForum: {
+        kicker: 'TU VEUX ALLER PLUS LOIN ?',
+        body: 'Le forum propose des discussions longues, des propositions et des débats ouverts.',
+        cta: 'ENTRE DANS LE FORUM →',
+      },
+      months: ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUN', 'JUL', 'AOÛ', 'SEP', 'OCT', 'NOV', 'DÉC'],
     },
   },
 };

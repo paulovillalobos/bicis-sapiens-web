@@ -97,7 +97,7 @@ export default function AppCTA() {
               </p>
 
               <a
-                href="#donate"
+                href="#support"
                 className="inline-block mt-6 font-body text-sm text-bone/55 hover:text-eu-yellow transition-colors"
               >
                 {t('app.supportLink')} →

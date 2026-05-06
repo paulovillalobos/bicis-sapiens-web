@@ -1,228 +1,490 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
+import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 
-// ⚠️ PLACEHOLDER — REPLACE WITH REAL TEAM-CURATED POLL BEFORE LAUNCH.
-// The pollId encodes the week. Bumping it changes the localStorage key,
-// so a new question starts at zero votes for every device. In Part B
-// this becomes a server-curated active poll fetched from the polls table.
-const POLL_ID = 'porto-priority-bike-lane-2026-w19';
-const POLL_OPTION_KEYS = ['boavista', 'santaCatarina', 'douro', 'other'];
-const POLL_STORAGE_KEY = `bs:poll:${POLL_ID}`;
+const YELLOW   = '#d4a017';
+const BLUE     = '#1d4ed8';
+const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
+const SOFT     = 'rgba(255, 255, 255, 0.7)';
+const FAINT    = 'rgba(255, 255, 255, 0.4)';
 
-// ⚠️ PLACEHOLDER — REPLACE WITH REAL TEAM-CURATED THREADS BEFORE LAUNCH.
-// Three editorial prompts the team posts every Monday. Static for now;
-// Part B fetches from threads table where is_team_prompt=true.
-const TEAM_THREAD_KEYS = ['parking', 'bikeBusPrivate', 'boavistaCritical'];
+// =====================================================================
+// CIVIC AGENDA — five weekly questions, anonymous voting, no signup.
+//
+// The component renders against any data shape it gets back from the
+// backend; if zero questions are returned it falls into the empty
+// state per the §07 brief. No fake placeholder questions live here.
+//
+// Voting state for THIS device persists in localStorage under the
+// week key. When the backend's polls schema lights up, the hook below
+// (`useWeeklyAgenda`) starts returning real questions and the cards
+// render — no further code changes needed.
+// =====================================================================
 
-// localStorage shape, per device:
-//   { selectedOption: string|null, votedAt: ISO, tally: { [optKey]: number } }
-// Local tally only until Part B (Supabase or Base44) provides server-side
-// aggregation. Each device sees its own count; that's intentional honesty.
-function emptyPoll() {
-  const tally = {};
-  POLL_OPTION_KEYS.forEach((k) => { tally[k] = 0; });
-  return { selectedOption: null, votedAt: null, tally };
-}
-function loadPoll() {
-  if (typeof window === 'undefined') return null;
-  try {
-    const raw = window.localStorage.getItem(POLL_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch { return null; }
-}
-function savePoll(state) {
-  if (typeof window === 'undefined') return;
-  try { window.localStorage.setItem(POLL_STORAGE_KEY, JSON.stringify(state)); } catch {}
-}
-
-export default function CommunityHub({ onJoinClick }) {
+export default function CommunityHub() {
   const { t } = useI18n();
   const ref = useScrollReveal();
-  const [poll, setPoll] = useState(emptyPoll);
 
-  useEffect(() => {
-    const stored = loadPoll();
-    if (stored) setPoll(stored);
-  }, []);
+  const weekId = useMemo(() => isoWeekId(new Date()), []);
+  const { questions, totalWeekVotes, loading } = useWeeklyAgenda();
+  const [myVotes, castVote] = useDeviceVotes(weekId);
 
-  const totalVotes = Object.values(poll.tally).reduce((a, b) => a + b, 0);
-  const hasVoted = !!poll.selectedOption;
-  const threadCount = TEAM_THREAD_KEYS.length;
-  const voteWord =
-    totalVotes === 1 ? t('community.poll.voteSingular') : t('community.poll.votePlural');
-
-  const handleVote = useCallback((optionKey) => {
-    if (hasVoted) return;
-    const next = {
-      selectedOption: optionKey,
-      votedAt: new Date().toISOString(),
-      tally: { ...poll.tally, [optionKey]: (poll.tally[optionKey] || 0) + 1 },
-    };
-    savePoll(next);
-    setPoll(next);
-  }, [hasVoted, poll]);
+  const totalQuestions = questions.length;
+  const answered = Object.keys(myVotes).length;
+  const weekRange = useWeekRangeLabel(t);
 
   return (
-    <section id="community" ref={ref} className="reveal-section bg-background py-24 sm:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      id="community"
+      ref={ref}
+      className="reveal-section"
+      style={{ background: '#0a0a0a', color: '#fff' }}
+    >
+      <div
+        className="max-w-[1100px] mx-auto px-6 sm:px-8"
+        style={{ paddingTop: '5rem', paddingBottom: '5rem' }}
+      >
 
-        {/* 1 · KICKER */}
-        <div className="flex items-center gap-3 mb-10">
-          <span aria-hidden="true" className="block w-8 h-px bg-[#d4a017]" />
-          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#d4a017] font-medium">
-            {t('community.kicker')}
+        {/* ─── HERO ─── */}
+        <div className="flex items-center gap-3 mb-8">
+          <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
+          <span
+            className="font-mono uppercase font-medium"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+          >
+            {t('civic_agenda.kicker')}
           </span>
         </div>
 
-        {/* 2 · HEADER — two columns on lg, stack below */}
-        <div className="grid lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-end mb-6">
-          <h2 className="font-data text-[32px] lg:text-[44px] leading-[1.05] font-normal text-white max-w-2xl m-0">
-            {t('community.headline.pre')}
-            <em className="italic font-normal text-[#1d4ed8]">
-              {t('community.headline.accent')}
-            </em>
-            {t('community.headline.post')}
-          </h2>
-          <p className="font-data italic text-[17px] leading-[1.6] text-white/70 m-0">
-            {t('community.taglineLine1')}<br />
-            {t('community.taglineLine2')}
+        <h2
+          className="font-data m-0 mb-6"
+          style={{
+            fontSize: 'clamp(32px, 5vw, 52px)',
+            fontWeight: 400,
+            color: '#fff',
+            letterSpacing: '-0.01em',
+            lineHeight: 1.05,
+          }}
+        >
+          {t('civic_agenda.headline.prefix')}{' '}
+          <span style={{ fontStyle: 'italic', color: BLUE }}>
+            {t('civic_agenda.headline.accent')}
+          </span>
+        </h2>
+
+        <p
+          className="font-data italic m-0 mb-12"
+          style={{
+            fontSize: 18,
+            fontWeight: 400,
+            lineHeight: 1.45,
+            color: SOFT,
+            maxWidth: 600,
+          }}
+        >
+          {t('civic_agenda.subline')}
+        </p>
+
+        {/* ─── WEEK META BAR ─── */}
+        <div
+          className="flex flex-wrap items-baseline gap-x-3 gap-y-2 pb-3 mb-12"
+          style={{ borderBottom: `0.5px solid ${HAIRLINE}` }}
+        >
+          <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}>
+            {t('civic_agenda.week.label')} · {weekRange}
+          </span>
+          <span aria-hidden="true" style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
+          <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: SOFT }}>
+            {t('civic_agenda.week.votes').replace('{N}', String(totalWeekVotes))}
+          </span>
+          <span aria-hidden="true" className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
+          <span className="sm:ml-auto" />
+          <span
+            className="font-mono uppercase transition-colors duration-150"
+            style={{
+              fontSize: 11,
+              letterSpacing: '0.3em',
+              color: answered > 0 ? BLUE : YELLOW,
+            }}
+          >
+            {t('civic_agenda.week.progress')
+              .replace('{DONE}', String(answered))
+              .replace('{TOTAL}', String(totalQuestions || 5))}
+          </span>
+        </div>
+
+        {/* ─── AGENDA CARDS or EMPTY STATE ─── */}
+        {loading ? (
+          <p
+            className="font-mono uppercase"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+          >
+            {t('forum.loading')}
           </p>
-        </div>
-
-        {/* Hairline + weekly stat line */}
-        <div className="border-t border-white/15 pt-3 mb-12 flex justify-end">
-          <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-white/65">
-            {totalVotes} {t('community.statsVoicesLabel')}
-            <span aria-hidden="true"> · </span>
-            {threadCount} {t('community.statsThreadsLabel')}
-          </p>
-        </div>
-
-        {/* 3 · BLOCK 1 — DECISÃO EM ABERTO (anonymous voting) */}
-        <div className="bg-white/[0.04] border-[0.5px] border-white/15 rounded-[8px] p-8 mb-16">
-          <div className="flex items-baseline justify-between mb-5 font-mono text-[11px] uppercase tracking-[0.3em]">
-            <span className="text-[#d4a017] font-medium">{t('community.poll.kicker')}</span>
-            <span className="text-white/40">{t('community.poll.thisWeek')}</span>
-          </div>
-
-          <h3 className="font-data text-[26px] leading-[1.25] font-normal text-white m-0 mb-6">
-            {t('community.poll.question')}
-          </h3>
-
-          <ul className="flex flex-col gap-4 list-none p-0 m-0">
-            {POLL_OPTION_KEYS.map((key) => {
-              const count = poll.tally[key] || 0;
-              const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
-              const isSelected = poll.selectedOption === key;
-              return (
-                <li key={key}>
-                  <button
-                    type="button"
-                    onClick={() => handleVote(key)}
-                    disabled={hasVoted && !isSelected}
-                    aria-pressed={isSelected}
-                    className={`w-full text-left flex items-start gap-3 px-2 py-2 transition-colors ${
-                      hasVoted ? 'cursor-default' : 'cursor-pointer hover:bg-white/[0.03]'
-                    } ${isSelected ? 'bg-white/[0.04]' : ''}`}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className={`mt-1.5 flex-shrink-0 w-3.5 h-3.5 rounded-full border transition-colors ${
-                        isSelected ? 'bg-white border-white' : 'border-white/30'
-                      }`}
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline justify-between gap-3">
-                        <span className="text-[14px] text-white">
-                          {t(`community.poll.options.${key}`)}
-                        </span>
-                        <span className="font-data italic text-[13px] text-white tabular-nums">
-                          {totalVotes > 0 ? `${pct}%` : '—'}
-                        </span>
-                      </div>
-                      <span aria-hidden="true" className="block mt-2 h-1 bg-white/[0.08] overflow-hidden">
-                        <span
-                          className="block h-full bg-white/70 transition-[width] duration-300"
-                          style={{ width: `${pct}%` }}
-                        />
-                      </span>
-                    </div>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-
-          <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
-            {totalVotes} {voteWord}
-            <span aria-hidden="true"> · </span>
-            {t('community.poll.voteWithoutAccount')}
-          </div>
-        </div>
-
-        {/* 4 · BLOCK 2 — A EQUIPA PERGUNTA (3 editorial threads) */}
-        <div className="mb-16">
-          <div className="flex items-baseline gap-3 mb-6 font-mono text-[11px] uppercase tracking-[0.3em]">
-            <span className="text-[#d4a017] font-medium">{t('community.threadsKicker')}</span>
-            <span className="text-white/40">{t('community.threadsSubkicker')}</span>
-          </div>
-
-          <ul className="list-none p-0 m-0">
-            {TEAM_THREAD_KEYS.map((tk) => (
-              <li
-                key={tk}
-                className="border-b-[0.5px] border-white/15 last:border-b-0 pb-7 pt-7 first:pt-0"
-              >
-                <div className="flex items-baseline justify-end gap-2 mb-3 font-mono text-[10px] uppercase tracking-[0.3em]">
-                  <span className="text-[#d4a017] font-medium">{t('community.byTeam')}</span>
-                  <span aria-hidden="true" className="text-white/40">·</span>
-                  <span className="text-white/40">{t(`community.threads.${tk}.time`)}</span>
-                </div>
-                <h4 className="font-data text-[22px] leading-[1.25] font-normal text-white m-0 mb-2 truncate">
-                  {t(`community.threads.${tk}.title`)}
-                </h4>
-                <p className="text-[14px] leading-[1.6] text-white/65 m-0 mb-4 max-w-3xl">
-                  {t(`community.threads.${tk}.description`)}
-                </p>
-                {/* Empty state — no fake responses. Replaces with real previews
-                    in Part B once response data is available. */}
-                <div className="flex items-baseline justify-between gap-3 flex-wrap">
-                  <span className="font-data italic text-[14px] text-white/65">
-                    {t('community.beFirst')}
-                  </span>
-                  <a
-                    href="/comunidade/foro"
-                    className="font-mono text-[12px] uppercase tracking-[0.3em] text-[#d4a017] font-medium hover:text-[#e8b62a] transition-colors"
-                  >
-                    {t('community.respond')} →
-                  </a>
-                </div>
-              </li>
+        ) : totalQuestions === 0 ? (
+          <EmptyState t={t} />
+        ) : (
+          <div>
+            {questions.map((q, i) => (
+              <QuestionCard
+                key={q.id}
+                index={i}
+                total={totalQuestions}
+                question={q}
+                myVote={myVotes[q.id] || null}
+                onVote={(optionId) => castVote(q.id, optionId)}
+                t={t}
+              />
             ))}
-          </ul>
-        </div>
+          </div>
+        )}
 
-        {/* 5 · CTA ROW */}
-        <div className="border-t-[0.5px] border-white/15 pt-12 grid lg:grid-cols-2 gap-3 lg:gap-4">
-          {/* Primary — links to forum route. 404s until Part B wires it. */}
-          <a
-            href="/comunidade/foro"
-            className="inline-flex items-center justify-center gap-2 px-5 py-5 text-[13px] font-medium bg-[#1d4ed8] text-white hover:bg-[#1944c0] transition-colors rounded-[4px]"
+        {/* ─── DEEP FORUM LINK ─── */}
+        <div
+          className="text-center mx-auto"
+          style={{
+            borderTop: `0.5px solid ${HAIRLINE}`,
+            paddingTop: '4rem',
+            marginTop: '4rem',
+            maxWidth: 600,
+          }}
+        >
+          <span
+            className="font-mono uppercase font-medium block mb-4"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
           >
-            {t('community.ctaPrimary')} <span aria-hidden="true">→</span>
-          </a>
-          {/* Secondary — opens existing JoinModal until Part B builds the
-              proper /comunidade/login magic-link flow. */}
-          <button
-            type="button"
-            onClick={onJoinClick}
-            className="inline-flex items-center justify-center gap-2 px-5 py-5 text-[13px] font-medium bg-transparent border-[0.5px] border-white/30 text-white hover:bg-white/[0.04] transition-colors rounded-[4px]"
+            {t('civic_agenda.deepForum.kicker')}
+          </span>
+          <p
+            className="font-data m-0 mb-6"
+            style={{ fontSize: 18, fontWeight: 400, color: '#fff', lineHeight: 1.5 }}
           >
-            {t('community.ctaSecondary')} <span aria-hidden="true" className="text-white/60">→</span>
-          </button>
+            {t('civic_agenda.deepForum.body')}
+          </p>
+          <Link
+            to="/comunidade/foro"
+            className="font-mono uppercase font-medium inline-block hover:opacity-80 transition-opacity"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+          >
+            {t('civic_agenda.deepForum.cta')}
+          </Link>
         </div>
       </div>
     </section>
   );
+}
+
+// ---------- Question card --------------------------------------------
+
+function QuestionCard({ index, total, question, myVote, onVote, t }) {
+  const hasVoted = Boolean(myVote);
+
+  // Compute total card votes including any optimistic local increment.
+  const cardVotes = question.options.reduce((sum, o) => sum + (o.votes || 0), 0);
+
+  const num = String(index + 1).padStart(2, '0');
+  const totalStr = String(total).padStart(2, '0');
+
+  return (
+    <article
+      className="relative mb-6 transition-colors"
+      style={{
+        background: 'rgba(255, 255, 255, 0.04)',
+        border: hasVoted
+          ? '0.5px solid rgba(29, 78, 216, 0.4)'
+          : '0.5px solid rgba(255, 255, 255, 0.10)',
+        borderRadius: 12,
+        padding: '2rem',
+      }}
+    >
+      {hasVoted && (
+        <span
+          aria-hidden="true"
+          className="absolute"
+          style={{
+            top: 16,
+            right: 16,
+            width: 10,
+            height: 10,
+            borderRadius: 9999,
+            background: BLUE,
+          }}
+        />
+      )}
+
+      {/* metadata row */}
+      <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
+        <div className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em' }}>
+          <span style={{ color: YELLOW }}>{num} / {totalStr}</span>
+          {question.category && (
+            <>
+              <span style={{ color: 'rgba(255,255,255,0.20)', margin: '0 0.5em' }}>·</span>
+              <span style={{ color: FAINT }}>{question.category}</span>
+            </>
+          )}
+        </div>
+        <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}>
+          {t('civic_agenda.card.votes').replace('{N}', String(cardVotes))}
+        </span>
+      </div>
+
+      {/* question title */}
+      <h3
+        className="font-data m-0 mb-6"
+        style={{
+          fontSize: 'clamp(20px, 2.5vw, 26px)',
+          fontWeight: 400,
+          color: '#fff',
+          lineHeight: 1.25,
+          letterSpacing: '-0.005em',
+        }}
+      >
+        {question.question}
+      </h3>
+
+      {/* options */}
+      <ul className="list-none p-0 m-0">
+        {question.options.map((opt) => {
+          const isMine = myVote === opt.id;
+          const pct = cardVotes > 0 ? Math.round(((opt.votes || 0) / cardVotes) * 100) : 0;
+          return (
+            <OptionRow
+              key={opt.id}
+              option={opt}
+              pct={pct}
+              hasVoted={hasVoted}
+              isMine={isMine}
+              onClick={() => !hasVoted && onVote(opt.id)}
+            />
+          );
+        })}
+      </ul>
+
+      {hasVoted && (
+        <p
+          className="font-mono uppercase text-center m-0 mt-5"
+          style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+        >
+          {t('civic_agenda.card.thanked')}
+        </p>
+      )}
+    </article>
+  );
+}
+
+function OptionRow({ option, pct, hasVoted, isMine, onClick }) {
+  const [hover, setHover] = useState(false);
+  const interactive = !hasVoted;
+  const bg = interactive && hover ? 'rgba(255,255,255,0.03)' : 'transparent';
+
+  return (
+    <li className="m-0 p-0">
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={hasVoted}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        aria-pressed={isMine}
+        className="w-full text-left transition-colors"
+        style={{
+          background: bg,
+          border: 'none',
+          padding: '1rem 0.5rem',
+          cursor: interactive ? 'pointer' : 'default',
+        }}
+      >
+        <div className="flex items-center gap-3">
+          {/* radio circle */}
+          <span
+            aria-hidden="true"
+            className="shrink-0"
+            style={{
+              width: 14,
+              height: 14,
+              borderRadius: 9999,
+              border: isMine ? `4px solid ${BLUE}` : '1px solid rgba(255,255,255,0.30)',
+              background: isMine ? '#fff' : 'transparent',
+              transition: 'all 150ms ease-out',
+            }}
+          />
+          {/* label */}
+          <span className="flex-1" style={{ fontSize: 15, color: '#fff' }}>
+            {option.label}
+          </span>
+          {/* percentage (only after vote) */}
+          {hasVoted && (
+            <span
+              className="font-data italic"
+              style={{
+                fontSize: 13,
+                color: isMine ? '#fff' : SOFT,
+                fontVariantNumeric: 'tabular-nums',
+              }}
+            >
+              {pct}%
+            </span>
+          )}
+        </div>
+        {/* bar */}
+        <div
+          aria-hidden="true"
+          className="mt-2"
+          style={{
+            height: 4,
+            width: '100%',
+            background: 'rgba(255,255,255,0.08)',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              height: '100%',
+              width: hasVoted ? `${pct}%` : '0%',
+              background: isMine ? BLUE : 'rgba(255,255,255,0.7)',
+              transition: 'width 200ms ease-out',
+            }}
+          />
+        </div>
+      </button>
+    </li>
+  );
+}
+
+// ---------- Empty state ----------------------------------------------
+
+function EmptyState({ t }) {
+  return (
+    <div className="text-center mx-auto" style={{ paddingTop: '2rem', paddingBottom: '2rem', maxWidth: 600 }}>
+      <p
+        className="font-data italic m-0 mb-6"
+        style={{ fontSize: 22, fontWeight: 400, color: '#fff', lineHeight: 1.4 }}
+      >
+        {t('civic_agenda.empty.headline')}
+      </p>
+      <Link
+        to="/comunidade/login"
+        className="font-mono uppercase inline-block hover:opacity-80 transition-opacity"
+        style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+      >
+        {t('civic_agenda.empty.cta')}
+      </Link>
+    </div>
+  );
+}
+
+// ---------- Data hook ------------------------------------------------
+// Tries to fetch the latest 5 active polls from Supabase. If the
+// schema doesn't yet have a `polls` table (current state, since
+// backend activation is paused), the query errors and the page falls
+// gracefully into the empty state. When the team adds the polls
+// table, no code change is needed here — just real data flows in.
+
+function useWeeklyAgenda() {
+  const [state, setState] = useState({ questions: [], totalWeekVotes: 0, loading: true });
+
+  useEffect(() => {
+    if (!isSupabaseConfigured()) {
+      setState({ questions: [], totalWeekVotes: 0, loading: false });
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase
+        .from('polls')
+        .select(`
+          id,
+          category,
+          question,
+          options:poll_options(id, label, position, votes:poll_votes(count))
+        `)
+        .eq('active', true)
+        .order('position', { ascending: true })
+        .limit(5);
+
+      if (cancelled) return;
+
+      if (error || !data) {
+        setState({ questions: [], totalWeekVotes: 0, loading: false });
+        return;
+      }
+
+      const questions = data.map((row) => ({
+        id: row.id,
+        category: row.category || '',
+        question: row.question,
+        options: (row.options || [])
+          .slice()
+          .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+          .map((o) => ({ id: o.id, label: o.label, votes: o.votes?.[0]?.count || 0 })),
+      }));
+
+      const totalWeekVotes = questions.reduce(
+        (sum, q) => sum + q.options.reduce((s, o) => s + (o.votes || 0), 0),
+        0
+      );
+
+      setState({ questions, totalWeekVotes, loading: false });
+    })();
+
+    return () => { cancelled = true; };
+  }, []);
+
+  return state;
+}
+
+// ---------- Per-device vote storage ----------------------------------
+
+function useDeviceVotes(weekId) {
+  const KEY = `bs:agenda:${weekId}`;
+  const [votes, setVotes] = useState(() => {
+    if (typeof window === 'undefined') return {};
+    try { return JSON.parse(window.localStorage.getItem(KEY) || '{}'); }
+    catch { return {}; }
+  });
+
+  const cast = useCallback(
+    (questionId, optionId) => {
+      setVotes((prev) => {
+        if (prev[questionId]) return prev; // one vote per question per device
+        const next = { ...prev, [questionId]: optionId };
+        try { window.localStorage.setItem(KEY, JSON.stringify(next)); } catch {}
+        return next;
+      });
+    },
+    [KEY]
+  );
+
+  return [votes, cast];
+}
+
+// ---------- Week helpers ---------------------------------------------
+
+function isoWeekId(d) {
+  // Returns "YYYY-Www" for the date's ISO week.
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const dayNum = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  const weekNum = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+  return `${date.getUTCFullYear()}-W${String(weekNum).padStart(2, '0')}`;
+}
+
+function useWeekRangeLabel(t) {
+  return useMemo(() => {
+    const now = new Date();
+    const day = now.getDay() || 7; // Mon=1, Sun=7
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - (day - 1));
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    const months = t('civic_agenda.months');
+    const monthAbbr = Array.isArray(months) ? months[sunday.getMonth()] : '';
+    const startDay = String(monday.getDate()).padStart(2, '0');
+    const endDay   = String(sunday.getDate()).padStart(2, '0');
+    return `${startDay}–${endDay} ${monthAbbr} ${sunday.getFullYear()}`;
+  }, [t]);
 }

@@ -21,7 +21,7 @@ export default function Navbar({ onJoinClick }) {
     { key: 'mapa', href: '#map' },
     { key: 'comboios', href: '#bikeBus' },
     { key: 'comunidade', href: '#community' },
-    { key: 'doar', href: '#donate' },
+    { key: 'doar', href: '#support' },
   ];
 
   return (

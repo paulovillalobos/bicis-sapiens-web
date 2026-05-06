@@ -11,7 +11,7 @@ import AppCTA from '@/components/landing/AppCTA';
 import CommunityHub from '@/components/landing/CommunityHub';
 import Municipalities from '@/components/landing/Municipalities';
 import AboutTeam from '@/components/landing/AboutTeam';
-import Donate from '@/components/landing/Donate';
+import Support from '@/components/landing/Support';
 import Footer from '@/components/landing/Footer';
 import JoinModal from '@/components/landing/JoinModal';
 
@@ -33,7 +33,7 @@ function LandingContent() {
       <CommunityHub onJoinClick={openJoin} />
       <Municipalities />
       <AboutTeam />
-      <Donate />
+      <Support />
       <Footer />
       <JoinModal open={joinOpen} onOpenChange={setJoinOpen} />
     </div>
