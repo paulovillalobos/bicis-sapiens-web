@@ -1,102 +1,341 @@
 import React from 'react';
 import { useI18n } from '@/lib/i18n';
-import { useScrollReveal } from '@/lib/useScrollReveal';
-import AnimatedCounter from './AnimatedCounter';
-import { Building2, Download, Calendar, ArrowRight } from 'lucide-react';
 
-const dossierItems = [
-  'Diagnóstico de mobilidade',
-  'Proposta de sinalização',
-  'Mapa de escolas e rotas',
-  'Plano de implementação',
-  'Cronograma e métricas',
+// --- Theme tokens (match §02 Porto in Numbers / §03 Solution / §04 BikeBus) ---
+const YELLOW   = '#d4a017';
+const BLUE     = '#1d4ed8';
+const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
+const MUTED    = 'rgba(255, 255, 255, 0.65)';
+const SOFT     = 'rgba(255, 255, 255, 0.7)';
+const FAINT    = 'rgba(255, 255, 255, 0.4)';
+
+// =====================================================================
+// CONFIGURATION FLAGS — TEAM TO UPDATE BEFORE LAUNCH
+// =====================================================================
+
+// ⚠️ Set to true once /public/docs/metodologia.pdf has been uploaded.
+//    While false, the secondary CTA renders as a faint, non-clickable
+//    label (per brief — never link to a 404).
+const METHODOLOGY_PDF_AVAILABLE = false;
+
+// ⚠️ Set to a public URL (news article, press release, official document)
+//    once one exists for the Matosinhos partnership. While null, the
+//    "VÊ A DOCUMENTAÇÃO PÚBLICA" link is hidden entirely.
+const MATOSINHOS_DOC_URL = null;
+
+const CALENDLY_URL = 'https://calendly.com/rivivi/30min';
+const METHODOLOGY_PDF_PATH = '/docs/metodologia.pdf';
+
+const PHASES = [
+  { key: 'diagnosis', numeral: 'I.'   },
+  { key: 'proposal',  numeral: 'II.'  },
+  { key: 'execution', numeral: 'III.' },
 ];
 
 export default function Municipalities() {
   const { t } = useI18n();
-  const ref = useScrollReveal();
 
   return (
-    <section id="municipalities" ref={ref} className="reveal-section py-24 sm:py-32 bg-background text-foreground">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left — copy */}
-          <div>
-            <span className="font-mono text-xs tracking-widest uppercase text-accent">
-              09 / 13 · {t('municipalities.title')}
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-4 tracking-tightest">
-              {t('municipalities.title')}
-            </h2>
-            <p className="mt-4 text-foreground/60 max-w-lg font-body">
-              {t('municipalities.subtitle')}
+    <section id="municipalities" style={{ background: '#0a0a0a', color: '#fff' }}>
+      <div
+        className="max-w-[1100px] mx-auto px-6 sm:px-8"
+        style={{ paddingTop: '5rem', paddingBottom: '5rem' }}
+      >
+
+        {/* KICKER — yellow line + label */}
+        <div className="flex items-center gap-3 mb-8">
+          <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
+          <span
+            className="font-mono uppercase font-medium m-0"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+          >
+            {t('municipalities.kicker')}
+          </span>
+        </div>
+
+        {/* HEADER — headline (italic blue accent) + italic tagline */}
+        <header
+          className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-end pb-6 mb-16"
+          style={{ borderBottom: `0.5px solid ${HAIRLINE}` }}
+        >
+          <h2
+            className="font-data leading-[1.1] tracking-tight m-0"
+            style={{ fontSize: 'clamp(32px, 4.5vw, 44px)', fontWeight: 400, color: '#fff' }}
+          >
+            {t('municipalities.headline.prefix')}{' '}
+            <span style={{ fontStyle: 'italic', color: BLUE }}>
+              {t('municipalities.headline.accent')}
+            </span>{' '}
+            {t('municipalities.headline.suffix')}
+          </h2>
+
+          <div className="lg:justify-self-end lg:text-right">
+            <p
+              className="font-data m-0"
+              style={{
+                fontSize: 17,
+                fontStyle: 'italic',
+                fontWeight: 400,
+                lineHeight: 1.45,
+                color: SOFT,
+              }}
+            >
+              {t('municipalities.tagline.line1')}
+              <br />
+              {t('municipalities.tagline.line2')}
             </p>
+          </div>
+        </header>
 
-            {/* Stats grid (2 cells, 1 featured) */}
-            <div className="mt-12 grid grid-cols-2 gap-px bg-border">
-              <div className="relative bg-bone text-obsidian p-6 sm:p-8 pl-7 sm:pl-9">
-                <span aria-hidden="true" className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
-                <div className="font-display text-4xl sm:text-5xl font-black tracking-tightest text-obsidian leading-none">
-                  <AnimatedCounter value={12} />
-                </div>
-                <p className="font-mono text-[9px] uppercase tracking-widest text-obsidian/55 mt-3">
-                  {t('municipalities.engaged')}
-                </p>
-              </div>
-              <div className="bg-bone text-obsidian p-6 sm:p-8">
-                <div className="font-display text-4xl sm:text-5xl font-black tracking-tightest text-obsidian leading-none">
-                  <AnimatedCounter value={5} />
-                </div>
-                <p className="font-mono text-[9px] uppercase tracking-widest text-obsidian/55 mt-3">
-                  {t('municipalities.proposals')}
-                </p>
-              </div>
-            </div>
+        {/* BLOCK 1 — O QUE OFERECEMOS · three-phase methodology */}
+        <div className="mb-16">
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-3">
-              <button className="inline-flex items-center justify-center gap-2 px-6 py-4 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
-                <Download className="w-4 h-4" />
-                {t('municipalities.download')}
-              </button>
-              <button className="inline-flex items-center justify-center gap-2 px-6 py-4 text-xs font-mono uppercase tracking-widest border border-foreground/25 text-foreground hover:bg-foreground/5 transition-colors">
-                <Calendar className="w-4 h-4" />
-                {t('municipalities.meeting')}
-              </button>
-            </div>
+          <div className="flex items-baseline gap-4 mb-10 flex-wrap">
+            <span
+              className="font-mono uppercase font-medium m-0"
+              style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            >
+              {t('municipalities.offering.kicker')}
+            </span>
+            <span
+              className="font-data italic m-0"
+              style={{ fontSize: 13, color: FAINT, fontWeight: 400 }}
+            >
+              {t('municipalities.offering.subkicker')}
+            </span>
           </div>
 
-          {/* Right — Dossier panel as a single cream card */}
-          <div className="bg-bone text-obsidian p-8 sm:p-10 border-l-[1px] border-border">
-            <div className="flex items-center gap-2 mb-2">
-              <Building2 className="w-4 h-4 text-obsidian/55" />
-              <p className="font-mono text-[10px] uppercase tracking-widest text-obsidian/55">
-                Documento institucional
-              </p>
-            </div>
-            <h3 className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-obsidian mb-8">
-              Dossier Municipal
-            </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-12">
+            {PHASES.map(({ key, numeral }) => (
+              <div key={key}>
 
-            <div className="space-y-px bg-obsidian/10 border-y border-obsidian/10">
-              {dossierItems.map((item, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-4 p-4 bg-bone hover:bg-obsidian/5 transition-colors cursor-pointer group"
-                >
-                  <div className="w-10 h-10 grid place-items-center border border-obsidian/15 shrink-0">
-                    <span className="font-mono text-[10px] tracking-widest text-obsidian/65">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <span className="font-display text-base font-black tracking-tightest text-obsidian flex-1">
-                    {item}
+                {/* numeral + role sub-label */}
+                <div className="flex items-baseline gap-3 mb-4">
+                  <span
+                    className="font-data"
+                    style={{
+                      fontSize: 22,
+                      fontWeight: 400,
+                      fontStyle: 'italic',
+                      color: YELLOW,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {numeral}
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-obsidian/30 group-hover:text-primary transition-colors" />
+                  <span
+                    className="font-mono uppercase"
+                    style={{ fontSize: 10, letterSpacing: '0.25em', color: FAINT }}
+                  >
+                    {t(`municipalities.phases.${key}.role`)}
+                  </span>
                 </div>
-              ))}
-            </div>
+
+                {/* phase title */}
+                <h3
+                  className="font-data m-0 mb-3"
+                  style={{
+                    fontSize: 'clamp(24px, 2.6vw, 26px)',
+                    fontWeight: 400,
+                    color: '#fff',
+                    lineHeight: 1.15,
+                    letterSpacing: '-0.005em',
+                  }}
+                >
+                  {t(`municipalities.phases.${key}.title`)}
+                </h3>
+
+                {/* duration */}
+                <p
+                  className="font-mono uppercase m-0 mb-4"
+                  style={{ fontSize: 10, letterSpacing: '0.25em', color: FAINT }}
+                >
+                  {t(`municipalities.phases.${key}.duration`)}
+                </p>
+
+                {/* description */}
+                <p
+                  className="m-0"
+                  style={{ fontSize: 14, lineHeight: 1.6, color: MUTED }}
+                >
+                  {t(`municipalities.phases.${key}.desc`)}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/*
+          BLOCK 2 — JÁ TRABALHAMOS COM (Matosinhos credibility anchor).
+          The only block on this section that uses a card surface — its
+          singularity is what gives Matosinhos rhetorical weight.
+        */}
+        <div
+          className="mb-16"
+          style={{
+            background: 'rgba(255, 255, 255, 0.04)',
+            border: '0.5px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: 8,
+            padding: '2.5rem',
+          }}
+        >
+          {/* card kicker */}
+          <span
+            className="font-mono uppercase font-medium m-0 block mb-6"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+          >
+            {t('municipalities.partner.kicker')}
+          </span>
+
+          {/* name + partner tag */}
+          <div className="flex items-baseline gap-4 flex-wrap mb-5">
+            <h3
+              className="font-data m-0"
+              style={{
+                fontSize: 'clamp(36px, 5vw, 52px)',
+                fontWeight: 400,
+                color: '#fff',
+                lineHeight: 1,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {t('municipalities.partner.name')}
+            </h3>
+            <span
+              className="font-mono uppercase"
+              style={{ fontSize: 10, letterSpacing: '0.3em', color: YELLOW }}
+            >
+              {t('municipalities.partner.tag')}
+            </span>
+          </div>
+
+          <div style={{ borderTop: `0.5px solid ${HAIRLINE}`, marginBottom: '1.25rem' }} />
+
+          {/*
+            ⚠️ PLACEHOLDER — REPLACE WITH REAL DESCRIPTION OF WORK DONE WITH
+                MATOSINHOS (1-2 sentences, factual, with measurable outcome
+                if possible). Edit in src/lib/i18n.jsx under
+                municipalities.partner.description for ALL 4 LANGUAGES.
+
+            Optional 1–3 result-metric row goes RIGHT AFTER this paragraph.
+            Match the number/label pattern of §02 and §04. Do NOT fake
+            numbers — if no metric is concrete yet, keep this block out.
+          */}
+          <p
+            className="font-data m-0"
+            style={{ fontSize: 16, lineHeight: 1.5, color: '#fff' }}
+          >
+            {t('municipalities.partner.description')}
+          </p>
+
+          {/*
+            Optional public-doc link — hidden entirely while
+            MATOSINHOS_DOC_URL is null (per brief: never link to nothing).
+            ⚠️ Set the constant at the top of this file once a public
+            document exists.
+          */}
+          {MATOSINHOS_DOC_URL && (
+            <a
+              href={MATOSINHOS_DOC_URL}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-mono uppercase mt-6 inline-block transition-opacity hover:opacity-80"
+              style={{ fontSize: 10, letterSpacing: '0.3em', color: YELLOW }}
+            >
+              {t('municipalities.partner.docLink')}
+            </a>
+          )}
+        </div>
+
+        {/* BLOCK 3 — A EQUIPA TÉCNICA */}
+        <div className="mb-16">
+          <span
+            className="font-mono uppercase font-medium m-0 block mb-6"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+          >
+            {t('municipalities.team.kicker')}
+          </span>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-start">
+            <h3
+              className="font-data m-0"
+              style={{
+                fontSize: 'clamp(24px, 3.4vw, 32px)',
+                fontWeight: 400,
+                color: '#fff',
+                lineHeight: 1.2,
+                letterSpacing: '-0.005em',
+              }}
+            >
+              {t('municipalities.team.headline')}
+            </h3>
+            {/*
+              ⚠️ PLACEHOLDER — Refine wording before launch only if specific
+                universities (FEUP, ISCTE, etc.) are confirmed in writing.
+                Edit in src/lib/i18n.jsx under municipalities.team.description
+                for ALL 4 LANGUAGES.
+            */}
+            <p
+              className="m-0"
+              style={{ fontSize: 14, lineHeight: 1.7, color: SOFT }}
+            >
+              {t('municipalities.team.description')}
+            </p>
+          </div>
+        </div>
+
+        {/* CTA BLOCK — single dominant action */}
+        <div style={{ borderTop: `0.5px solid ${HAIRLINE}`, paddingTop: '4rem' }}>
+
+          {/* Primary CTA — Calendly */}
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="block w-full text-center transition-opacity hover:opacity-90"
+            style={{
+              background: BLUE,
+              color: '#fff',
+              padding: '1.5rem',
+              fontSize: 16,
+              fontWeight: 500,
+            }}
+          >
+            {t('municipalities.cta.primary')}
+          </a>
+
+          {/* Secondary — methodology PDF (disabled until file exists) */}
+          <div className="text-center mt-6">
+            {METHODOLOGY_PDF_AVAILABLE ? (
+              <a
+                href={METHODOLOGY_PDF_PATH}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="font-mono uppercase inline-block transition-opacity hover:opacity-80"
+                style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+              >
+                {t('municipalities.cta.secondary')}
+              </a>
+            ) : (
+              <span
+                className="font-mono uppercase inline-block cursor-not-allowed select-none"
+                aria-disabled="true"
+                style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+              >
+                {t('municipalities.cta.secondary')}
+              </span>
+            )}
+          </div>
+
+          {/* Trust line — addresses the two main objections of municipal officers */}
+          <p
+            className="font-mono uppercase text-center mt-4 m-0"
+            style={{ fontSize: 10, letterSpacing: '0.3em', color: FAINT }}
+          >
+            {t('municipalities.cta.trust')}
+          </p>
+        </div>
+
       </div>
     </section>
   );

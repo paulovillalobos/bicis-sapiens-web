@@ -229,12 +229,55 @@ const translations = {
       ctaSecondary: 'Cria conta para participar',
     },
     municipalities: {
-      title: 'Para Municípios',
-      subtitle: 'Trabalhamos convosco, não contra vós.',
-      download: 'Descarregar Dossier',
-      meeting: 'Agendar Reunião',
-      engaged: 'municípios contactados',
-      proposals: 'propostas entregues',
+      kicker: '§09 / 13 — Para Municípios',
+      headline: { prefix: 'Trabalhamos', accent: 'convosco,', suffix: 'não contra vós.' },
+      tagline: {
+        line1: 'Parceira técnica de municípios',
+        line2: 'que querem mudança real, não polémica.',
+      },
+      offering: {
+        kicker: 'O QUE OFERECEMOS',
+        subkicker: 'metodologia em três fases',
+      },
+      phases: {
+        diagnosis: {
+          role: 'A AUDITORIA',
+          title: 'Diagnóstico.',
+          duration: '4–6 SEMANAS',
+          desc: 'Auditoria com dados abertos sobre escolas, parques, tráfego e segurança. Trazemos os números que faltam ao debate público. Entregável: relatório de diagnóstico confidencial.',
+        },
+        proposal: {
+          role: 'A ESTRATÉGIA',
+          title: 'Proposta.',
+          duration: '6–8 SEMANAS',
+          desc: 'Plano técnico baseado em referenciais validados (CROW, NACTO, ITDP), adaptado à realidade específica do município. Entregável: proposta pronta para implementação com estimativa orçamental.',
+        },
+        execution: {
+          role: 'A EXECUÇÃO',
+          title: 'Acompanhamento.',
+          duration: '12 MESES',
+          desc: 'Apoio contínuo durante o rollout. Medição mensal de impacto contra KPIs acordados. Ajustes baseados em dados reais, não em suposições. Entregável: relatórios trimestrais e documento final de resultados.',
+        },
+      },
+      partner: {
+        kicker: 'JÁ TRABALHAMOS COM',
+        name: 'Matosinhos',
+        tag: 'MUNICÍPIO PARCEIRO',
+        // ⚠️ TODO — Replace with real factual description (1-2 sentences, including start date and measurable outcome). Update in ALL 4 LANGUAGES.
+        description: 'Em colaboração com o Município de Matosinhos desde [data], [descrição factual do trabalho realizado e estado atual ou resultado mensurável].',
+        docLink: 'VÊ A DOCUMENTAÇÃO PÚBLICA →',
+      },
+      team: {
+        kicker: 'A EQUIPA',
+        headline: 'Equipa multidisciplinar com colaboração académica.',
+        // ⚠️ TODO — Refine wording before launch only if specific universities (FEUP, ISCTE, etc.) are confirmed in writing. Update in ALL 4 LANGUAGES.
+        description: 'A Bicis Sapiens reúne profissionais de engenharia de tráfego, urbanismo, ciência de dados e gestão pública. Trabalhamos em colaboração com unidades académicas portuguesas focadas em mobilidade ativa e planeamento urbano sustentável.',
+      },
+      cta: {
+        primary: 'Agendar reunião confidencial →',
+        secondary: 'OU DESCARREGA A METODOLOGIA (PDF, 8 PÁGINAS) →',
+        trust: 'RESPOSTA EM 48 HORAS · CONFIDENCIALIDADE GARANTIDA',
+      },
     },
     about: {
       title: 'Sobre Nós',
@@ -500,12 +543,55 @@ const translations = {
       ctaSecondary: 'Create account to participate',
     },
     municipalities: {
-      title: 'For Municipalities',
-      subtitle: 'We work with you, not against you.',
-      download: 'Download Dossier',
-      meeting: 'Schedule Meeting',
-      engaged: 'municipalities contacted',
-      proposals: 'proposals delivered',
+      kicker: '§09 / 13 — For Municipalities',
+      headline: { prefix: 'We work', accent: 'with you,', suffix: 'not against you.' },
+      tagline: {
+        line1: 'Technical partner for municipalities',
+        line2: 'that want real change, not polemic.',
+      },
+      offering: {
+        kicker: 'WHAT WE OFFER',
+        subkicker: 'three-phase methodology',
+      },
+      phases: {
+        diagnosis: {
+          role: 'THE AUDIT',
+          title: 'Diagnosis.',
+          duration: '4–6 WEEKS',
+          desc: 'Audit using open data on schools, parks, traffic and safety. We bring the numbers missing from public debate. Deliverable: confidential diagnostic report.',
+        },
+        proposal: {
+          role: 'THE STRATEGY',
+          title: 'Proposal.',
+          duration: '6–8 WEEKS',
+          desc: 'Technical plan based on validated frameworks (CROW, NACTO, ITDP), adapted to the municipality\'s specific reality. Deliverable: implementation-ready proposal with budget estimate.',
+        },
+        execution: {
+          role: 'THE EXECUTION',
+          title: 'Follow-through.',
+          duration: '12 MONTHS',
+          desc: 'Continuous support during rollout. Monthly impact measurement against agreed KPIs. Adjustments based on real data, not assumptions. Deliverable: quarterly reports and final outcomes document.',
+        },
+      },
+      partner: {
+        kicker: 'ALREADY PARTNERED WITH',
+        name: 'Matosinhos',
+        tag: 'PARTNER MUNICIPALITY',
+        // ⚠️ TODO — Replace with real factual description (1-2 sentences, including start date and measurable outcome). Update in ALL 4 LANGUAGES.
+        description: 'In collaboration with the Municipality of Matosinhos since [date], [factual description of work done and current status or measurable outcome].',
+        docLink: 'VIEW PUBLIC DOCUMENTATION →',
+      },
+      team: {
+        kicker: 'THE TEAM',
+        headline: 'Multidisciplinary team with academic collaboration.',
+        // ⚠️ TODO — Refine wording before launch only if specific universities (FEUP, ISCTE, etc.) are confirmed in writing. Update in ALL 4 LANGUAGES.
+        description: 'Bicis Sapiens brings together professionals from traffic engineering, urban planning, data science and public management. We collaborate with Portuguese academic units focused on active mobility and sustainable urban planning.',
+      },
+      cta: {
+        primary: 'Schedule a confidential meeting →',
+        secondary: 'OR DOWNLOAD THE METHODOLOGY (PDF, 8 PAGES) →',
+        trust: 'RESPONSE WITHIN 48 HOURS · CONFIDENTIALITY GUARANTEED',
+      },
     },
     about: {
       title: 'About Us',
@@ -771,12 +857,55 @@ const translations = {
       ctaSecondary: 'Crea cuenta para participar',
     },
     municipalities: {
-      title: 'Para Municipios',
-      subtitle: 'Trabajamos con vosotros, no contra vosotros.',
-      download: 'Descargar Dossier',
-      meeting: 'Agendar Reunión',
-      engaged: 'municipios contactados',
-      proposals: 'propuestas entregadas',
+      kicker: '§09 / 13 — Para Municipios',
+      headline: { prefix: 'Trabajamos', accent: 'con ustedes,', suffix: 'no contra ustedes.' },
+      tagline: {
+        line1: 'Socio técnico de municipios',
+        line2: 'que quieren cambio real, no polémica.',
+      },
+      offering: {
+        kicker: 'QUÉ OFRECEMOS',
+        subkicker: 'metodología en tres fases',
+      },
+      phases: {
+        diagnosis: {
+          role: 'LA AUDITORÍA',
+          title: 'Diagnóstico.',
+          duration: '4–6 SEMANAS',
+          desc: 'Auditoría con datos abiertos sobre escuelas, parques, tráfico y seguridad. Aportamos los números que faltan al debate público. Entregable: informe de diagnóstico confidencial.',
+        },
+        proposal: {
+          role: 'LA ESTRATEGIA',
+          title: 'Propuesta.',
+          duration: '6–8 SEMANAS',
+          desc: 'Plan técnico basado en referenciales validados (CROW, NACTO, ITDP), adaptado a la realidad específica del municipio. Entregable: propuesta lista para implementación con estimación presupuestaria.',
+        },
+        execution: {
+          role: 'LA EJECUCIÓN',
+          title: 'Acompañamiento.',
+          duration: '12 MESES',
+          desc: 'Apoyo continuo durante el rollout. Medición mensual de impacto frente a KPIs acordados. Ajustes basados en datos reales, no en suposiciones. Entregable: informes trimestrales y documento final de resultados.',
+        },
+      },
+      partner: {
+        kicker: 'YA HEMOS COLABORADO CON',
+        name: 'Matosinhos',
+        tag: 'MUNICIPIO SOCIO',
+        // ⚠️ TODO — Replace with real factual description (1-2 sentences, including start date and measurable outcome). Update in ALL 4 LANGUAGES.
+        description: 'En colaboración con el Municipio de Matosinhos desde [fecha], [descripción factual del trabajo realizado y estado actual o resultado medible].',
+        docLink: 'VER LA DOCUMENTACIÓN PÚBLICA →',
+      },
+      team: {
+        kicker: 'EL EQUIPO',
+        headline: 'Equipo multidisciplinario con colaboración académica.',
+        // ⚠️ TODO — Refine wording before launch only if specific universities (FEUP, ISCTE, etc.) are confirmed in writing. Update in ALL 4 LANGUAGES.
+        description: 'Bicis Sapiens reúne profesionales de ingeniería de tráfico, urbanismo, ciencia de datos y gestión pública. Trabajamos en colaboración con unidades académicas portuguesas centradas en movilidad activa y planificación urbana sostenible.',
+      },
+      cta: {
+        primary: 'Agendar reunión confidencial →',
+        secondary: 'O DESCARGA LA METODOLOGÍA (PDF, 8 PÁGINAS) →',
+        trust: 'RESPUESTA EN 48 HORAS · CONFIDENCIALIDAD GARANTIZADA',
+      },
     },
     about: {
       title: 'Sobre Nosotros',
@@ -1042,12 +1171,55 @@ const translations = {
       ctaSecondary: 'Crée un compte pour participer',
     },
     municipalities: {
-      title: 'Pour les Municipalités',
-      subtitle: 'Nous travaillons avec vous, pas contre vous.',
-      download: 'Télécharger Dossier',
-      meeting: 'Planifier Réunion',
-      engaged: 'municipalités contactées',
-      proposals: 'propositions livrées',
+      kicker: '§09 / 13 — Pour les Municipalités',
+      headline: { prefix: 'Nous travaillons', accent: 'avec vous,', suffix: 'pas contre vous.' },
+      tagline: {
+        line1: 'Partenaire technique des municipalités',
+        line2: 'qui veulent un vrai changement, pas la polémique.',
+      },
+      offering: {
+        kicker: 'CE QUE NOUS OFFRONS',
+        subkicker: 'méthodologie en trois phases',
+      },
+      phases: {
+        diagnosis: {
+          role: 'L\'AUDIT',
+          title: 'Diagnostic.',
+          duration: '4–6 SEMAINES',
+          desc: 'Audit basé sur des données ouvertes concernant écoles, parcs, trafic et sécurité. Nous apportons les chiffres absents du débat public. Livrable : rapport de diagnostic confidentiel.',
+        },
+        proposal: {
+          role: 'LA STRATÉGIE',
+          title: 'Proposition.',
+          duration: '6–8 SEMAINES',
+          desc: 'Plan technique basé sur des référentiels validés (CROW, NACTO, ITDP), adapté à la réalité spécifique de la municipalité. Livrable : proposition prête à mettre en œuvre avec estimation budgétaire.',
+        },
+        execution: {
+          role: 'L\'EXÉCUTION',
+          title: 'Suivi.',
+          duration: '12 MOIS',
+          desc: 'Soutien continu pendant le déploiement. Mesure mensuelle de l\'impact par rapport aux KPI convenus. Ajustements basés sur des données réelles, pas sur des suppositions. Livrable : rapports trimestriels et document final de résultats.',
+        },
+      },
+      partner: {
+        kicker: 'DÉJÀ EN PARTENARIAT AVEC',
+        name: 'Matosinhos',
+        tag: 'MUNICIPALITÉ PARTENAIRE',
+        // ⚠️ TODO — Replace with real factual description (1-2 sentences, including start date and measurable outcome). Update in ALL 4 LANGUAGES.
+        description: 'En collaboration avec la Municipalité de Matosinhos depuis [date], [description factuelle du travail réalisé et statut actuel ou résultat mesurable].',
+        docLink: 'VOIR LA DOCUMENTATION PUBLIQUE →',
+      },
+      team: {
+        kicker: 'L\'ÉQUIPE',
+        headline: 'Équipe multidisciplinaire avec collaboration académique.',
+        // ⚠️ TODO — Refine wording before launch only if specific universities (FEUP, ISCTE, etc.) are confirmed in writing. Update in ALL 4 LANGUAGES.
+        description: 'Bicis Sapiens rassemble des professionnels de l\'ingénierie du trafic, de l\'urbanisme, de la science des données et de la gestion publique. Nous collaborons avec des unités académiques portugaises centrées sur la mobilité active et la planification urbaine durable.',
+      },
+      cta: {
+        primary: 'Planifier une réunion confidentielle →',
+        secondary: 'OU TÉLÉCHARGE LA MÉTHODOLOGIE (PDF, 8 PAGES) →',
+        trust: 'RÉPONSE SOUS 48 HEURES · CONFIDENTIALITÉ GARANTIE',
+      },
     },
     about: {
       title: 'À Propos',
