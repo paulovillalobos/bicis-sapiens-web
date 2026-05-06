@@ -516,13 +516,28 @@
   max-width: 18ch;
 }
 
-/* Highlighted keyword: solid EU-blue marker, italic yellow type. */
+/* Highlighted keyword: EU-blue marker behind italic yellow type.
+   The bg is a linear-gradient with transparent stops at the top and
+   bottom of the inline-box so the blue band is shorter than the
+   element's intrinsic ascender/descender extent. Without this, on a
+   tight display line-height the bg of an <em> on line N visually
+   crashes the descenders of line N-1 (Playfair has tall ascenders +
+   diacritic clearance, so the inline-box is ~118% of the em even when
+   the visible letterforms only fill ~80%). */
 .bs-principle-mega em,
 .bs-principle-mega i {
   font-style: italic;
   font-weight: 900;
   color: #FFD60A;
-  background: #003399;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 14%,
+    #003399 14%,
+    #003399 96%,
+    transparent 96%,
+    transparent 100%
+  );
   padding: 0 0.15em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
