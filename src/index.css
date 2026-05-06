@@ -226,3 +226,204 @@
 .scroll-indicator {
   animation: scrollPulse 2s ease-in-out infinite;
 }
+
+/* =========================================================================
+   HERO — full-bleed bridge image + institutional overlay + ticker
+   ========================================================================= */
+.bs-hero {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 96px 32px 96px;
+  background: #0A0A0A;
+}
+@media (min-width: 768px) {
+  .bs-hero {
+    padding: 0 48px;
+  }
+}
+
+.bs-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.bs-hero-bg picture,
+.bs-hero-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.bs-hero-bg img {
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Desktop overlay: horizontal gradient, dark on left where text lives */
+.bs-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(10, 10, 10, 0.92) 0%,
+    rgba(10, 10, 10, 0.72) 38%,
+    rgba(10, 10, 10, 0.36) 70%,
+    rgba(10, 10, 10, 0.12) 100%
+  );
+}
+/* Mobile overlay: vertical, top is darker so text reads, bottom shows photo */
+@media (max-width: 768px) {
+  .bs-hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(10, 10, 10, 0.9) 0%,
+      rgba(10, 10, 10, 0.7) 50%,
+      rgba(10, 10, 10, 0.55) 100%
+    );
+  }
+}
+
+.bs-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  width: 100%;
+}
+
+.bs-hero-counter,
+.bs-hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: #FFD60A;
+  text-transform: uppercase;
+  margin: 0;
+}
+.bs-hero-counter {
+  margin-bottom: 8px;
+}
+.bs-hero-eyebrow {
+  margin-bottom: 32px;
+}
+
+.bs-hero-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(48px, 9vw, 144px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #FAFAF7;
+  margin: 0 0 32px;
+}
+
+/* Override global `h1 em` (italic+EU-blue+900) with hero-specific yellow outline */
+.bs-hero-title em {
+  font-style: italic;
+  color: transparent;
+  font-weight: 900;
+  -webkit-text-stroke: 2px #FFD60A;
+  text-stroke: 2px #FFD60A;
+  paint-order: stroke;
+}
+
+.bs-hero-lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 2vw, 22px);
+  color: rgba(250, 250, 247, 0.85);
+  max-width: 540px;
+  line-height: 1.4;
+  margin: 0 0 48px;
+}
+
+.bs-hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.bs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 28px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 250ms ease, color 250ms ease, transform 250ms ease, border-color 250ms ease;
+  border-radius: 0;
+}
+.bs-btn-primary {
+  background: #003399;
+  color: #FFD60A;
+}
+.bs-btn-primary:hover {
+  background: #002266;
+  transform: translateY(-2px);
+}
+.bs-btn-secondary {
+  background: transparent;
+  color: #FAFAF7;
+  border: 1px solid rgba(255, 255, 255, 0.30);
+}
+.bs-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #FFD60A;
+}
+
+/* Ticker — fixed-height EU-blue strip at bottom of hero */
+.bs-hero-ticker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: #003399;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+.bs-ticker-track {
+  display: flex;
+  white-space: nowrap;
+  animation: bs-ticker 60s linear infinite;
+  will-change: transform;
+}
+.bs-ticker-item {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: #FFD60A;
+  text-transform: uppercase;
+  padding-right: 32px;
+}
+@keyframes bs-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Hero entry stagger — counter → eyebrow → title → lead → cta */
+.bs-hero-content > * {
+  opacity: 0;
+  animation: bs-hero-fade-up 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.bs-hero-counter { animation-delay: 0ms; }
+.bs-hero-eyebrow { animation-delay: 200ms; }
+.bs-hero-title   { animation-delay: 400ms; }
+.bs-hero-lead    { animation-delay: 800ms; }
+.bs-hero-cta     { animation-delay: 1100ms; }
+
+@keyframes bs-hero-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
