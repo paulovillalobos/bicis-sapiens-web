@@ -147,6 +147,23 @@ const translations = {
       joinCta: 'Junta-te a um comboio existente',
       routes: 'rotas',
       families: 'famílias',
+      kicker: '§04 / 13 — Comboios de Bicicletas',
+      headline: { prefix: 'Onde já', accent: 'andamos.' },
+      tagline: {
+        line1: 'Cidades onde existe um comboio.',
+        line2: 'E aquelas onde devíamos aprender.',
+      },
+      aggregate: '{0} rotas · {1} famílias em {2} cidades portuguesas',
+      sede: 'Sede',
+      countries: { NL: 'Países Baixos', ES: 'Espanha' },
+      quotes: {
+        amsterdam: 'Stop de Kindermoord começou aqui em 1973.',
+        barcelona: 'Bicibús de Sarrià: 350 crianças todas as sextas.',
+      },
+      cta: {
+        primary: 'Junta-te a um comboio existente',
+        secondary: 'Cria um comboio na tua escola',
+      },
     },
     app: {
       title: 'A App — Em Breve',
@@ -356,6 +373,23 @@ const translations = {
       joinCta: 'Join an existing bike bus',
       routes: 'routes',
       families: 'families',
+      kicker: '§04 / 13 — Bike Trains',
+      headline: { prefix: 'Where we already', accent: 'ride.' },
+      tagline: {
+        line1: 'Cities where a bike train exists.',
+        line2: 'And those we should learn from.',
+      },
+      aggregate: '{0} routes · {1} families across {2} Portuguese cities',
+      sede: 'HQ',
+      countries: { NL: 'Netherlands', ES: 'Spain' },
+      quotes: {
+        amsterdam: 'Stop de Kindermoord began here in 1973.',
+        barcelona: 'Bicibús de Sarrià: 350 children every Friday.',
+      },
+      cta: {
+        primary: 'Join an existing train',
+        secondary: 'Start one at your school',
+      },
     },
     app: {
       title: 'The App — Coming Soon',
@@ -565,6 +599,23 @@ const translations = {
       joinCta: 'Únete a un bici bus existente',
       routes: 'rutas',
       families: 'familias',
+      kicker: '§04 / 13 — Trenes de Bicis',
+      headline: { prefix: 'Donde ya', accent: 'pedaleamos.' },
+      tagline: {
+        line1: 'Ciudades donde existe un tren de bicis.',
+        line2: 'Y aquellas de las que debemos aprender.',
+      },
+      aggregate: '{0} rutas · {1} familias en {2} ciudades portuguesas',
+      sede: 'Sede',
+      countries: { NL: 'Países Bajos', ES: 'España' },
+      quotes: {
+        amsterdam: 'Stop de Kindermoord empezó aquí en 1973.',
+        barcelona: 'Bicibús de Sarrià: 350 niños cada viernes.',
+      },
+      cta: {
+        primary: 'Únete a un tren existente',
+        secondary: 'Crea uno en tu escuela',
+      },
     },
     app: {
       title: 'La App — Próximamente',
@@ -774,6 +825,23 @@ const translations = {
       joinCta: 'Rejoins un vélo bus existant',
       routes: 'itinéraires',
       families: 'familles',
+      kicker: '§04 / 13 — Vélobus',
+      headline: { prefix: 'Où nous roulons', accent: 'déjà.' },
+      tagline: {
+        line1: 'Villes où un vélobus existe.',
+        line2: 'Et celles dont nous devons apprendre.',
+      },
+      aggregate: '{0} itinéraires · {1} familles dans {2} villes portugaises',
+      sede: 'Siège',
+      countries: { NL: 'Pays-Bas', ES: 'Espagne' },
+      quotes: {
+        amsterdam: 'Stop de Kindermoord a commencé ici en 1973.',
+        barcelona: 'Bicibús de Sarrià : 350 enfants chaque vendredi.',
+      },
+      cta: {
+        primary: 'Rejoindre un vélobus existant',
+        secondary: 'Créer un vélobus à l\'école',
+      },
     },
     app: {
       title: 'L\'App — Bientôt',
