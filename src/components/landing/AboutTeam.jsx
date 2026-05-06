@@ -1,7 +1,7 @@
 import React from 'react';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
-import { User, Briefcase } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 
 const advisors = [
   { name: 'Dr. Ana Mendes',     role: 'Urbanista',          org: 'FEUP' },
@@ -29,13 +29,16 @@ export default function AboutTeam() {
         {/* Founder — featured cream card */}
         <div className="grid lg:grid-cols-3 gap-px bg-border mb-20">
           <div className="lg:col-span-1 bg-bone p-8 sm:p-10 flex items-center justify-center">
-            <div className="aspect-[3/4] w-full bg-primary flex items-center justify-center">
-              <div className="text-center">
-                <User className="w-16 h-16 text-bone/70 mx-auto" />
-                <p className="mt-3 font-mono text-[9px] uppercase tracking-widest text-bone/55">
-                  Foto de perfil
-                </p>
-              </div>
+            <div className="aspect-[3/4] w-full overflow-hidden">
+              <img
+                src="/images/ricardo-villalobos.webp"
+                alt="Ricardo Villalobos — Fundador de Bicis Sapiens"
+                width="1128"
+                height="1400"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
           <div className="lg:col-span-2 relative bg-bone text-obsidian p-8 sm:p-12 pl-9 sm:pl-14 flex flex-col justify-center">
