@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/landing/Navbar';
 import Hero from '@/components/landing/Hero';
+import Interstitial from '@/components/landing/Interstitial';
 import Manifesto from '@/components/landing/Manifesto';
 import DataDashboard from '@/components/landing/DataDashboard';
 import Solution3Cs from '@/components/landing/Solution3Cs';
@@ -24,6 +25,7 @@ function LandingContent() {
     <div className="font-body min-h-screen bg-background text-foreground">
       <Navbar onJoinClick={openJoin} />
       <Hero onJoinClick={openJoin} />
+      <Interstitial />
       <Manifesto />
       <DataDashboard />
       <Solution3Cs />

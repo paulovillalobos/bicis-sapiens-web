@@ -14,6 +14,12 @@ const translations = {
       scroll: 'Descobre mais',
       ticker: 'BICIS SAPIENS · MOVIMENTO CÍVICO · PORTO · MMXXVI · 100% CICLÁVEL · SEM OBRAS · COM PESSOAS · ',
     },
+    interstitial: {
+      eyebrow: 'Uma pausa',
+      title: 'Esta informação é para todos.',
+      subtitle: 'Para entendermos juntos. Para imaginarmos juntos. Para decidirmos juntos.',
+      hint: 'Boa viagem',
+    },
     manifesto: {
       title: 'Manifesto',
       beliefs: [
@@ -166,6 +172,12 @@ const translations = {
       ctaSecondary: 'See the data',
       scroll: 'Discover more',
       ticker: 'BICIS SAPIENS · CIVIC MOVEMENT · PORTO · MMXXVI · 100% CYCLABLE · NO INFRASTRUCTURE · WITH PEOPLE · ',
+    },
+    interstitial: {
+      eyebrow: 'A pause',
+      title: 'This information is for all of us.',
+      subtitle: 'To understand together. To imagine together. To decide together.',
+      hint: 'Continue',
     },
     manifesto: {
       title: 'Manifesto',
@@ -320,6 +332,12 @@ const translations = {
       scroll: 'Descubre más',
       ticker: 'BICIS SAPIENS · MOVIMIENTO CÍVICO · PORTO · MMXXVI · 100% CICLABLE · SIN OBRAS · CON PERSONAS · ',
     },
+    interstitial: {
+      eyebrow: 'Una pausa',
+      title: 'Esta información es para todos.',
+      subtitle: 'Para entenderlo juntos. Para imaginarlo juntos. Para decidirlo juntos.',
+      hint: 'Buen viaje',
+    },
     manifesto: {
       title: 'Manifiesto',
       beliefs: [
@@ -472,6 +490,12 @@ const translations = {
       ctaSecondary: 'Voir les données',
       scroll: 'Découvrir plus',
       ticker: 'BICIS SAPIENS · MOUVEMENT CIVIQUE · PORTO · MMXXVI · 100% CYCLABLE · SANS TRAVAUX · AVEC DES PERSONNES · ',
+    },
+    interstitial: {
+      eyebrow: 'Une pause',
+      title: 'Cette information est pour tous.',
+      subtitle: 'Pour comprendre ensemble. Pour imaginer ensemble. Pour décider ensemble.',
+      hint: 'Bon voyage',
     },
     manifesto: {
       title: 'Manifeste',
