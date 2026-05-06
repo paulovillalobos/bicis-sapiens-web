@@ -750,3 +750,202 @@
     padding-top: 0;
   }
 }
+
+/* =========================================================================
+   DATA DASHBOARD — Issue 01 · Mobilidade
+   Premium feedback animations on city change. Bloomberg-terminal feel.
+   ========================================================================= */
+
+/* Top progress bar — fills 800ms when transitioning, then fades out */
+.bs-data {
+  position: relative;
+}
+.bs-data-progress {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: #d4a017;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+}
+.bs-data-progress.is-active {
+  animation: bs-data-progress-fill 0.9s ease-out 1 forwards;
+}
+@keyframes bs-data-progress-fill {
+  0%   { width: 0;    opacity: 1; }
+  85%  { width: 100%; opacity: 1; }
+  100% { width: 100%; opacity: 0; }
+}
+
+/* Bars — opacity dip during transition + smooth width animation */
+.bs-data-bar-fill {
+  transition: width 700ms cubic-bezier(0.16, 1, 0.3, 1),
+              background 300ms ease;
+  will-change: width;
+}
+.bs-data-bars {
+  transition: opacity 200ms ease-in-out;
+}
+.bs-data-bars.is-transitioning {
+  opacity: 0.2;
+}
+
+/* One-time shimmer across each bar when section enters viewport */
+.bs-data-bar-track {
+  overflow: hidden;
+}
+.bs-data-bar-track::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+.bs-data.visible .bs-data-bar-track::after {
+  animation: bs-data-shimmer 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s 1 both;
+}
+@keyframes bs-data-shimmer {
+  to { transform: translateX(100%); }
+}
+
+/* Element fade-in — runs on key change */
+.bs-data-fade-in {
+  animation: bs-data-fade-in 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes bs-data-fade-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Thesis paragraph — slide-up out, slide-down in (handled by key remount) */
+.bs-data-thesis {
+  animation: bs-data-thesis-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes bs-data-thesis-in {
+  0%   { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Inline delta flash — brief blue tint background on content change */
+.bs-data-delta {
+  animation: bs-data-delta-flash 700ms ease-out 1 both;
+  padding: 0 2px;
+  margin: 0 -2px;
+  border-radius: 2px;
+}
+@keyframes bs-data-delta-flash {
+  0%   { background-color: rgba(29, 78, 216, 0.18); }
+  100% { background-color: rgba(29, 78, 216, 0); }
+}
+
+/* City name underline that slides in from the left */
+.bs-data-city-name {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+.bs-data-city-name::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: rgba(29, 78, 216, 0.7);
+  transform-origin: left center;
+  animation: bs-data-underline-in 600ms cubic-bezier(0.16, 1, 0.3, 1) 100ms 1 both;
+}
+@keyframes bs-data-underline-in {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* OMS line — dot/arrow pulse */
+.bs-data-oms-line {
+  animation: bs-data-oms-pulse 3s ease-in-out infinite;
+}
+@keyframes bs-data-oms-pulse {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+
+/* Comparison pills — full active state with dot + glow + bounce */
+.bs-data-pill {
+  position: relative;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 280ms ease,
+    transform 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.bs-data-pill:hover {
+  border-color: rgba(29, 78, 216, 0.7);
+  background: rgba(29, 78, 216, 0.08);
+}
+.bs-data-pill:active {
+  transform: scale(0.95);
+}
+.bs-data-pill.is-active {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 20px rgba(29, 78, 216, 0.3);
+}
+.bs-data-pill.is-active:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+.bs-data-pill-dot {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d4a017;
+  box-shadow: 0 0 6px rgba(212, 160, 23, 0.6);
+  animation: bs-data-dot-pulse 1.6s ease-in-out infinite;
+}
+@keyframes bs-data-dot-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(0.92); }
+  50%      { opacity: 1;   transform: scale(1.15); }
+}
+
+/* Mobile — shorter durations, less waiting */
+@media (max-width: 768px) {
+  .bs-data-bar-fill         { transition-duration: 500ms; }
+  .bs-data-thesis           { animation-duration: 350ms; }
+  .bs-data-fade-in          { animation-duration: 300ms; }
+  .bs-data-delta            { animation-duration: 500ms; }
+  .bs-data-progress.is-active { animation-duration: 600ms; }
+}
+
+/* Reduced motion — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  .bs-data-bar-fill,
+  .bs-data-bars,
+  .bs-data-progress.is-active,
+  .bs-data-fade-in,
+  .bs-data-thesis,
+  .bs-data-delta,
+  .bs-data-city-name::after,
+  .bs-data-oms-line,
+  .bs-data-pill,
+  .bs-data-pill-dot,
+  .bs-data .bs-data-bar-track::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

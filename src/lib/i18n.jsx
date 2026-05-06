@@ -80,6 +80,7 @@ const translations = {
     },
     numbers: {
       kicker: 'Issue 01 · Mobilidade',
+      updating: 'atualizando dados…',
       headline: {
         line1: 'Os dados que faltam',
         line2_prefix: 'ao debate',
@@ -101,6 +102,8 @@ const translations = {
         label: 'm² verde / habitante',
         caption: 'por habitante',
         whoBelow: '% abaixo do mínimo OMS (9 m²)',
+        portoHas: 'Porto tem',
+        lessGreen: 'menos espaço verde',
       },
       metrics: {
         buses: 'Autocarros / 1k',
@@ -394,6 +397,7 @@ const translations = {
     },
     numbers: {
       kicker: 'Issue 01 · Mobility',
+      updating: 'updating data…',
       headline: {
         line1: 'The data missing',
         line2_prefix: 'from public',
@@ -415,6 +419,8 @@ const translations = {
         label: 'm² green / resident',
         caption: 'per resident',
         whoBelow: '% below WHO minimum (9 m²)',
+        portoHas: 'Porto has',
+        lessGreen: 'less green space',
       },
       metrics: {
         buses: 'Buses / 1k',
@@ -708,6 +714,7 @@ const translations = {
     },
     numbers: {
       kicker: 'Issue 01 · Movilidad',
+      updating: 'actualizando datos…',
       headline: {
         line1: 'Los datos que faltan',
         line2_prefix: 'al debate',
@@ -729,6 +736,8 @@ const translations = {
         label: 'm² verde / habitante',
         caption: 'por habitante',
         whoBelow: '% bajo el mínimo OMS (9 m²)',
+        portoHas: 'Oporto tiene',
+        lessGreen: 'menos espacio verde',
       },
       metrics: {
         buses: 'Autobuses / 1k',
@@ -1022,6 +1031,7 @@ const translations = {
     },
     numbers: {
       kicker: 'Issue 01 · Mobilité',
+      updating: 'mise à jour des données…',
       headline: {
         line1: 'Les données absentes',
         line2_prefix: 'du débat',
@@ -1043,6 +1053,8 @@ const translations = {
         label: 'm² vert / habitant',
         caption: 'par habitant',
         whoBelow: '% sous le minimum OMS (9 m²)',
+        portoHas: 'Porto a',
+        lessGreen: 'moins d\'espace vert',
       },
       metrics: {
         buses: 'Bus / 1k',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
 
@@ -15,64 +15,121 @@ const sources = {
   Paris:      'INSEE · RATP 2023',
   Copenhagen: 'DST · DOT 2023',
 };
-const SHORT_NAMES = {
-  Amsterdam:  'AMS',
-  Paris:      'PAR',
-  Copenhagen: 'CPH',
-};
+const SHORT_NAMES = { Amsterdam: 'AMS', Paris: 'PAR', Copenhagen: 'CPH' };
 
-// --- Theme tokens (this section only) ---
-const YELLOW   = '#d4a017';                  // kicker + "Porto worse" stat
-const BLUE     = '#1d4ed8';                  // deltas, primary bars, headline accent, active pill
-const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
-const HAIRLINE_SOFT = 'rgba(255, 255, 255, 0.08)';
-const SURFACE  = 'rgba(255, 255, 255, 0.04)';
+// --- Theme tokens ---
+const YELLOW         = '#d4a017';
+const BLUE           = '#1d4ed8';
+const CORAL          = '#b14545';   // Porto WORSE — burgundy/coral, fits palette
+const HAIRLINE       = 'rgba(255, 255, 255, 0.15)';
+const HAIRLINE_SOFT  = 'rgba(255, 255, 255, 0.08)';
+const SURFACE        = 'rgba(255, 255, 255, 0.04)';
 const SURFACE_BORDER = 'rgba(255, 255, 255, 0.10)';
 
-// --- Helpers (per spec) ---
-function computeDelta(portoVal, compareVal, inverse = false) {
-  if (!portoVal || !compareVal) return '—';
-  if (inverse) {
-    const pct = ((portoVal - compareVal) / compareVal) * 100;
-    return `${Math.round(pct)}%`;
+// --- Helpers ---
+function deltaPct(porto, compare, inverse = false) {
+  if (!porto || !compare) return null;
+  if (inverse) return Math.round(((porto - compare) / compare) * 100);
+  const ratio = compare / porto;
+  if (ratio >= 2) return ratio;       // returned as ratio (e.g. 2.8 means 2.8×)
+  return Math.round(((compare - porto) / compare) * 100);
+}
+function fmtDelta(d) {
+  if (d == null) return '—';
+  if (d >= 2) {
+    const f = d.toFixed(1);
+    return `${f.endsWith('.0') ? f.slice(0, -2) : f}×`;
   }
-  const ratio = compareVal / portoVal;
-  if (ratio >= 2) {
-    const fixed = ratio.toFixed(1);
-    return `${fixed.endsWith('.0') ? fixed.slice(0, -2) : fixed}×`;
-  }
-  const pct = ((compareVal - portoVal) / compareVal) * 100;
-  return `${Math.round(pct)}%`;
+  return `${d}%`;
 }
 
-function computeBarPair(portoVal, compareVal) {
-  const max = Math.max(portoVal, compareVal) || 1;
-  return {
-    portoPct:   (portoVal   / max) * 100,
-    comparePct: (compareVal / max) * 100,
-  };
+// betterIs: 'higher' (more = better) | 'lower' (less = better)
+function isPortoWorse(metric, porto, compare) {
+  const lowerIsBetter = metric === 'cars' || metric === 'commute';
+  return lowerIsBetter ? porto > compare : porto < compare;
 }
 
-function computeWhoDelta(portoGreenM2) {
-  return Math.round(((9 - portoGreenM2) / 9) * 100);
+function makeBars(porto, compare) {
+  const max = Math.max(porto, compare) || 1;
+  return { porto: (porto / max) * 100, compare: (compare / max) * 100 };
 }
 
-// Italic blue inline delta, used inside the thesis sentence.
-const Delta = ({ children }) => (
-  <span style={{ color: BLUE, fontStyle: 'italic' }} className="whitespace-nowrap">{children}</span>
+// --- Reduced-motion preference ---
+function prefersReducedMotion() {
+  if (typeof window === 'undefined' || !window.matchMedia) return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+// --- Custom count-up hook (no deps) ---
+// Animates `target` from the previously displayed value over `duration` ms.
+function useCountUp(target, duration = 800) {
+  const [display, setDisplay] = useState(target);
+  const fromRef = useRef(target);
+  const rafRef = useRef(0);
+  const startRef = useRef(0);
+
+  useEffect(() => {
+    if (prefersReducedMotion()) {
+      setDisplay(target);
+      return;
+    }
+    cancelAnimationFrame(rafRef.current);
+    fromRef.current = display;
+    startRef.current = performance.now();
+    const tick = (now) => {
+      const elapsed = now - startRef.current;
+      const t = Math.min(1, elapsed / duration);
+      const eased = 1 - Math.pow(1 - t, 3);   // cubic ease-out
+      setDisplay(fromRef.current + (target - fromRef.current) * eased);
+      if (t < 1) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target, duration]);
+
+  return display;
+}
+
+// Format a number to N decimals; integers render without decimal point.
+function fmtNum(value, decimals) {
+  if (decimals === 0) return Math.round(value).toString();
+  return value.toFixed(decimals);
+}
+
+// --- Atom: animated count-up text ---
+function CountUp({ value, decimals = 0, suffix = '' }) {
+  const animated = useCountUp(value, 800);
+  return <>{fmtNum(animated, decimals)}{suffix}</>;
+}
+
+// --- Atom: italic blue inline delta with brief flash on content change ---
+const Delta = ({ children, deps }) => (
+  <span
+    key={String(deps)}
+    className="bs-data-delta whitespace-nowrap"
+    style={{ color: BLUE, fontStyle: 'italic' }}
+  >
+    {children}
+  </span>
 );
 
-// One bar row inside a stat — track + fill + small uppercase label
-function BarRow({ pct, color, label, muted }) {
+// --- Atom: bar row (track + animated fill + label) ---
+function BarRow({ pct, color, label, muted, delayMs }) {
   return (
     <div className="flex items-center gap-2">
       <div
-        className="flex-1 relative"
+        className="bs-data-bar-track flex-1 relative"
         style={{ height: 4, background: 'rgba(255, 255, 255, 0.08)', borderRadius: 2 }}
       >
         <div
-          className="absolute left-0 top-0 h-full"
-          style={{ width: `${pct}%`, background: color, borderRadius: 2 }}
+          className="bs-data-bar-fill absolute left-0 top-0 h-full"
+          style={{
+            width: `${pct}%`,
+            background: color,
+            borderRadius: 2,
+            transitionDelay: `${delayMs}ms`,
+          }}
         />
       </div>
       <span
@@ -90,9 +147,14 @@ function BarRow({ pct, color, label, muted }) {
   );
 }
 
-function StatCell({ label, portoVal, compareVal, compareShort, compareName, isWarn }) {
-  const bars = computeBarPair(portoVal, compareVal);
-  const fillColor = isWarn ? YELLOW : BLUE;
+// --- Stat cell ---
+function StatCell({ label, metric, decimals, portoVal, compareVal, compareShort, compareName, staggerIndex, transitioning, displayedCity }) {
+  const bars = makeBars(portoVal, compareVal);
+  const portoWorse = isPortoWorse(metric, portoVal, compareVal);
+  const portoBarColor = portoWorse ? CORAL : BLUE;
+  const portoTextColor = portoWorse ? CORAL : '#fff';
+  const delayMs = staggerIndex * 80;
+
   return (
     <div
       className="p-5 sm:p-6"
@@ -106,25 +168,24 @@ function StatCell({ label, portoVal, compareVal, compareShort, compareName, isWa
       </p>
       <p
         className="font-data leading-none m-0 mb-4"
-        style={{
-          fontSize: 32,
-          fontWeight: 500,
-          color: isWarn ? YELLOW : '#fff',
-        }}
+        style={{ fontSize: 32, fontWeight: 500, color: portoTextColor }}
       >
         {portoVal}
       </p>
 
-      <div className="flex flex-col gap-1.5">
-        <BarRow pct={bars.portoPct}   color={fillColor}                   label="Porto"        muted={false} />
-        <BarRow pct={bars.comparePct} color="rgba(255, 255, 255, 0.4)"   label={compareShort} muted={true}  />
+      <div
+        className={`flex flex-col gap-1.5 bs-data-bars ${transitioning ? 'is-transitioning' : ''}`}
+      >
+        <BarRow pct={bars.porto}   color={portoBarColor}                 label="Porto"        muted={false} delayMs={delayMs} />
+        <BarRow pct={bars.compare} color="rgba(255, 255, 255, 0.4)"      label={compareShort} muted={true}  delayMs={delayMs} />
       </div>
 
       <p
-        className="m-0"
+        key={`${displayedCity}-${metric}`}
+        className="bs-data-fade-in m-0"
         style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: '0.5rem' }}
       >
-        {compareName}: {compareVal}
+        {compareName}: <CountUp value={compareVal} decimals={decimals} />
       </p>
     </div>
   );
@@ -135,50 +196,63 @@ function StatCell({ label, portoVal, compareVal, compareShort, compareName, isWa
 export default function DataDashboard() {
   const { t } = useI18n();
   const ref = useScrollReveal();
-  const [compareCity, setCompareCity] = useState('Amsterdam');
+
+  // Two-phase city change for dramatic feedback:
+  //   selectedCity → button highlight (immediate)
+  //   displayedCity → actual values (after 200ms fade dip)
+  const [selectedCity, setSelectedCity] = useState('Amsterdam');
+  const [displayedCity, setDisplayedCity] = useState('Amsterdam');
+  const transitioning = selectedCity !== displayedCity;
+
+  useEffect(() => {
+    if (selectedCity === displayedCity) return;
+    const id = setTimeout(() => setDisplayedCity(selectedCity), 200);
+    return () => clearTimeout(id);
+  }, [selectedCity, displayedCity]);
 
   const porto = cityData.Porto;
-  const compare = cityData[compareCity];
-  const compareShort = SHORT_NAMES[compareCity] || compareCity.slice(0, 3).toUpperCase();
+  const compare = cityData[displayedCity];
+  const compareShort = SHORT_NAMES[displayedCity] || displayedCity.slice(0, 3).toUpperCase();
 
-  // Deltas for the thesis (Porto WORSE on buses/green/metro vs all 3 cities)
-  const dBuses = computeDelta(porto.buses, compare.buses, false);
-  const dGreen = computeDelta(porto.green, compare.green, false);
-  const dMetro = computeDelta(porto.metro, compare.metro, false);
-  // Cars: Porto has MORE → inverse delta
-  const dCars  = computeDelta(porto.cars,  compare.cars,  true);
+  const dBuses = deltaPct(porto.buses, compare.buses, false);
+  const dGreen = deltaPct(porto.green, compare.green, false);
+  const dMetro = deltaPct(porto.metro, compare.metro, false);
+  const dCars  = deltaPct(porto.cars,  compare.cars,  true);
+  const whoDelta = Math.round(((9 - porto.green) / 9) * 100);
+  const greenRatio = (compare.green / porto.green).toFixed(1).replace(/\.0$/, '');
 
-  const whoDelta = computeWhoDelta(porto.green);
-
-  // Secondary stats config — cars is the "warn" stat
   const statsConfig = [
-    { metric: 'buses', label: t('numbers.metrics.buses'), portoVal: porto.buses, compareVal: compare.buses, isWarn: false },
-    { metric: 'metro', label: t('numbers.metrics.metro'), portoVal: porto.metro, compareVal: compare.metro, isWarn: false },
-    { metric: 'cars',  label: t('numbers.metrics.cars'),  portoVal: porto.cars,  compareVal: compare.cars,  isWarn: true  },
-    { metric: 'bikes', label: t('numbers.metrics.bikes'), portoVal: porto.bikes, compareVal: compare.bikes, isWarn: false },
+    { metric: 'buses', label: t('numbers.metrics.buses'), portoVal: porto.buses, compareVal: compare.buses, decimals: 1 },
+    { metric: 'metro', label: t('numbers.metrics.metro'), portoVal: porto.metro, compareVal: compare.metro, decimals: 1 },
+    { metric: 'cars',  label: t('numbers.metrics.cars'),  portoVal: porto.cars,  compareVal: compare.cars,  decimals: 2 },
+    { metric: 'bikes', label: t('numbers.metrics.bikes'), portoVal: porto.bikes, compareVal: compare.bikes, decimals: 2 },
   ];
 
   return (
     <section
       id="data"
       ref={ref}
-      className="reveal-section"
+      className="reveal-section bs-data"
       style={{ background: '#0a0a0a', color: '#fff' }}
     >
+      {/* Top progress bar — yellow line that fills 800ms when city changes */}
+      <div className={`bs-data-progress ${transitioning ? 'is-active' : ''}`} aria-hidden="true" />
+
       <div className="max-w-[1100px] mx-auto px-6 sm:px-8 py-20 sm:py-24">
 
-        {/* KICKER — yellow line + label */}
+        {/* KICKER — swaps to 'Atualizando dados...' during transition */}
         <div className="flex items-center gap-3 mb-6">
           <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
           <span
-            className="font-mono uppercase font-medium m-0"
+            key={transitioning ? 'updating' : 'kicker'}
+            className="bs-data-fade-in font-mono uppercase font-medium m-0"
             style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
           >
-            {t('numbers.kicker')}
+            {transitioning ? t('numbers.updating') : t('numbers.kicker')}
           </span>
         </div>
 
-        {/* HEADER — headline (with italic blue accent) + city pills */}
+        {/* HEADER — headline + comparison pills */}
         <header
           className="flex justify-between items-end gap-8 flex-wrap pb-6 mb-10"
           style={{ borderBottom: `0.5px solid ${HAIRLINE}` }}
@@ -203,30 +277,20 @@ export default function DataDashboard() {
               {t('numbers.compareWith')}
             </span>
             {['Amsterdam', 'Paris', 'Copenhagen'].map((city) => {
-              const active = compareCity === city;
+              const active = selectedCity === city;
               return (
                 <button
                   key={city}
-                  onClick={() => setCompareCity(city)}
-                  className="font-mono uppercase transition-colors"
+                  onClick={() => setSelectedCity(city)}
+                  className={`bs-data-pill font-mono uppercase ${active ? 'is-active' : ''}`}
                   style={{
-                    padding: '6px 14px',
-                    borderRadius: 8,
                     fontSize: 11,
                     letterSpacing: '0.1em',
-                    background: active ? BLUE : 'transparent',
-                    border: `0.5px solid ${active ? BLUE : 'rgba(255,255,255,0.2)'}`,
                     color: '#fff',
-                    cursor: 'pointer',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!active) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!active) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
                   }}
                 >
                   {city}
+                  {active && <span className="bs-data-pill-dot" aria-hidden="true" />}
                 </button>
               );
             })}
@@ -236,8 +300,8 @@ export default function DataDashboard() {
         {/* HERO ROW: thesis (1.5fr) + green-space card (1fr) */}
         <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-12 mb-12 items-start">
 
-          {/* THESIS */}
-          <div>
+          {/* THESIS — fully re-mounts on city change for fade+slide animation */}
+          <div key={`thesis-${displayedCity}`} className="bs-data-thesis">
             <p
               className="font-mono uppercase m-0 mb-4"
               style={{ fontSize: 11, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.4)' }}
@@ -249,24 +313,25 @@ export default function DataDashboard() {
               style={{ fontSize: 'clamp(20px, 2.4vw, 26px)', color: '#fff' }}
             >
               {t('numbers.thesis.prefix')}{' '}
-              <Delta>{dBuses}</Delta>{' '}
+              <Delta deps={`${displayedCity}-buses`}>{fmtDelta(dBuses)}</Delta>{' '}
               {t('numbers.thesis.buses')}{' '}
-              <Delta>{dGreen}</Delta>{' '}
+              <Delta deps={`${displayedCity}-green`}>{fmtDelta(dGreen)}</Delta>{' '}
               {t('numbers.thesis.green')}{' '}
-              <Delta>{dMetro}</Delta>{' '}
-              {t('numbers.thesis.metro')} {compareCity}.
+              <Delta deps={`${displayedCity}-metro`}>{fmtDelta(dMetro)}</Delta>{' '}
+              {t('numbers.thesis.metro')}{' '}
+              <span className="bs-data-city-name">{displayedCity}</span>.
             </p>
             <p
               className="m-0 leading-relaxed"
               style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}
             >
               {t('numbers.context.prefix')}{' '}
-              <Delta>{dCars}</Delta>{' '}
+              <Delta deps={`${displayedCity}-cars`}>{fmtDelta(dCars)}</Delta>{' '}
               {t('numbers.context.suffix')}
             </p>
           </div>
 
-          {/* HERO STAT CARD — green space + WHO benchmark */}
+          {/* HERO STAT CARD — green space + WHO benchmark + comparison line */}
           <div
             className="p-6 sm:p-7"
             style={{ background: SURFACE, border: `0.5px solid ${SURFACE_BORDER}`, borderRadius: 12 }}
@@ -287,16 +352,30 @@ export default function DataDashboard() {
             <p className="m-0 mt-2" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>
               {t('numbers.greenSpace.caption')}
             </p>
+            <p className="bs-data-oms-line m-0 mt-2" style={{ fontSize: 13, color: YELLOW }}>
+              <span className="bs-data-oms-arrow" aria-hidden="true">↓ </span>
+              {whoDelta}{t('numbers.greenSpace.whoBelow')}
+            </p>
+            {/* Always-on comparison line — slides in with the displayed city */}
             <p
-              className="m-0 mt-2"
-              style={{ fontSize: 13, color: YELLOW }}
+              key={`gcompare-${displayedCity}`}
+              className="bs-data-fade-in m-0 mt-3 pt-3"
+              style={{
+                fontSize: 12,
+                color: 'rgba(255,255,255,0.55)',
+                borderTop: `0.5px solid ${HAIRLINE_SOFT}`,
+              }}
             >
-              ↓ {whoDelta}{t('numbers.greenSpace.whoBelow')}
+              vs {displayedCity}: <CountUp value={compare.green} decimals={1} suffix="m²" />
+              {' — '}
+              {t('numbers.greenSpace.portoHas')}{' '}
+              <span style={{ color: BLUE, fontStyle: 'italic' }}>{greenRatio}×</span>{' '}
+              {t('numbers.greenSpace.lessGreen')}
             </p>
           </div>
         </div>
 
-        {/* SECONDARY STATS — 4 cells, double parallel bars per cell */}
+        {/* SECONDARY STATS — 4 cells with staggered bar animation */}
         <div
           className="grid grid-cols-2 lg:grid-cols-4"
           style={{
@@ -305,42 +384,41 @@ export default function DataDashboard() {
           }}
         >
           {statsConfig.map((stat, i) => {
-            // Hide right-border on the last cell of each row (responsive)
             const isLastDesktop = (i + 1) % 4 === 0;
-            const isLastMobile  = (i + 1) % 2 === 0;
             const firstRowMobile = i < 2;
             return (
               <div
                 key={stat.metric}
                 style={{
-                  borderRight: isLastDesktop
-                    ? 'none'
-                    : (isLastMobile
-                      ? `0.5px solid ${HAIRLINE_SOFT}`
-                      : `0.5px solid ${HAIRLINE_SOFT}`),
+                  borderRight: isLastDesktop ? 'none' : `0.5px solid ${HAIRLINE_SOFT}`,
                   borderBottom: firstRowMobile ? `0.5px solid ${HAIRLINE_SOFT}` : 'none',
                 }}
                 className="lg:!border-b-0"
               >
                 <StatCell
                   label={stat.label}
+                  metric={stat.metric}
+                  decimals={stat.decimals}
                   portoVal={stat.portoVal}
                   compareVal={stat.compareVal}
                   compareShort={compareShort}
-                  compareName={compareCity}
-                  isWarn={stat.isWarn}
+                  compareName={displayedCity}
+                  staggerIndex={i}
+                  transitioning={transitioning}
+                  displayedCity={displayedCity}
                 />
               </div>
             );
           })}
         </div>
 
-        {/* SOURCES */}
+        {/* SOURCES — keyed cross-fade */}
         <p
-          className="font-mono uppercase m-0 mt-6"
+          key={`sources-${displayedCity}`}
+          className="bs-data-fade-in font-mono uppercase m-0 mt-6"
           style={{ fontSize: 10, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.3)' }}
         >
-          {t('data.source')}: {sources.Porto} / {sources[compareCity]}
+          {t('data.source')}: {sources.Porto} / {sources[displayedCity]}
         </p>
 
       </div>
