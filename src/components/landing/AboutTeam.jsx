@@ -1,104 +1,269 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
-import { Briefcase } from 'lucide-react';
 
-const advisors = [
-  { name: 'Dr. Ana Mendes',     role: 'Urbanista',          org: 'FEUP' },
-  { name: 'Dr. João Pereira',   role: 'Pediatra',           org: 'Hospital São João' },
-  { name: 'Eng. Sofia Costa',   role: 'Eng. de Transportes', org: 'LNEC' },
-  { name: 'Prof. Miguel Santos', role: 'Sociologia Urbana', org: 'UP' },
+// ⚠️ ADVISOR REGISTRY — TO ADD A NEW ADVISOR:
+//   1. Drop a B&W portrait at /public/team/{slug}.jpg
+//   2. Append { slug, initial, hasPhoto: true } here
+//   3. Add about.advisors.{slug} block to all 4 i18n locales
+//
+// hasPhoto controls whether we render an <img> or the initial fallback.
+// Set to false until the file exists — avoids a 404 in the network panel.
+const ADVISORS = [
+  { slug: 'paulo', initial: 'P', hasPhoto: false },
 ];
+const ADVISOR_GRID_COLS = 4;
+
+// --- Atoms -----------------------------------------------------------------
+
+function AdvisorCell({ slug, initial, hasPhoto, role, name, desc }) {
+  const [photoFailed, setPhotoFailed] = useState(false);
+  const showInitial = !hasPhoto || photoFailed;
+
+  return (
+    <div>
+      <div
+        className="aspect-square w-full flex items-center justify-center overflow-hidden bg-white/[0.04]"
+        style={{ border: '0.5px solid rgba(255,255,255,0.10)' }}
+      >
+        {!showInitial && (
+          <img
+            src={`/team/${slug}.jpg`}
+            alt={name}
+            loading="lazy"
+            decoding="async"
+            onError={() => setPhotoFailed(true)}
+            className="w-full h-full object-cover"
+            style={{ filter: 'grayscale(1)' }}
+          />
+        )}
+        {showInitial && (
+          <span
+            aria-hidden="true"
+            className="font-data leading-none"
+            style={{ fontSize: 64, fontWeight: 400, color: 'rgba(255,255,255,0.3)' }}
+          >
+            {initial}
+          </span>
+        )}
+      </div>
+      <p
+        className="font-mono uppercase font-medium m-0 mt-4"
+        style={{ fontSize: 10, letterSpacing: '0.3em', color: '#d4a017' }}
+      >
+        {role}
+      </p>
+      <h4
+        className="font-data leading-tight font-normal text-white m-0 mt-1"
+        style={{ fontSize: 20 }}
+      >
+        {name}
+      </h4>
+      <p
+        className="m-0 mt-2 max-w-prose"
+        style={{ fontSize: 12, lineHeight: 1.5, color: 'rgba(255,255,255,0.7)' }}
+      >
+        {desc}
+      </p>
+    </div>
+  );
+}
+
+// --- Section ---------------------------------------------------------------
 
 export default function AboutTeam() {
   const { t } = useI18n();
   const ref = useScrollReveal();
+  const emptyCells = Math.max(0, ADVISOR_GRID_COLS - ADVISORS.length);
 
   return (
-    <section id="about" ref={ref} className="reveal-section py-24 sm:py-32 bg-background text-foreground">
+    <section
+      id="about"
+      ref={ref}
+      className="reveal-section bg-background py-24 sm:py-32"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-16">
-          <span className="font-mono text-xs tracking-widest uppercase text-accent">
-            11 / 13 · {t('about.title')}
+
+        {/* 1 · KICKER */}
+        <div className="flex items-center gap-3 mb-10">
+          <span aria-hidden="true" className="block w-8 h-px" style={{ background: '#d4a017' }} />
+          <span
+            className="font-mono uppercase font-medium"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+          >
+            {t('about.kicker')}
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-4 tracking-tightest max-w-3xl">
-            {t('about.title')}
-          </h2>
         </div>
 
-        {/* Founder — featured cream card */}
-        <div className="grid lg:grid-cols-3 gap-px bg-border mb-20">
-          <div className="lg:col-span-1 bg-bone p-8 sm:p-10 flex items-center justify-center">
-            <div className="aspect-[3/4] w-full overflow-hidden">
-              <img
-                src="/images/ricardo-villalobos.webp"
-                alt="Ricardo Villalobos — Fundador de Bicis Sapiens"
-                width="1128"
-                height="1400"
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-cover"
-              />
+        {/* 2 · HEADER */}
+        <div className="grid lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-end mb-6">
+          <h2
+            className="font-data leading-[1.05] font-normal text-white max-w-2xl m-0"
+            style={{ fontSize: 'clamp(32px, 4.5vw, 48px)' }}
+          >
+            {t('about.headline.pre')}
+            <em className="italic font-normal" style={{ color: '#1d4ed8' }}>
+              {t('about.headline.accent')}
+            </em>
+            {t('about.headline.post')}
+          </h2>
+          <p
+            className="font-data italic m-0"
+            style={{ fontSize: 17, lineHeight: 1.6, color: 'rgba(255,255,255,0.7)' }}
+          >
+            {t('about.taglineLine1')}<br />
+            {t('about.taglineLine2')}
+          </p>
+        </div>
+        <div className="border-t border-white/15 mb-16" />
+
+        {/* 3 · FOUNDER BLOCK — portrait + bio, both on solid black */}
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center mb-24">
+
+          {/* LEFT — portrait, no frame, no border, no shadow */}
+          <div className="max-w-[360px] mx-auto lg:max-w-none lg:mx-0 w-full">
+            <img
+              src="/images/ricardo-villalobos.webp"
+              alt="Ricardo Villalobos"
+              width="1128"
+              height="1400"
+              loading="lazy"
+              decoding="async"
+              className="block w-full"
+            />
+            <p
+              className="font-mono uppercase m-0 mt-3"
+              style={{ fontSize: 11, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)' }}
+            >
+              {t('about.founder.photoCaption')}
+            </p>
+          </div>
+
+          {/* RIGHT — bio */}
+          <div>
+            <p
+              className="font-mono uppercase font-medium m-0 mb-3"
+              style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+            >
+              {t('about.founder.role')}
+            </p>
+            <h3
+              className="font-data leading-[1.05] font-normal text-white m-0 mb-3"
+              style={{ fontSize: 'clamp(32px, 4vw, 44px)' }}
+            >
+              {t('about.founder.name')}
+            </h3>
+            <p
+              className="font-mono uppercase m-0 mb-8"
+              style={{ fontSize: 13, letterSpacing: '0.15em', color: '#1d4ed8' }}
+            >
+              {t('about.founder.epithet')}
+            </p>
+
+            {/* Pull quote — same treatment as §03 */}
+            <blockquote
+              className="font-data italic font-normal m-0 mb-8 pl-5"
+              style={{
+                fontSize: 24,
+                lineHeight: 1.3,
+                color: '#1d4ed8',
+                borderLeft: '2px solid #1d4ed8',
+              }}
+            >
+              {t('about.founder.pullQuote')}
+            </blockquote>
+
+            {/* Bio narrative — REVIEW WITH RICARDO BEFORE LAUNCH */}
+            <div className="flex flex-col gap-4 max-w-prose">
+              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+                {t('about.founder.bio.paragraph1')}
+              </p>
+              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+                {t('about.founder.bio.paragraph2')}
+              </p>
+              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+                {t('about.founder.bio.paragraph3')}
+              </p>
+            </div>
+
+            {/* Metadata footer — ⚠️ PLACEHOLDERS, RICARDO TO FILL:
+                  - sinceValue: real year of arrival in Porto
+                  - beforeValue: 1-3 word professional context
+                If preferred, drop the [year] / [context] entries entirely
+                and keep only Origem · México · Base · Porto. */}
+            <div
+              className="mt-8 pt-6 border-t border-white/15 flex flex-wrap gap-x-6 gap-y-2 font-mono uppercase"
+              style={{ fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}
+            >
+              <span>
+                {t('about.founder.metadata.originLabel')}{' · '}
+                <span style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  {t('about.founder.metadata.originValue')}
+                </span>
+              </span>
+              <span>
+                {t('about.founder.metadata.sinceLabel')}{' · '}
+                <span style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  {t('about.founder.metadata.sinceValue')}
+                </span>
+              </span>
+              <span>
+                {t('about.founder.metadata.beforeLabel')}{' · '}
+                <span style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  {t('about.founder.metadata.beforeValue')}
+                </span>
+              </span>
             </div>
           </div>
-          <div className="lg:col-span-2 relative bg-bone text-obsidian p-8 sm:p-12 pl-9 sm:pl-14 flex flex-col justify-center">
-            <span aria-hidden="true" className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
-            <p className="font-mono text-[10px] uppercase tracking-widest text-obsidian/55 mb-4">
-              Fundador
-            </p>
-            <h3 className="font-display text-3xl sm:text-4xl font-black tracking-tightest text-obsidian">
-              Ricardo Villalobos
-            </h3>
-            <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-primary">
-              {t('about.founderRole')}
-            </p>
-            <p className="mt-6 text-obsidian/70 leading-relaxed max-w-2xl font-body">
-              {t('about.founderBio')}
-            </p>
-          </div>
         </div>
 
-        {/* Advisors */}
-        <div className="mb-20">
-          <div className="flex items-center gap-2 mb-6">
-            <Briefcase className="w-4 h-4 text-foreground/55" />
-            <h3 className="font-mono text-[10px] uppercase tracking-widest text-foreground/55">
-              {t('about.advisors')}
-            </h3>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
-            {advisors.map((advisor, i) => (
-              <div key={i} className="bg-bone text-obsidian p-6 sm:p-7">
-                <div className="w-10 h-10 bg-primary/10 grid place-items-center mb-6">
-                  <Briefcase className="w-4 h-4 text-primary" />
-                </div>
-                <p className="font-mono text-[9px] uppercase tracking-widest text-obsidian/45 mb-2">
-                  {advisor.org}
-                </p>
-                <h4 className="font-display text-lg font-black tracking-tightest text-obsidian leading-snug">
-                  {advisor.name}
-                </h4>
-                <p className="text-sm text-obsidian/60 mt-1">{advisor.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Allies */}
+        {/* 4 · ADVISORS — single advisor + intentional empty space */}
         <div>
-          <h3 className="font-mono text-[10px] uppercase tracking-widest text-foreground/55 mb-6">
-            {t('about.allies')}
+          <div className="flex items-center gap-3 mb-3">
+            <span aria-hidden="true" className="block w-8 h-px" style={{ background: '#d4a017' }} />
+            <span
+              className="font-mono uppercase font-medium"
+              style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+            >
+              {t('about.advisors.kicker')}
+            </span>
+          </div>
+          <h3
+            className="font-data leading-tight font-normal text-white m-0 mb-6"
+            style={{ fontSize: 'clamp(22px, 2.6vw, 28px)' }}
+          >
+            {t('about.advisors.headline')}
           </h3>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-px bg-border">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="aspect-[3/2] bg-bone flex items-center justify-center">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-obsidian/30">
-                  Logo {i + 1}
-                </span>
-              </div>
+          <div className="border-t border-white/15 mb-10" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {ADVISORS.map((adv) => (
+              <AdvisorCell
+                key={adv.slug}
+                slug={adv.slug}
+                initial={adv.initial}
+                hasPhoto={adv.hasPhoto}
+                role={t(`about.advisors.${adv.slug}.role`)}
+                name={t(`about.advisors.${adv.slug}.name`)}
+                desc={t(`about.advisors.${adv.slug}.desc`)}
+              />
+            ))}
+            {/* Intentional empty grid cells. No border, no bg, no '+ Add'.
+                Communicates 'there's room for more' without faking presence.
+                Hidden on mobile so the single column doesn't have huge gaps. */}
+            {Array.from({ length: emptyCells }).map((_, i) => (
+              <div key={`empty-${i}`} aria-hidden="true" className="hidden lg:block" />
             ))}
           </div>
+
+          <p
+            className="mt-6 text-right font-mono uppercase m-0"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)' }}
+          >
+            {t('about.advisors.growing')}
+          </p>
         </div>
+
       </div>
     </section>
   );
