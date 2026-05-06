@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
 import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMap } from 'react-leaflet';
-import { Search, Layers, X, ArrowRight, RotateCcw, GitCompare } from 'lucide-react';
+import { Search, X, ArrowRight, RotateCcw, GitCompare } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
 // Greater Porto bounds (lat/lng) — covers the 7 municípios
@@ -426,28 +426,51 @@ export default function InteractiveMap() {
           )}
         </div>
 
-        {/* Layers */}
-        <div className="absolute top-4 right-4 z-[400] bg-background/90 backdrop-blur border border-border p-3 w-[200px]">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/50 mb-2 flex items-center gap-2">
-            <Layers className="w-3 h-3" /> Camadas
+        {/* Layers panel — premium glass + iOS toggles */}
+        <div className="absolute top-6 right-6 z-[400] w-[220px] bg-obsidian/85 backdrop-blur-[20px] border border-white/[0.08] p-6 shadow-[0_8px_32px_-4px_rgba(0,0,0,0.5)] animate-slide-in-right">
+          <div className="font-mono text-[11px] uppercase tracking-[0.4em] text-eu-yellow pb-3 mb-4 border-b border-white/10">
+            Camadas
           </div>
-          {[
-            { key: 'escolas',  label: 'Escolas',  swatch: '#FAFAF7' },
-            { key: 'parques',  label: 'Parques',  swatch: '#5C7A52' },
-            { key: 'comboios', label: 'Bike Bus', swatch: '#003399' },
-          ].map(opt => (
-            <label key={opt.key} className="flex items-center gap-2.5 py-1.5 cursor-pointer text-foreground/70 hover:text-foreground">
-              <input
-                type="checkbox"
-                checked={layers[opt.key]}
-                onChange={(e) => setLayers({ ...layers, [opt.key]: e.target.checked })}
-                className="w-3.5 h-3.5 accent-primary cursor-pointer"
-              />
-              <span className="w-2 h-2 inline-block" style={{ background: opt.swatch }} />
-              <span className="text-[10px] font-mono uppercase tracking-widest">{opt.label}</span>
-            </label>
-          ))}
-          <div className="mt-2 pt-2 border-t border-border/40 text-[9px] font-mono uppercase tracking-widest text-foreground/30">
+          <div className="flex flex-col gap-4">
+            {[
+              { key: 'escolas',  label: 'Escolas',  swatch: '#FAFAF7' },
+              { key: 'parques',  label: 'Parques',  swatch: '#5C7A52' },
+              { key: 'comboios', label: 'Bike Bus', swatch: '#003399' },
+            ].map(opt => {
+              const isOn = layers[opt.key];
+              return (
+                <button
+                  key={opt.key}
+                  type="button"
+                  role="switch"
+                  aria-checked={isOn}
+                  aria-label={opt.label}
+                  onClick={() => setLayers({ ...layers, [opt.key]: !isOn })}
+                  className="w-full flex items-center gap-3 px-1 py-1 hover:bg-white/[0.03] transition-colors"
+                >
+                  <span
+                    className={`relative inline-block flex-shrink-0 w-9 h-5 rounded-full transition-colors duration-200 ${
+                      isOn ? 'bg-eu-blue' : 'bg-white/15'
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-bone transition-transform duration-200 ${
+                        isOn ? 'translate-x-4' : 'translate-x-0'
+                      }`}
+                    />
+                  </span>
+                  <span aria-hidden="true" className="w-3 h-3 inline-block flex-shrink-0" style={{ background: opt.swatch }} />
+                  <span className={`font-mono text-[12px] uppercase tracking-[0.3em] transition-colors ${
+                    isOn ? 'text-bone' : 'text-bone/40'
+                  }`}>
+                    {opt.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-4 pt-3 border-t border-white/10 text-[9px] font-mono uppercase tracking-[0.5em] text-bone/35 text-center">
             Em desenvolvimento
           </div>
         </div>
