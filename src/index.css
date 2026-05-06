@@ -474,7 +474,10 @@
   font-family: var(--font-display);
   font-weight: 900;
   font-size: clamp(48px, 11vw, 180px);
-  line-height: 0.94;
+  /* line-height >= 1 so the inline highlight on <em> never bleeds into
+     the line above or below. Was 0.94 (Apple-tight) but with a solid
+     marker background it crashed adjacent lines. */
+  line-height: 1.1;
   letter-spacing: -0.045em;
   color: #FAFAF7;
   margin: 0;

@@ -27,7 +27,7 @@ export default function Manifesto() {
         <span aria-hidden="true" className="bs-principle-watermark">01</span>
         <p className="bs-principle-eyebrow">Identidade · O espaço público</p>
         <h2 className="bs-principle-mega">
-          A rua pertence às <em>crianças</em>.
+          A rua pertence às <em>crianças.</em>
         </h2>
         <p className="bs-principle-supporting">
           Aos idosos, às famílias. Não a quem passa por ela mais depressa.
@@ -50,7 +50,7 @@ export default function Manifesto() {
         <span aria-hidden="true" className="bs-principle-watermark">02</span>
         <p className="bs-principle-eyebrow">Posição · Sem obras</p>
         <h2 className="bs-principle-mega">
-          A bicicleta não precisa de <em>infraestrutura</em>.
+          A bicicleta não precisa de <em>infraestrutura.</em>
         </h2>
         <p className="bs-principle-supporting">
           {beliefs[5] || 'A bicicleta não precisa de infraestrutura dedicada para ser segura.'}
@@ -65,7 +65,7 @@ export default function Manifesto() {
         <span aria-hidden="true" className="bs-principle-watermark">03</span>
         <p className="bs-principle-eyebrow">Visão · Mobilidade humana</p>
         <h2 className="bs-principle-mega">
-          Mobilidade humana, em <em>família</em>.
+          Mobilidade humana, em <em>família.</em>
         </h2>
         <p className="bs-principle-supporting">
           {beliefs[6] || 'Cidade silenciosa, com árvores, com espaço para crianças jogarem na rua.'}
