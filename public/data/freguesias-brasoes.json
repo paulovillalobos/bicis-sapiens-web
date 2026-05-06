@@ -1,0 +1,614 @@
+{
+  "131202": {
+    "name": "Bonfim",
+    "municipio": "Porto",
+    "slug": "bonfim",
+    "expected": "/brasoes/porto/bonfim.svg",
+    "brasao": "/brasoes/porto/bonfim.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q892377"
+  },
+  "131203": {
+    "name": "Campanhã",
+    "municipio": "Porto",
+    "slug": "campanha",
+    "expected": "/brasoes/porto/campanha.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131210": {
+    "name": "Paranhos",
+    "municipio": "Porto",
+    "slug": "paranhos",
+    "expected": "/brasoes/porto/paranhos.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131211": {
+    "name": "Ramalde",
+    "municipio": "Porto",
+    "slug": "ramalde",
+    "expected": "/brasoes/porto/ramalde.svg",
+    "brasao": "/brasoes/porto/ramalde.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1973526"
+  },
+  "131216": {
+    "name": "União das freguesias de Aldoar, Foz do Douro e Nevogilde",
+    "municipio": "Porto",
+    "slug": "aldoar-foz-do-douro-e-nevogilde",
+    "expected": "/brasoes/porto/aldoar-foz-do-douro-e-nevogilde.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131217": {
+    "name": "União das freguesias de Cedofeita, Santo Ildefonso, Sé, Miragaia, São Nicolau e Vitória",
+    "municipio": "Porto",
+    "slug": "cedofeita-santo-ildefonso-se-miragaia-sao-nicolau-e-vitoria",
+    "expected": "/brasoes/porto/cedofeita-santo-ildefonso-se-miragaia-sao-nicolau-e-vitoria.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131218": {
+    "name": "União das freguesias de Lordelo do Ouro e Massarelos",
+    "municipio": "Porto",
+    "slug": "lordelo-do-ouro-e-massarelos",
+    "expected": "/brasoes/porto/lordelo-do-ouro-e-massarelos.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130815": {
+    "name": "Custóias",
+    "municipio": "Matosinhos",
+    "slug": "custoias",
+    "expected": "/brasoes/matosinhos/custoias.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130816": {
+    "name": "Guifões",
+    "municipio": "Matosinhos",
+    "slug": "guifoes",
+    "expected": "/brasoes/matosinhos/guifoes.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130817": {
+    "name": "Lavra",
+    "municipio": "Matosinhos",
+    "slug": "lavra",
+    "expected": "/brasoes/matosinhos/lavra.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130818": {
+    "name": "Leça da Palmeira",
+    "municipio": "Matosinhos",
+    "slug": "leca-da-palmeira",
+    "expected": "/brasoes/matosinhos/leca-da-palmeira.svg",
+    "brasao": "/brasoes/matosinhos/leca-da-palmeira.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1822474"
+  },
+  "130819": {
+    "name": "Leça do Balio",
+    "municipio": "Matosinhos",
+    "slug": "leca-do-balio",
+    "expected": "/brasoes/matosinhos/leca-do-balio.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130820": {
+    "name": "Matosinhos",
+    "municipio": "Matosinhos",
+    "slug": "matosinhos",
+    "expected": "/brasoes/matosinhos/matosinhos.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130821": {
+    "name": "Perafita",
+    "municipio": "Matosinhos",
+    "slug": "perafita",
+    "expected": "/brasoes/matosinhos/perafita.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130822": {
+    "name": "Santa Cruz do Bispo",
+    "municipio": "Matosinhos",
+    "slug": "santa-cruz-do-bispo",
+    "expected": "/brasoes/matosinhos/santa-cruz-do-bispo.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130823": {
+    "name": "São Mamede de Infesta",
+    "municipio": "Matosinhos",
+    "slug": "sao-mamede-de-infesta",
+    "expected": "/brasoes/matosinhos/sao-mamede-de-infesta.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130824": {
+    "name": "Senhora da Hora",
+    "municipio": "Matosinhos",
+    "slug": "senhora-da-hora",
+    "expected": "/brasoes/matosinhos/senhora-da-hora.svg",
+    "brasao": "/brasoes/matosinhos/senhora-da-hora.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q2117134"
+  },
+  "131701": {
+    "name": "Arcozelo",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "arcozelo",
+    "expected": "/brasoes/vila-nova-de-gaia/arcozelo.svg",
+    "brasao": "/brasoes/vila-nova-de-gaia/arcozelo.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q637926"
+  },
+  "131702": {
+    "name": "Avintes",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "avintes",
+    "expected": "/brasoes/vila-nova-de-gaia/avintes.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131703": {
+    "name": "Canelas",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "canelas",
+    "expected": "/brasoes/vila-nova-de-gaia/canelas.svg",
+    "brasao": "/brasoes/vila-nova-de-gaia/canelas.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1016625"
+  },
+  "131704": {
+    "name": "Canidelo",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "canidelo",
+    "expected": "/brasoes/vila-nova-de-gaia/canidelo.svg",
+    "brasao": "/brasoes/vila-nova-de-gaia/canidelo.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q2259985"
+  },
+  "131732": {
+    "name": "Crestuma",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "crestuma",
+    "expected": "/brasoes/vila-nova-de-gaia/crestuma.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131733": {
+    "name": "Grijó",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "grijo",
+    "expected": "/brasoes/vila-nova-de-gaia/grijo.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131734": {
+    "name": "Gulpilhares",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "gulpilhares",
+    "expected": "/brasoes/vila-nova-de-gaia/gulpilhares.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131735": {
+    "name": "Lever",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "lever",
+    "expected": "/brasoes/vila-nova-de-gaia/lever.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131709": {
+    "name": "Madalena",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "madalena",
+    "expected": "/brasoes/vila-nova-de-gaia/madalena.svg",
+    "brasao": "/brasoes/vila-nova-de-gaia/madalena.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q2786562"
+  },
+  "131736": {
+    "name": "Mafamude",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "mafamude",
+    "expected": "/brasoes/vila-nova-de-gaia/mafamude.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131737": {
+    "name": "Olival",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "olival",
+    "expected": "/brasoes/vila-nova-de-gaia/olival.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131712": {
+    "name": "Oliveira do Douro",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "oliveira-do-douro",
+    "expected": "/brasoes/vila-nova-de-gaia/oliveira-do-douro.svg",
+    "brasao": "/brasoes/vila-nova-de-gaia/oliveira-do-douro.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q64706"
+  },
+  "131738": {
+    "name": "Pedroso",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "pedroso",
+    "expected": "/brasoes/vila-nova-de-gaia/pedroso.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131739": {
+    "name": "Perosinho",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "perosinho",
+    "expected": "/brasoes/vila-nova-de-gaia/perosinho.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131740": {
+    "name": "Sandim",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "sandim",
+    "expected": "/brasoes/vila-nova-de-gaia/sandim.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131741": {
+    "name": "Santa Marinha",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "santa-marinha",
+    "expected": "/brasoes/vila-nova-de-gaia/santa-marinha.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131717": {
+    "name": "São Félix da Marinha",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "sao-felix-da-marinha",
+    "expected": "/brasoes/vila-nova-de-gaia/sao-felix-da-marinha.svg",
+    "brasao": "/brasoes/vila-nova-de-gaia/sao-felix-da-marinha.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1786429"
+  },
+  "131742": {
+    "name": "São Pedro da Afurada",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "sao-pedro-da-afurada",
+    "expected": "/brasoes/vila-nova-de-gaia/sao-pedro-da-afurada.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131743": {
+    "name": "Seixezelo",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "seixezelo",
+    "expected": "/brasoes/vila-nova-de-gaia/seixezelo.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131744": {
+    "name": "Sermonde",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "sermonde",
+    "expected": "/brasoes/vila-nova-de-gaia/sermonde.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131745": {
+    "name": "Serzedo",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "serzedo",
+    "expected": "/brasoes/vila-nova-de-gaia/serzedo.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131746": {
+    "name": "Valadares",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "valadares",
+    "expected": "/brasoes/vila-nova-de-gaia/valadares.svg",
+    "brasao": "/brasoes/vila-nova-de-gaia/valadares.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1023424"
+  },
+  "131723": {
+    "name": "Vilar de Andorinho",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "vilar-de-andorinho",
+    "expected": "/brasoes/vila-nova-de-gaia/vilar-de-andorinho.svg",
+    "brasao": "/brasoes/vila-nova-de-gaia/vilar-de-andorinho.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q2229479"
+  },
+  "131747": {
+    "name": "Vilar do Paraíso",
+    "municipio": "Vila Nova de Gaia",
+    "slug": "vilar-do-paraiso",
+    "expected": "/brasoes/vila-nova-de-gaia/vilar-do-paraiso.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130601": {
+    "name": "Águas Santas",
+    "municipio": "Maia",
+    "slug": "aguas-santas",
+    "expected": "/brasoes/maia/aguas-santas.svg",
+    "brasao": "/brasoes/maia/aguas-santas.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q249827"
+  },
+  "130618": {
+    "name": "Castêlo da Maia",
+    "municipio": "Maia",
+    "slug": "castelo-da-maia",
+    "expected": "/brasoes/maia/castelo-da-maia.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130619": {
+    "name": "Cidade da Maia",
+    "municipio": "Maia",
+    "slug": "cidade-da-maia",
+    "expected": "/brasoes/maia/cidade-da-maia.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130603": {
+    "name": "Folgosa",
+    "municipio": "Maia",
+    "slug": "folgosa",
+    "expected": "/brasoes/maia/folgosa.svg",
+    "brasao": "/brasoes/maia/folgosa.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1023173"
+  },
+  "130608": {
+    "name": "Milheirós",
+    "municipio": "Maia",
+    "slug": "milheiros",
+    "expected": "/brasoes/maia/milheiros.svg",
+    "brasao": "/brasoes/maia/milheiros.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1886457"
+  },
+  "130609": {
+    "name": "Moreira",
+    "municipio": "Maia",
+    "slug": "moreira",
+    "expected": "/brasoes/maia/moreira.svg",
+    "brasao": "/brasoes/maia/moreira.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1947508"
+  },
+  "130620": {
+    "name": "Nogueira e Silva Escura",
+    "municipio": "Maia",
+    "slug": "nogueira-e-silva-escura",
+    "expected": "/brasoes/maia/nogueira-e-silva-escura.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130617": {
+    "name": "Pedrouços",
+    "municipio": "Maia",
+    "slug": "pedroucos",
+    "expected": "/brasoes/maia/pedroucos.svg",
+    "brasao": "/brasoes/maia/pedroucos.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1216704"
+  },
+  "130613": {
+    "name": "São Pedro Fins",
+    "municipio": "Maia",
+    "slug": "sao-pedro-fins",
+    "expected": "/brasoes/maia/sao-pedro-fins.svg",
+    "brasao": "/brasoes/maia/sao-pedro-fins.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1023419"
+  },
+  "130616": {
+    "name": "Vila Nova da Telha",
+    "municipio": "Maia",
+    "slug": "vila-nova-da-telha",
+    "expected": "/brasoes/maia/vila-nova-da-telha.svg",
+    "brasao": "/brasoes/maia/vila-nova-da-telha.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1023401"
+  },
+  "130412": {
+    "name": "Baguim do Monte (Rio Tinto)",
+    "municipio": "Gondomar",
+    "slug": "baguim-do-monte-rio-tinto",
+    "expected": "/brasoes/gondomar/baguim-do-monte-rio-tinto.svg",
+    "brasao": "/brasoes/gondomar/baguim-do-monte-rio-tinto.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q800162"
+  },
+  "130405": {
+    "name": "Lomba",
+    "municipio": "Gondomar",
+    "slug": "lomba",
+    "expected": "/brasoes/gondomar/lomba.svg",
+    "brasao": "/brasoes/gondomar/lomba.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1868763"
+  },
+  "130408": {
+    "name": "Rio Tinto",
+    "municipio": "Gondomar",
+    "slug": "rio-tinto",
+    "expected": "/brasoes/gondomar/rio-tinto.svg",
+    "brasao": "/brasoes/gondomar/rio-tinto.jpg",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1020836"
+  },
+  "130413": {
+    "name": "União das freguesias de Fânzeres e São Pedro da Cova",
+    "municipio": "Gondomar",
+    "slug": "fanzeres-e-sao-pedro-da-cova",
+    "expected": "/brasoes/gondomar/fanzeres-e-sao-pedro-da-cova.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130414": {
+    "name": "União das freguesias de Foz do Sousa e Covelo",
+    "municipio": "Gondomar",
+    "slug": "foz-do-sousa-e-covelo",
+    "expected": "/brasoes/gondomar/foz-do-sousa-e-covelo.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130415": {
+    "name": "União das freguesias de Gondomar (São Cosme), Valbom e Jovim",
+    "municipio": "Gondomar",
+    "slug": "gondomar-sao-cosme-valbom-e-jovim",
+    "expected": "/brasoes/gondomar/gondomar-sao-cosme-valbom-e-jovim.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "130416": {
+    "name": "União das freguesias de Melres e Medas",
+    "municipio": "Gondomar",
+    "slug": "melres-e-medas",
+    "expected": "/brasoes/gondomar/melres-e-medas.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "131501": {
+    "name": "Alfena",
+    "municipio": "Valongo",
+    "slug": "alfena",
+    "expected": "/brasoes/valongo/alfena.svg",
+    "brasao": "/brasoes/valongo/alfena.jpg",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1971893"
+  },
+  "131507": {
+    "name": "Campo",
+    "municipio": "Valongo",
+    "slug": "campo",
+    "expected": "/brasoes/valongo/campo.svg",
+    "brasao": "/brasoes/valongo/campo.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q168483"
+  },
+  "131503": {
+    "name": "Ermesinde",
+    "municipio": "Valongo",
+    "slug": "ermesinde",
+    "expected": "/brasoes/valongo/ermesinde.svg",
+    "brasao": "/brasoes/valongo/ermesinde.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1020811"
+  },
+  "131508": {
+    "name": "Sobrado",
+    "municipio": "Valongo",
+    "slug": "sobrado",
+    "expected": "/brasoes/valongo/sobrado.svg",
+    "brasao": "/brasoes/valongo/sobrado.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q957411"
+  },
+  "131505": {
+    "name": "Valongo",
+    "municipio": "Valongo",
+    "slug": "valongo",
+    "expected": "/brasoes/valongo/valongo.svg",
+    "brasao": "/brasoes/valongo/valongo.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q630477"
+  },
+  "010707": {
+    "name": "Anta",
+    "municipio": "Espinho",
+    "slug": "anta",
+    "expected": "/brasoes/espinho/anta.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "010702": {
+    "name": "Espinho",
+    "municipio": "Espinho",
+    "slug": "espinho",
+    "expected": "/brasoes/espinho/espinho.svg",
+    "brasao": "/brasoes/espinho/espinho.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q74380"
+  },
+  "010708": {
+    "name": "Guetim",
+    "municipio": "Espinho",
+    "slug": "guetim",
+    "expected": "/brasoes/espinho/guetim.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  },
+  "010704": {
+    "name": "Paramos",
+    "municipio": "Espinho",
+    "slug": "paramos",
+    "expected": "/brasoes/espinho/paramos.svg",
+    "brasao": "/brasoes/espinho/paramos.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
+    "wikidata_qid": "Q1023183"
+  },
+  "010705": {
+    "name": "Silvalde",
+    "municipio": "Espinho",
+    "slug": "silvalde",
+    "expected": "/brasoes/espinho/silvalde.svg",
+    "brasao": null,
+    "attribution": null,
+    "wikidata_qid": null
+  }
+}

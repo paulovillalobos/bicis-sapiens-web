@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
 import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMap } from 'react-leaflet';
-import { Search, X, ArrowRight, RotateCcw, GitCompare } from 'lucide-react';
+import { Search, X, ArrowRight, RotateCcw, GitCompare, Shield } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
 // Greater Porto bounds (lat/lng) — covers the 7 municípios
@@ -126,12 +126,76 @@ function StatRow({ label, value, unit }) {
   );
 }
 
+// --- Brasão (heraldic shield) — image with skeleton + onError fallback ----
+function Brasao({ src, name, dicofre }) {
+  const [status, setStatus] = useState(src ? 'loading' : 'missing');
+
+  if (!src || status === 'missing') {
+    // Elegant fallback: outlined Shield icon + DICOFRE in mono
+    return (
+      <div
+        className="group w-[120px] h-[120px] mx-auto mb-2 flex flex-col items-center justify-center transition-transform duration-200 hover:scale-[1.05]"
+        style={{ padding: 16 }}
+        aria-label={`Brasão de ${name} — em falta`}
+      >
+        <Shield
+          className="w-10 h-10 text-foreground/35"
+          strokeWidth={1.25}
+        />
+        <p className="mt-2 font-mono text-[9px] tracking-widest text-foreground/35">
+          {dicofre}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="group relative w-[120px] h-[120px] mx-auto mb-2 transition-transform duration-200 hover:scale-[1.05]"
+      style={{ padding: 16 }}
+    >
+      {/* Soft glow behind dark brasões so they don't disappear on obsidian */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(circle at center, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 60%)',
+        }}
+      />
+      {/* Skeleton shimmer while loading */}
+      {status === 'loading' && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-4 animate-pulse"
+          style={{ background: 'rgba(255,255,255,0.04)' }}
+        />
+      )}
+      <img
+        src={src}
+        alt={`Brasão de ${name}`}
+        loading="lazy"
+        decoding="async"
+        className="relative w-full h-full object-contain"
+        style={{
+          filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.5))',
+          opacity: status === 'loaded' ? 1 : 0,
+          transition: 'opacity 0.4s ease-out',
+        }}
+        onLoad={() => setStatus('loaded')}
+        onError={() => setStatus('missing')}
+      />
+    </div>
+  );
+}
+
 // --- Side panel for one freguesia ----------------------------------------
-function FreguesiaPanel({ feature, onClose, label }) {
+function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
   if (!feature) return null;
   const p = feature.properties;
   const verdePerHab = p.populacao > 0 ? Math.round((p.area_verde_m2 || 0) / p.populacao) : null;
-  const initial = (p.nome || '').split(' ').slice(-1)[0].slice(0, 3).toUpperCase();
+  const brasaoEntry = brasoesMap?.[p.dicofre] || null;
+  const brasaoSrc = brasaoEntry?.brasao || null;
 
   return (
     <div className="h-full overflow-y-auto bg-background">
@@ -153,18 +217,14 @@ function FreguesiaPanel({ feature, onClose, label }) {
           {p.nome}
         </h3>
 
-        <div
-          className="w-[120px] h-[120px] mx-auto mb-8 border border-border flex items-center justify-center"
-          style={{ background: p.cor_principal }}
-        >
-          {p.escudo_url ? (
-            <img src={p.escudo_url} alt="" className="w-full h-full object-contain p-3" loading="lazy" />
-          ) : (
-            <div className="font-display text-2xl font-black tracking-tightest" style={{ color: '#FAFAF7' }}>
-              {initial}
-            </div>
-          )}
-        </div>
+        <Brasao src={brasaoSrc} name={p.nome} dicofre={p.dicofre} />
+
+        {brasaoEntry?.attribution && (
+          <p className="text-center font-mono text-[8px] uppercase tracking-widest text-foreground/30 mb-6">
+            {brasaoEntry.attribution}
+          </p>
+        )}
+        {!brasaoEntry?.attribution && <div className="mb-6" />}
 
         <div className="space-y-0 mb-8">
           <StatRow label="População" value={fmt(p.populacao)} />
@@ -291,13 +351,13 @@ export default function InteractiveMap() {
   const { t } = useI18n();
   const sectionRef = useScrollReveal();
   const [geojson, setGeojson] = useState(null);
+  const [brasoesMap, setBrasoesMap] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedA, setSelectedA] = useState(null);
   const [selectedB, setSelectedB] = useState(null);
   const [search, setSearch] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
-  const [layers, setLayers] = useState({ escolas: false, parques: false, comboios: false });
   const [resetTick, setResetTick] = useState(0);
   const [flyTarget, setFlyTarget] = useState(null);
 
@@ -307,6 +367,17 @@ export default function InteractiveMap() {
       .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(d => { if (!cancelled) { setGeojson(d); setLoading(false); } })
       .catch(e => { if (!cancelled) { setError(e.message); setLoading(false); } });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Brasões map (DICOFRE -> { brasao, attribution }). Loaded lazily once;
+  // panel falls back to the Shield/DICOFRE placeholder if the entry is null.
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/data/freguesias-brasoes.json')
+      .then(r => (r.ok ? r.json() : {}))
+      .then(d => { if (!cancelled) setBrasoesMap(d); })
+      .catch(() => { if (!cancelled) setBrasoesMap({}); });
     return () => { cancelled = true; };
   }, []);
 
@@ -460,55 +531,6 @@ export default function InteractiveMap() {
           )}
         </div>
 
-        {/* Layers panel — premium glass + iOS toggles */}
-        <div className="absolute top-6 right-6 z-[400] w-[220px] bg-obsidian/85 backdrop-blur-[20px] border border-white/[0.08] p-6 shadow-[0_8px_32px_-4px_rgba(0,0,0,0.5)] animate-slide-in-right">
-          <div className="font-mono text-[11px] uppercase tracking-[0.4em] text-eu-yellow pb-3 mb-4 border-b border-white/10">
-            Camadas
-          </div>
-          <div className="flex flex-col gap-4">
-            {[
-              { key: 'escolas',  label: 'Escolas',  swatch: '#FAFAF7' },
-              { key: 'parques',  label: 'Parques',  swatch: '#5C7A52' },
-              { key: 'comboios', label: 'Bike Bus', swatch: '#003399' },
-            ].map(opt => {
-              const isOn = layers[opt.key];
-              return (
-                <button
-                  key={opt.key}
-                  type="button"
-                  role="switch"
-                  aria-checked={isOn}
-                  aria-label={opt.label}
-                  onClick={() => setLayers({ ...layers, [opt.key]: !isOn })}
-                  className="w-full flex items-center gap-3 px-1 py-1 hover:bg-white/[0.03] transition-colors"
-                >
-                  <span
-                    className={`relative inline-block flex-shrink-0 w-9 h-5 rounded-full transition-colors duration-200 ${
-                      isOn ? 'bg-eu-blue' : 'bg-white/15'
-                    }`}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-bone transition-transform duration-200 ${
-                        isOn ? 'translate-x-4' : 'translate-x-0'
-                      }`}
-                    />
-                  </span>
-                  <span aria-hidden="true" className="w-3 h-3 inline-block flex-shrink-0" style={{ background: opt.swatch }} />
-                  <span className={`font-mono text-[12px] uppercase tracking-[0.3em] transition-colors ${
-                    isOn ? 'text-bone' : 'text-bone/40'
-                  }`}>
-                    {opt.label}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          <div className="mt-4 pt-3 border-t border-white/10 text-[9px] font-mono uppercase tracking-[0.5em] text-bone/35 text-center">
-            Em desenvolvimento
-          </div>
-        </div>
-
         <MapButtons
           onReset={() => setResetTick(t => t + 1)}
           onClearCompare={() => setSelectedB(null)}
@@ -555,11 +577,11 @@ export default function InteractiveMap() {
               className={`fixed lg:absolute z-[500] left-0 right-0 bottom-0 lg:left-auto lg:top-0 h-[80vh] lg:h-full ${compareOpen ? 'lg:w-[840px]' : 'lg:w-[420px]'} w-full bg-background border-t lg:border-t-0 lg:border-l border-border animate-fade-in-up flex flex-row overflow-hidden`}
             >
               <div className="w-full lg:w-[420px] h-full overflow-hidden">
-                <FreguesiaPanel feature={selectedA} onClose={closePanelA} label="Freguesia A" />
+                <FreguesiaPanel feature={selectedA} onClose={closePanelA} label="Freguesia A" brasoesMap={brasoesMap} />
               </div>
               {compareOpen && (
                 <div className="hidden lg:block lg:w-[420px] h-full overflow-hidden border-l border-border">
-                  <FreguesiaPanel feature={selectedB} onClose={() => setSelectedB(null)} label="Freguesia B" />
+                  <FreguesiaPanel feature={selectedB} onClose={() => setSelectedB(null)} label="Freguesia B" brasoesMap={brasoesMap} />
                 </div>
               )}
             </div>
@@ -570,8 +592,8 @@ export default function InteractiveMap() {
         {/* Source attribution + scroll hint — sits below the map, breathes ~70px */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pt-5 pb-10">
           <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/30 leading-relaxed max-w-3xl">
-            Geometria CAOP via GeoAPI.pt &middot; População: INE 2021 (parcial) + estimativas baseadas em densidade municipal &middot;
-            Áreas verdes, escolas e comboios ativos: dados em desenvolvimento.
+            Geometria CAOP via GeoAPI.pt &middot; População: INE 2021 (parcial) + estimativas por densidade municipal &middot;
+            Brasões: Wikipedia / Wikimedia Commons &middot; juntas de freguesia &middot; Heráldica de Portugal &middot; direitos dos respetivos detentores.
           </p>
           <div className="hidden sm:flex items-center gap-2 text-foreground/35 font-mono text-[9px] uppercase tracking-[0.4em]">
             <span>⌘ + scroll para zoom</span>
