@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
 
-// --- KEEP AS-IS: data + sources untouched ---
+// --- Data layer (untouched) ---
 const cityData = {
   Porto:      { pop: 5736,  cars: 0.52, green: 5.2,  buses: 1.8, metro: 0.9, commute: 34, bikes: 0.02, parking: 42 },
   Amsterdam:  { pop: 5135,  cars: 0.23, green: 27.5, buses: 2.4, metro: 1.8, commute: 24, bikes: 0.73, parking: 2800 },
@@ -15,72 +15,120 @@ const sources = {
   Paris:      'INSEE · RATP 2023',
   Copenhagen: 'DST · DOT 2023',
 };
-
-// betterIs: 'higher' = more is better (Porto worse if less)
-//           'lower'  = less is better (Porto worse if more)
-const META = {
-  buses:   { betterIs: 'higher' },
-  metro:   { betterIs: 'higher' },
-  green:   { betterIs: 'higher' },
-  bikes:   { betterIs: 'higher' },
-  cars:    { betterIs: 'lower'  },
-  commute: { betterIs: 'lower'  },
+const SHORT_NAMES = {
+  Amsterdam:  'AMS',
+  Paris:      'PAR',
+  Copenhagen: 'CPH',
 };
 
-const RUST = '#993C1D';
-const HAIRLINE = '#d4d4d0';
-const HAIRLINE_SOFT = '#e8e6df';
-const HERO_STAT_BG = '#f0eee6';
+// --- Theme tokens (this section only) ---
+const YELLOW   = '#d4a017';                  // kicker + "Porto worse" stat
+const BLUE     = '#1d4ed8';                  // deltas, primary bars, headline accent, active pill
+const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
+const HAIRLINE_SOFT = 'rgba(255, 255, 255, 0.08)';
+const SURFACE  = 'rgba(255, 255, 255, 0.04)';
+const SURFACE_BORDER = 'rgba(255, 255, 255, 0.10)';
 
-// "3.2×" or "44%" — magnitude only; the suffix word ("fewer"/"more") is in i18n template.
-function deltaShort(portoVal, compareVal, betterIs = 'higher') {
+// --- Helpers (per spec) ---
+function computeDelta(portoVal, compareVal, inverse = false) {
   if (!portoVal || !compareVal) return '—';
-  if (betterIs === 'higher') {
-    if (portoVal >= compareVal) {
-      const pct = Math.round((portoVal / compareVal - 1) * 100);
-      return `${pct}%`;
-    }
-    const ratio = compareVal / portoVal;
-    if (ratio >= 2) return `${ratio.toFixed(1).replace(/\.0$/, '')}×`;
-    return `${Math.round((1 - portoVal / compareVal) * 100)}%`;
+  if (inverse) {
+    const pct = ((portoVal - compareVal) / compareVal) * 100;
+    return `${Math.round(pct)}%`;
   }
-  // betterIs lower → Porto worse if more
-  if (portoVal > compareVal) {
-    const pct = Math.round((portoVal / compareVal - 1) * 100);
-    return `${pct}%`;
+  const ratio = compareVal / portoVal;
+  if (ratio >= 2) {
+    const fixed = ratio.toFixed(1);
+    return `${fixed.endsWith('.0') ? fixed.slice(0, -2) : fixed}×`;
   }
-  return `${Math.round((1 - portoVal / compareVal) * 100)}%`;
+  const pct = ((compareVal - portoVal) / compareVal) * 100;
+  return `${Math.round(pct)}%`;
 }
 
-function isPortoWorse(metric, portoVal, compareVal) {
-  const meta = META[metric] || { betterIs: 'higher' };
-  if (meta.betterIs === 'higher') return portoVal < compareVal;
-  return portoVal > compareVal;
-}
-
-// Bar widths normalized to max(porto, compare) + 10% headroom.
-function barPositions(portoVal, compareVal) {
-  const max = Math.max(portoVal, compareVal) * 1.1 || 1;
+function computeBarPair(portoVal, compareVal) {
+  const max = Math.max(portoVal, compareVal) || 1;
   return {
-    portoPct: (portoVal / max) * 100,
+    portoPct:   (portoVal   / max) * 100,
     comparePct: (compareVal / max) * 100,
   };
 }
 
-// Substitute {0}, {1}, ... in a template string with React nodes.
-function interpolate(template, replacements) {
-  if (!template) return '';
-  return template.split(/(\{\d+\})/g).map((part, i) => {
-    const m = part.match(/^\{(\d+)\}$/);
-    if (!m) return part;
-    const idx = parseInt(m[1], 10);
-    return <React.Fragment key={i}>{replacements[idx] ?? ''}</React.Fragment>;
-  });
+function computeWhoDelta(portoGreenM2) {
+  return Math.round(((9 - portoGreenM2) / 9) * 100);
 }
 
+// Italic blue inline delta, used inside the thesis sentence.
 const Delta = ({ children }) => (
-  <span style={{ color: RUST }} className="font-medium whitespace-nowrap">{children}</span>
+  <span style={{ color: BLUE, fontStyle: 'italic' }} className="whitespace-nowrap">{children}</span>
 );
+
+// One bar row inside a stat — track + fill + small uppercase label
+function BarRow({ pct, color, label, muted }) {
+  return (
+    <div className="flex items-center gap-2">
+      <div
+        className="flex-1 relative"
+        style={{ height: 4, background: 'rgba(255, 255, 255, 0.08)', borderRadius: 2 }}
+      >
+        <div
+          className="absolute left-0 top-0 h-full"
+          style={{ width: `${pct}%`, background: color, borderRadius: 2 }}
+        />
+      </div>
+      <span
+        className="font-mono uppercase"
+        style={{
+          fontSize: 10,
+          letterSpacing: '0.05em',
+          minWidth: 32,
+          color: muted ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.6)',
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function StatCell({ label, portoVal, compareVal, compareShort, compareName, isWarn }) {
+  const bars = computeBarPair(portoVal, compareVal);
+  const fillColor = isWarn ? YELLOW : BLUE;
+  return (
+    <div
+      className="p-5 sm:p-6"
+      style={{ borderRight: `0.5px solid ${HAIRLINE_SOFT}` }}
+    >
+      <p
+        className="font-mono uppercase mb-3 m-0"
+        style={{ fontSize: 11, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.4)' }}
+      >
+        {label}
+      </p>
+      <p
+        className="font-data leading-none m-0 mb-4"
+        style={{
+          fontSize: 32,
+          fontWeight: 500,
+          color: isWarn ? YELLOW : '#fff',
+        }}
+      >
+        {portoVal}
+      </p>
+
+      <div className="flex flex-col gap-1.5">
+        <BarRow pct={bars.portoPct}   color={fillColor}                   label="Porto"        muted={false} />
+        <BarRow pct={bars.comparePct} color="rgba(255, 255, 255, 0.4)"   label={compareShort} muted={true}  />
+      </div>
+
+      <p
+        className="m-0"
+        style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: '0.5rem' }}
+      >
+        {compareName}: {compareVal}
+      </p>
+    </div>
+  );
+}
 
 // --- Component ---
 
@@ -91,182 +139,210 @@ export default function DataDashboard() {
 
   const porto = cityData.Porto;
   const compare = cityData[compareCity];
+  const compareShort = SHORT_NAMES[compareCity] || compareCity.slice(0, 3).toUpperCase();
 
-  // Deltas for the thesis sentence
-  const dBuses = deltaShort(porto.buses, compare.buses, 'higher');
-  const dGreen = deltaShort(porto.green, compare.green, 'higher');
-  const dMetro = deltaShort(porto.metro, compare.metro, 'higher');
-  const dCars  = deltaShort(porto.cars,  compare.cars,  'lower');
+  // Deltas for the thesis (Porto WORSE on buses/green/metro vs all 3 cities)
+  const dBuses = computeDelta(porto.buses, compare.buses, false);
+  const dGreen = computeDelta(porto.green, compare.green, false);
+  const dMetro = computeDelta(porto.metro, compare.metro, false);
+  // Cars: Porto has MORE → inverse delta
+  const dCars  = computeDelta(porto.cars,  compare.cars,  true);
 
-  // WHO benchmark for green (target 9 m²/hab)
-  const whoMin = 9;
-  const whoDeltaPct = Math.round((1 - porto.green / whoMin) * 100);
+  const whoDelta = computeWhoDelta(porto.green);
 
-  const thesis = interpolate(t('data.thesis'), [
-    <Delta>{dBuses}</Delta>,
-    <Delta>{dGreen}</Delta>,
-    <Delta>{dMetro}</Delta>,
-    <strong className="font-medium">{compareCity}</strong>,
-  ]);
-
-  const thesisCtx = interpolate(t('data.thesisContext'), [
-    <Delta>{dCars}</Delta>,
-  ]);
-
-  // Secondary stats row
-  const secondaryStats = [
-    { metric: 'buses', label: t('data.buses'), porto: porto.buses, compare: compare.buses },
-    { metric: 'metro', label: t('data.metro'), porto: porto.metro, compare: compare.metro },
-    { metric: 'cars',  label: t('data.cars'),  porto: porto.cars,  compare: compare.cars  },
-    { metric: 'bikes', label: t('data.bikes'), porto: porto.bikes, compare: compare.bikes },
+  // Secondary stats config — cars is the "warn" stat
+  const statsConfig = [
+    { metric: 'buses', label: t('numbers.metrics.buses'), portoVal: porto.buses, compareVal: compare.buses, isWarn: false },
+    { metric: 'metro', label: t('numbers.metrics.metro'), portoVal: porto.metro, compareVal: compare.metro, isWarn: false },
+    { metric: 'cars',  label: t('numbers.metrics.cars'),  portoVal: porto.cars,  compareVal: compare.cars,  isWarn: true  },
+    { metric: 'bikes', label: t('numbers.metrics.bikes'), portoVal: porto.bikes, compareVal: compare.bikes, isWarn: false },
   ];
 
   return (
     <section
       id="data"
       ref={ref}
-      className="reveal-section bg-bone text-obsidian"
+      className="reveal-section"
+      style={{ background: '#0a0a0a', color: '#fff' }}
     >
-      <div className="max-w-[1280px] mx-auto px-6 sm:px-10 py-16 sm:py-20">
+      <div className="max-w-[1100px] mx-auto px-6 sm:px-8 py-20 sm:py-24">
 
-        {/* HEADER */}
+        {/* KICKER — yellow line + label */}
+        <div className="flex items-center gap-3 mb-6">
+          <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
+          <span
+            className="font-mono uppercase font-medium m-0"
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+          >
+            {t('numbers.kicker')}
+          </span>
+        </div>
+
+        {/* HEADER — headline (with italic blue accent) + city pills */}
         <header
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-6 mb-10"
+          className="flex justify-between items-end gap-8 flex-wrap pb-6 mb-10"
           style={{ borderBottom: `0.5px solid ${HAIRLINE}` }}
         >
-          <div>
-            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-obsidian/55 mb-2">
-              Issue 01 · {t('data.issue')}
-            </p>
-            <h2 className="font-data font-medium leading-[1.1] tracking-tight m-0 max-w-[680px]"
-                style={{ fontSize: 'clamp(28px, 4vw, 40px)' }}>
-              {t('data.subtitle')}
-            </h2>
-          </div>
+          <h2
+            className="font-data leading-[1.1] tracking-tight m-0 max-w-[680px]"
+            style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 400, color: '#fff' }}
+          >
+            {t('numbers.headline.line1')}
+            <br />
+            {t('numbers.headline.line2_prefix')}{' '}
+            <span style={{ fontStyle: 'italic', color: BLUE }}>
+              {t('numbers.headline.line2_accent')}
+            </span>
+          </h2>
 
-          <div className="flex items-center gap-1.5 flex-wrap font-mono text-[11px] tracking-[0.1em] uppercase">
-            <span className="text-obsidian/55 mr-2">{t('data.compare')}</span>
-            {['Amsterdam', 'Paris', 'Copenhagen'].map((city) => (
-              <button
-                key={city}
-                onClick={() => setCompareCity(city)}
-                className={`px-3.5 py-1.5 transition-colors ${
-                  compareCity === city
-                    ? 'bg-obsidian text-bone'
-                    : 'bg-transparent text-obsidian hover:bg-obsidian/5'
-                }`}
-                style={{
-                  border: `0.5px solid ${compareCity === city ? '#0A0A0A' : HAIRLINE}`,
-                }}
-              >
-                {city}
-              </button>
-            ))}
+          <div
+            className="flex items-center gap-1.5 flex-wrap font-mono uppercase"
+            style={{ fontSize: 11, letterSpacing: '0.1em' }}
+          >
+            <span style={{ color: 'rgba(255,255,255,0.4)', marginRight: 8 }}>
+              {t('numbers.compareWith')}
+            </span>
+            {['Amsterdam', 'Paris', 'Copenhagen'].map((city) => {
+              const active = compareCity === city;
+              return (
+                <button
+                  key={city}
+                  onClick={() => setCompareCity(city)}
+                  className="font-mono uppercase transition-colors"
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: 8,
+                    fontSize: 11,
+                    letterSpacing: '0.1em',
+                    background: active ? BLUE : 'transparent',
+                    border: `0.5px solid ${active ? BLUE : 'rgba(255,255,255,0.2)'}`,
+                    color: '#fff',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!active) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!active) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+                  }}
+                >
+                  {city}
+                </button>
+              );
+            })}
           </div>
         </header>
 
-        {/* HERO ROW */}
+        {/* HERO ROW: thesis (1.5fr) + green-space card (1fr) */}
         <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-12 mb-12 items-start">
-          {/* Thesis */}
+
+          {/* THESIS */}
           <div>
-            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-obsidian/55 mb-3">
-              {t('data.thesisLabel')}
+            <p
+              className="font-mono uppercase m-0 mb-4"
+              style={{ fontSize: 11, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.4)' }}
+            >
+              {t('numbers.analysis')}
             </p>
-            <p className="font-data font-medium leading-[1.4] m-0 mb-4"
-               style={{ fontSize: 'clamp(20px, 2.4vw, 26px)' }}>
-              {thesis}
+            <p
+              className="font-data leading-[1.4] m-0 mb-5"
+              style={{ fontSize: 'clamp(20px, 2.4vw, 26px)', color: '#fff' }}
+            >
+              {t('numbers.thesis.prefix')}{' '}
+              <Delta>{dBuses}</Delta>{' '}
+              {t('numbers.thesis.buses')}{' '}
+              <Delta>{dGreen}</Delta>{' '}
+              {t('numbers.thesis.green')}{' '}
+              <Delta>{dMetro}</Delta>{' '}
+              {t('numbers.thesis.metro')} {compareCity}.
             </p>
-            <p className="text-sm sm:text-[14px] leading-relaxed text-obsidian/65 m-0">
-              {thesisCtx}
+            <p
+              className="m-0 leading-relaxed"
+              style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}
+            >
+              {t('numbers.context.prefix')}{' '}
+              <Delta>{dCars}</Delta>{' '}
+              {t('numbers.context.suffix')}
             </p>
           </div>
 
-          {/* Hero stat — green space + WHO benchmark */}
-          <div className="p-7 sm:p-8" style={{ background: HERO_STAT_BG }}>
-            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-obsidian/55 mb-3 m-0">
-              {t('data.green')}
+          {/* HERO STAT CARD — green space + WHO benchmark */}
+          <div
+            className="p-6 sm:p-7"
+            style={{ background: SURFACE, border: `0.5px solid ${SURFACE_BORDER}`, borderRadius: 12 }}
+          >
+            <p
+              className="font-mono uppercase m-0 mb-3"
+              style={{ fontSize: 11, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.4)' }}
+            >
+              {t('numbers.greenSpace.label')}
             </p>
-            <p className="font-data font-medium leading-none m-0"
-               style={{ fontSize: 'clamp(56px, 7vw, 72px)' }}>
+            <p
+              className="font-data leading-none m-0"
+              style={{ fontSize: 'clamp(48px, 6.5vw, 64px)', fontWeight: 500, color: '#fff' }}
+            >
               {porto.green}
-              <sup className="align-super" style={{ fontSize: '0.42em' }}>m²</sup>
+              <sup className="align-super" style={{ fontSize: '0.45em' }}>m²</sup>
             </p>
-            <p className="text-sm text-obsidian/55 mt-2 m-0">
-              {t('data.perResident')}
+            <p className="m-0 mt-2" style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>
+              {t('numbers.greenSpace.caption')}
             </p>
-            <p className="text-[13px] mt-1 m-0 font-medium" style={{ color: RUST }}>
-              ↓ {whoDeltaPct}% {t('data.belowWHO')}
+            <p
+              className="m-0 mt-2"
+              style={{ fontSize: 13, color: YELLOW }}
+            >
+              ↓ {whoDelta}{t('numbers.greenSpace.whoBelow')}
             </p>
           </div>
         </div>
 
-        {/* SECONDARY STATS */}
+        {/* SECONDARY STATS — 4 cells, double parallel bars per cell */}
         <div
           className="grid grid-cols-2 lg:grid-cols-4"
           style={{
-            borderTop: `0.5px solid ${HAIRLINE}`,
+            borderTop:    `0.5px solid ${HAIRLINE}`,
             borderBottom: `0.5px solid ${HAIRLINE}`,
           }}
         >
-          {secondaryStats.map((stat, i) => {
-            const worse = isPortoWorse(stat.metric, stat.porto, stat.compare);
-            const bars = barPositions(stat.porto, stat.compare);
-            const isLastInRow = (i + 1) % 4 === 0;        // desktop: last column
-            const isLastInRowMobile = (i + 1) % 2 === 0;  // mobile: last column of 2
-            const isFirstRow = i < 2;                     // mobile: first row separator
+          {statsConfig.map((stat, i) => {
+            // Hide right-border on the last cell of each row (responsive)
+            const isLastDesktop = (i + 1) % 4 === 0;
+            const isLastMobile  = (i + 1) % 2 === 0;
+            const firstRowMobile = i < 2;
             return (
               <div
                 key={stat.metric}
-                className="p-5 sm:p-6"
                 style={{
-                  borderRight: !isLastInRow ? `0.5px solid ${HAIRLINE_SOFT}` : 'none',
-                  borderBottom: isFirstRow ? `0.5px solid ${HAIRLINE_SOFT}` : 'none',
+                  borderRight: isLastDesktop
+                    ? 'none'
+                    : (isLastMobile
+                      ? `0.5px solid ${HAIRLINE_SOFT}`
+                      : `0.5px solid ${HAIRLINE_SOFT}`),
+                  borderBottom: firstRowMobile ? `0.5px solid ${HAIRLINE_SOFT}` : 'none',
                 }}
+                className="lg:!border-b-0"
               >
-                <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-obsidian/55 m-0 mb-3">
-                  {stat.label}
-                </p>
-                <p
-                  className="font-data font-medium leading-none m-0"
-                  style={{
-                    fontSize: 'clamp(24px, 3vw, 32px)',
-                    color: worse ? RUST : '#0A0A0A',
-                  }}
-                >
-                  {stat.porto}
-                </p>
-                {/* Bar + tick */}
-                <div
-                  className="relative mt-4 mb-2"
-                  style={{ height: '4px', background: HAIRLINE_SOFT }}
-                >
-                  <div
-                    className="absolute left-0 top-0 h-full"
-                    style={{ width: `${bars.portoPct}%`, background: RUST }}
-                  />
-                  <div
-                    className="absolute"
-                    style={{
-                      left: `${bars.comparePct}%`,
-                      top: '-2px',
-                      width: '1px',
-                      height: '8px',
-                      background: '#0A0A0A',
-                    }}
-                  />
-                </div>
-                <p className="text-[11px] text-obsidian/55 m-0">
-                  {compareCity}: {stat.compare}
-                </p>
+                <StatCell
+                  label={stat.label}
+                  portoVal={stat.portoVal}
+                  compareVal={stat.compareVal}
+                  compareShort={compareShort}
+                  compareName={compareCity}
+                  isWarn={stat.isWarn}
+                />
               </div>
             );
           })}
         </div>
 
         {/* SOURCES */}
-        <p className="font-mono text-[10px] tracking-[0.1em] uppercase text-obsidian/55 mt-6 m-0">
+        <p
+          className="font-mono uppercase m-0 mt-6"
+          style={{ fontSize: 10, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.3)' }}
+        >
           {t('data.source')}: {sources.Porto} / {sources[compareCity]}
         </p>
+
       </div>
     </section>
   );

@@ -78,6 +78,37 @@ const translations = {
       perResident: 'por habitante',
       belowWHO: 'abaixo do mínimo OMS (9 m²)',
     },
+    numbers: {
+      kicker: 'Issue 01 · Mobilidade',
+      headline: {
+        line1: 'Os dados que faltam',
+        line2_prefix: 'ao debate',
+        line2_accent: 'público.',
+      },
+      compareWith: 'Comparar com',
+      analysis: 'A análise',
+      thesis: {
+        prefix: 'O Porto tem',
+        buses: 'menos autocarros,',
+        green: 'menos espaço verde e',
+        metro: 'menos lugares de metro por habitante que',
+      },
+      context: {
+        prefix: 'Também tem',
+        suffix: 'mais carros por pessoa. Os dados não faltam ao debate público por acidente.',
+      },
+      greenSpace: {
+        label: 'm² verde / habitante',
+        caption: 'por habitante',
+        whoBelow: '% abaixo do mínimo OMS (9 m²)',
+      },
+      metrics: {
+        buses: 'Autocarros / 1k',
+        metro: 'Metro / 1k',
+        cars: 'Carros / pessoa',
+        bikes: 'Bicicletas / pessoa',
+      },
+    },
     solution: {
       title: 'A Nossa Solução — Os 3 Cs',
       subtitle: 'Sem construir nova infraestrutura. Com respeito e organização.',
@@ -236,6 +267,37 @@ const translations = {
       thesisContext: 'It also has {0} more cars per person. The data isn\'t missing from public debate by accident.',
       perResident: 'per resident',
       belowWHO: 'below WHO minimum (9 m²)',
+    },
+    numbers: {
+      kicker: 'Issue 01 · Mobility',
+      headline: {
+        line1: 'The data missing',
+        line2_prefix: 'from public',
+        line2_accent: 'debate.',
+      },
+      compareWith: 'Compare with',
+      analysis: 'The analysis',
+      thesis: {
+        prefix: 'Porto has',
+        buses: 'fewer buses,',
+        green: 'less green space, and',
+        metro: 'fewer metro seats per resident than',
+      },
+      context: {
+        prefix: 'It also has',
+        suffix: 'more cars per person. The data isn\'t missing from public debate by accident.',
+      },
+      greenSpace: {
+        label: 'm² green / resident',
+        caption: 'per resident',
+        whoBelow: '% below WHO minimum (9 m²)',
+      },
+      metrics: {
+        buses: 'Buses / 1k',
+        metro: 'Metro / 1k',
+        cars: 'Cars / person',
+        bikes: 'Bikes / person',
+      },
     },
     solution: {
       title: 'Our Solution — The 3 Cs',
@@ -396,6 +458,37 @@ const translations = {
       perResident: 'por habitante',
       belowWHO: 'por debajo del mínimo OMS (9 m²)',
     },
+    numbers: {
+      kicker: 'Issue 01 · Movilidad',
+      headline: {
+        line1: 'Los datos que faltan',
+        line2_prefix: 'al debate',
+        line2_accent: 'público.',
+      },
+      compareWith: 'Comparar con',
+      analysis: 'El análisis',
+      thesis: {
+        prefix: 'Oporto tiene',
+        buses: 'menos autobuses,',
+        green: 'menos espacio verde y',
+        metro: 'menos plazas de metro por habitante que',
+      },
+      context: {
+        prefix: 'También tiene',
+        suffix: 'más coches por persona. Los datos no faltan al debate público por accidente.',
+      },
+      greenSpace: {
+        label: 'm² verde / habitante',
+        caption: 'por habitante',
+        whoBelow: '% bajo el mínimo OMS (9 m²)',
+      },
+      metrics: {
+        buses: 'Autobuses / 1k',
+        metro: 'Metro / 1k',
+        cars: 'Coches / persona',
+        bikes: 'Bicicletas / persona',
+      },
+    },
     solution: {
       title: 'Nuestra Solución — Los 3 Cs',
       subtitle: 'Sin construir nueva infraestructura. Con respeto y organización.',
@@ -554,6 +647,37 @@ const translations = {
       thesisContext: 'Il a aussi {0} plus de voitures par personne. Les données ne manquent pas au débat public par accident.',
       perResident: 'par habitant',
       belowWHO: 'sous le minimum OMS (9 m²)',
+    },
+    numbers: {
+      kicker: 'Issue 01 · Mobilité',
+      headline: {
+        line1: 'Les données absentes',
+        line2_prefix: 'du débat',
+        line2_accent: 'public.',
+      },
+      compareWith: 'Comparer avec',
+      analysis: 'L\'analyse',
+      thesis: {
+        prefix: 'Porto a',
+        buses: 'de bus en moins,',
+        green: 'moins d\'espace vert et',
+        metro: 'de places de métro en moins par habitant que',
+      },
+      context: {
+        prefix: 'Elle a aussi',
+        suffix: 'de voitures en plus par personne. Les données ne sont pas absentes du débat public par hasard.',
+      },
+      greenSpace: {
+        label: 'm² vert / habitant',
+        caption: 'par habitant',
+        whoBelow: '% sous le minimum OMS (9 m²)',
+      },
+      metrics: {
+        buses: 'Bus / 1k',
+        metro: 'Métro / 1k',
+        cars: 'Voitures / pers.',
+        bikes: 'Vélos / pers.',
+      },
     },
     solution: {
       title: 'Notre Solution — Les 3 C',
