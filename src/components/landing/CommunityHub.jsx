@@ -13,14 +13,15 @@ const FAINT    = 'rgba(255, 255, 255, 0.4)';
 // =====================================================================
 // CIVIC AGENDA — five weekly questions, anonymous voting, no signup.
 //
-// The component renders against any data shape it gets back from the
-// backend; if zero questions are returned it falls into the empty
-// state per the §07 brief. No fake placeholder questions live here.
+// Data source: the `weekly_agenda` view from 0002_civic_agenda.sql
+// (rows shaped { id, question_key, category_key, position, options[]
+// with per-option vote counts }). All displayed text — questions,
+// categories, option labels — is resolved client-side via i18n keys
+// at civic_agenda.questions.{question_key}.{...}.
 //
-// Voting state for THIS device persists in localStorage under the
-// week key. When the backend's polls schema lights up, the hook below
-// (`useWeeklyAgenda`) starts returning real questions and the cards
-// render — no further code changes needed.
+// Per-device "I voted on Q for option O" lives in localStorage so the
+// UI knows what to highlight, even if the server query hasn't returned
+// yet. Server aggregates remain the source of truth for percentages.
 // =====================================================================
 
 export default function CommunityHub() {
@@ -28,12 +29,22 @@ export default function CommunityHub() {
   const ref = useScrollReveal();
 
   const weekId = useMemo(() => isoWeekId(new Date()), []);
-  const { questions, totalWeekVotes, loading } = useWeeklyAgenda();
+  const [refreshKey, setRefreshKey] = useState(0);
+  const { questions, totalWeekVotes, loading } = useWeeklyAgenda(refreshKey);
   const [myVotes, castVote] = useDeviceVotes(weekId);
 
   const totalQuestions = questions.length;
   const answered = Object.keys(myVotes).length;
   const weekRange = useWeekRangeLabel(t);
+
+  const handleVote = useCallback(
+    async (questionId, optionId) => {
+      castVote(questionId, optionId);          // optimistic local update
+      await submitVoteToServer(questionId, optionId);
+      setRefreshKey((k) => k + 1);             // refetch aggregates
+    },
+    [castVote]
+  );
 
   return (
     <section
@@ -99,7 +110,6 @@ export default function CommunityHub() {
           <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: SOFT }}>
             {t('civic_agenda.week.votes').replace('{N}', String(totalWeekVotes))}
           </span>
-          <span aria-hidden="true" className="hidden sm:inline" style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
           <span className="sm:ml-auto" />
           <span
             className="font-mono uppercase transition-colors duration-150"
@@ -133,8 +143,8 @@ export default function CommunityHub() {
                 index={i}
                 total={totalQuestions}
                 question={q}
-                myVote={myVotes[q.id] || null}
-                onVote={(optionId) => castVote(q.id, optionId)}
+                myVoteOptionId={myVotes[q.id] || null}
+                onVote={(optionId) => handleVote(q.id, optionId)}
                 t={t}
               />
             ))}
@@ -178,14 +188,13 @@ export default function CommunityHub() {
 
 // ---------- Question card --------------------------------------------
 
-function QuestionCard({ index, total, question, myVote, onVote, t }) {
-  const hasVoted = Boolean(myVote);
-
-  // Compute total card votes including any optimistic local increment.
+function QuestionCard({ index, total, question, myVoteOptionId, onVote, t }) {
+  const hasVoted = Boolean(myVoteOptionId);
   const cardVotes = question.options.reduce((sum, o) => sum + (o.votes || 0), 0);
-
   const num = String(index + 1).padStart(2, '0');
   const totalStr = String(total).padStart(2, '0');
+
+  const qPath = `civic_agenda.questions.${question.questionKey}`;
 
   return (
     <article
@@ -218,12 +227,8 @@ function QuestionCard({ index, total, question, myVote, onVote, t }) {
       <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
         <div className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em' }}>
           <span style={{ color: YELLOW }}>{num} / {totalStr}</span>
-          {question.category && (
-            <>
-              <span style={{ color: 'rgba(255,255,255,0.20)', margin: '0 0.5em' }}>·</span>
-              <span style={{ color: FAINT }}>{question.category}</span>
-            </>
-          )}
+          <span style={{ color: 'rgba(255,255,255,0.20)', margin: '0 0.5em' }}>·</span>
+          <span style={{ color: FAINT }}>{t(`${qPath}.category`)}</span>
         </div>
         <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}>
           {t('civic_agenda.card.votes').replace('{N}', String(cardVotes))}
@@ -241,18 +246,18 @@ function QuestionCard({ index, total, question, myVote, onVote, t }) {
           letterSpacing: '-0.005em',
         }}
       >
-        {question.question}
+        {t(`${qPath}.title`)}
       </h3>
 
       {/* options */}
       <ul className="list-none p-0 m-0">
         {question.options.map((opt) => {
-          const isMine = myVote === opt.id;
+          const isMine = myVoteOptionId === opt.id;
           const pct = cardVotes > 0 ? Math.round(((opt.votes || 0) / cardVotes) * 100) : 0;
           return (
             <OptionRow
               key={opt.id}
-              option={opt}
+              label={t(`${qPath}.options.${opt.optionKey}`)}
               pct={pct}
               hasVoted={hasVoted}
               isMine={isMine}
@@ -274,7 +279,7 @@ function QuestionCard({ index, total, question, myVote, onVote, t }) {
   );
 }
 
-function OptionRow({ option, pct, hasVoted, isMine, onClick }) {
+function OptionRow({ label, pct, hasVoted, isMine, onClick }) {
   const [hover, setHover] = useState(false);
   const interactive = !hasVoted;
   const bg = interactive && hover ? 'rgba(255,255,255,0.03)' : 'transparent';
@@ -297,7 +302,6 @@ function OptionRow({ option, pct, hasVoted, isMine, onClick }) {
         }}
       >
         <div className="flex items-center gap-3">
-          {/* radio circle */}
           <span
             aria-hidden="true"
             className="shrink-0"
@@ -310,11 +314,9 @@ function OptionRow({ option, pct, hasVoted, isMine, onClick }) {
               transition: 'all 150ms ease-out',
             }}
           />
-          {/* label */}
           <span className="flex-1" style={{ fontSize: 15, color: '#fff' }}>
-            {option.label}
+            {label}
           </span>
-          {/* percentage (only after vote) */}
           {hasVoted && (
             <span
               className="font-data italic"
@@ -328,7 +330,6 @@ function OptionRow({ option, pct, hasVoted, isMine, onClick }) {
             </span>
           )}
         </div>
-        {/* bar */}
         <div
           aria-hidden="true"
           className="mt-2"
@@ -376,13 +377,8 @@ function EmptyState({ t }) {
 }
 
 // ---------- Data hook ------------------------------------------------
-// Tries to fetch the latest 5 active polls from Supabase. If the
-// schema doesn't yet have a `polls` table (current state, since
-// backend activation is paused), the query errors and the page falls
-// gracefully into the empty state. When the team adds the polls
-// table, no code change is needed here — just real data flows in.
 
-function useWeeklyAgenda() {
+function useWeeklyAgenda(refreshKey = 0) {
   const [state, setState] = useState({ questions: [], totalWeekVotes: 0, loading: true });
 
   useEffect(() => {
@@ -393,19 +389,12 @@ function useWeeklyAgenda() {
     let cancelled = false;
     (async () => {
       const { data, error } = await supabase
-        .from('polls')
-        .select(`
-          id,
-          category,
-          question,
-          options:poll_options(id, label, position, votes:poll_votes(count))
-        `)
-        .eq('active', true)
+        .from('weekly_agenda')
+        .select('*')
         .order('position', { ascending: true })
         .limit(5);
 
       if (cancelled) return;
-
       if (error || !data) {
         setState({ questions: [], totalWeekVotes: 0, loading: false });
         return;
@@ -413,12 +402,13 @@ function useWeeklyAgenda() {
 
       const questions = data.map((row) => ({
         id: row.id,
-        category: row.category || '',
-        question: row.question,
-        options: (row.options || [])
-          .slice()
-          .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
-          .map((o) => ({ id: o.id, label: o.label, votes: o.votes?.[0]?.count || 0 })),
+        questionKey: row.question_key,
+        categoryKey: row.category_key,
+        options: (row.options || []).map((o) => ({
+          id: o.id,
+          optionKey: o.option_key,
+          votes: o.votes || 0,
+        })),
       }));
 
       const totalWeekVotes = questions.reduce(
@@ -430,9 +420,45 @@ function useWeeklyAgenda() {
     })();
 
     return () => { cancelled = true; };
-  }, []);
+  }, [refreshKey]);
 
   return state;
+}
+
+// ---------- Server-side vote write -----------------------------------
+
+async function submitVoteToServer(questionId, optionId) {
+  if (!isSupabaseConfigured()) return;
+  try {
+    const fingerprint = getDeviceFingerprint();
+    await supabase.from('vote_records').insert({
+      question_id: questionId,
+      option_id: optionId,
+      device_fingerprint: fingerprint,
+    });
+    // Duplicate-key errors are expected if the device already voted —
+    // ignore them. localStorage is the source of truth for "voted".
+  } catch (_) {
+    // Network / table-missing — silent fail; localStorage keeps the UX intact.
+  }
+}
+
+function getDeviceFingerprint() {
+  const KEY = 'bs:device-id';
+  if (typeof window === 'undefined') return 'ssr';
+  try {
+    let id = window.localStorage.getItem(KEY);
+    if (!id) {
+      id =
+        (window.crypto && typeof window.crypto.randomUUID === 'function')
+          ? window.crypto.randomUUID()
+          : Math.random().toString(36).slice(2) + Date.now().toString(36);
+      window.localStorage.setItem(KEY, id);
+    }
+    return id;
+  } catch {
+    return 'no-storage';
+  }
 }
 
 // ---------- Per-device vote storage ----------------------------------
@@ -448,7 +474,7 @@ function useDeviceVotes(weekId) {
   const cast = useCallback(
     (questionId, optionId) => {
       setVotes((prev) => {
-        if (prev[questionId]) return prev; // one vote per question per device
+        if (prev[questionId]) return prev;
         const next = { ...prev, [questionId]: optionId };
         try { window.localStorage.setItem(KEY, JSON.stringify(next)); } catch {}
         return next;
@@ -463,7 +489,6 @@ function useDeviceVotes(weekId) {
 // ---------- Week helpers ---------------------------------------------
 
 function isoWeekId(d) {
-  // Returns "YYYY-Www" for the date's ISO week.
   const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   const dayNum = date.getUTCDay() || 7;
   date.setUTCDate(date.getUTCDate() + 4 - dayNum);
@@ -475,7 +500,7 @@ function isoWeekId(d) {
 function useWeekRangeLabel(t) {
   return useMemo(() => {
     const now = new Date();
-    const day = now.getDay() || 7; // Mon=1, Sun=7
+    const day = now.getDay() || 7;
     const monday = new Date(now);
     monday.setDate(now.getDate() - (day - 1));
     const sunday = new Date(monday);

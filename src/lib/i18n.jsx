@@ -455,6 +455,58 @@ const translations = {
         cta: 'ENTRA NO FÓRUM →',
       },
       months: ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'],
+      questions: {
+        q1: {
+          category: 'CICLOVIAS',
+          title: 'A Câmara do Porto decidiu: a faixa direita da Boavista será partilhada entre carros e bicicletas a 30 km/h. O que devia ter sido a solução?',
+          options: {
+            segregated: 'Ciclovia segregada — retirar uma faixa aos carros',
+            shared30: 'Via partilhada a 30 km/h (a solução actual)',
+            metrobus: 'Permitir bicicletas no canal do metrobus',
+            nothing: 'Não fazer nada — a Boavista já é demasiado movimentada',
+          },
+        },
+        q2: {
+          category: 'MICROMOBILIDADE',
+          title: 'Trotinetes nos passeios. Trotinetes na ciclovia. Trotinetes na estrada. O Porto precisa de uma posição clara.',
+          options: {
+            likebikes: 'Mesmas regras das bicicletas — partilhar ciclovias',
+            exclusive: 'Faixa exclusiva nas avenidas principais',
+            banned: 'Banidas dos passeios com fiscalização real',
+            regulation: 'Idade mínima 16 anos + capacete obrigatório',
+          },
+        },
+        q3: {
+          category: 'VELOCIDADE',
+          title: 'Paris baixou para 30 km/h em toda a cidade. Bruxelas também. Porto está a estudar zonas 30. Até onde devemos ir?',
+          options: {
+            everywhere: 'Toda a cidade a 30 km/h, como Paris',
+            schoolsonly: 'Apenas zonas escolares e residenciais',
+            shared: 'Apenas avenidas com modos suaves partilhados',
+            keep50: 'Manter os 50 km/h actuais',
+          },
+        },
+        q4: {
+          category: 'ESCOLAS',
+          title: 'Oeiras tem 23 linhas de Bike Bus e Pedi Bus, financiadas pelo município. Porto tem zero apoio municipal. Como é que isto se resolve?',
+          options: {
+            fullfunding: 'Câmara do Porto financia Bike Bus em todas as escolas',
+            schoolself: 'Cada escola decide e organiza-se sozinha',
+            logistics: 'Câmara apenas dá apoio logístico (sinalização, acompanhamento)',
+            parents: 'Pais e voluntários sem envolvimento da câmara',
+          },
+        },
+        q5: {
+          category: 'CAMPUS',
+          title: 'FEUP, FLUP, FEP, FBAUP. Quatro polos universitários no Porto, quase zero estacionamento de bicicletas. De quem é a responsabilidade?',
+          options: {
+            university: 'Universidade do Porto — é dentro do campus',
+            cityhall: 'Câmara Municipal — é espaço público adjacente',
+            partnership: 'Parceria entre universidade e câmara',
+            students: 'Estudantes e associações de estudantes organizam',
+          },
+        },
+      },
     },
   },
   en: {
@@ -911,6 +963,58 @@ const translations = {
         cta: 'ENTER THE FORUM →',
       },
       months: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      questions: {
+        q1: {
+          category: 'BIKE LANES',
+          title: 'Porto City Hall decided: the right lane of Boavista will be shared between cars and bikes at 30 km/h. What should the solution have been?',
+          options: {
+            segregated: 'Segregated bike lane — take a lane from cars',
+            shared30: 'Shared lane at 30 km/h (the current solution)',
+            metrobus: 'Allow bikes in the metrobus lane',
+            nothing: 'Do nothing — Boavista is already too busy',
+          },
+        },
+        q2: {
+          category: 'MICROMOBILITY',
+          title: 'Scooters on sidewalks. Scooters in bike lanes. Scooters on roads. Porto needs a clear position.',
+          options: {
+            likebikes: 'Same rules as bikes — share bike lanes',
+            exclusive: 'Exclusive lane on main avenues',
+            banned: 'Banned from sidewalks with real enforcement',
+            regulation: 'Minimum age 16 + mandatory helmet',
+          },
+        },
+        q3: {
+          category: 'SPEED',
+          title: 'Paris went down to 30 km/h citywide. Brussels too. Porto is studying 30 zones. How far should we go?',
+          options: {
+            everywhere: 'Entire city at 30 km/h, like Paris',
+            schoolsonly: 'Only school zones and residential areas',
+            shared: 'Only avenues with shared soft modes',
+            keep50: 'Keep the current 50 km/h',
+          },
+        },
+        q4: {
+          category: 'SCHOOLS',
+          title: 'Oeiras has 23 Bike Bus and Pedi Bus lines, funded by the city. Porto has zero municipal support. How do we fix this?',
+          options: {
+            fullfunding: 'Porto City Hall funds Bike Bus in all schools',
+            schoolself: 'Each school decides and organizes on its own',
+            logistics: 'City Hall provides only logistical support (signage, accompaniment)',
+            parents: 'Parents and volunteers without city involvement',
+          },
+        },
+        q5: {
+          category: 'CAMPUS',
+          title: 'FEUP, FLUP, FEP, FBAUP. Four university campuses in Porto, almost zero bike parking. Whose responsibility is it?',
+          options: {
+            university: 'University of Porto — it\'s inside the campus',
+            cityhall: 'City Hall — it\'s adjacent public space',
+            partnership: 'Partnership between university and city hall',
+            students: 'Students and student associations organize',
+          },
+        },
+      },
     },
   },
   es: {
@@ -1367,6 +1471,58 @@ const translations = {
         cta: 'ENTRA EN EL FORO →',
       },
       months: ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'],
+      questions: {
+        q1: {
+          category: 'CICLOVÍAS',
+          title: 'El Ayuntamiento de Oporto decidió: el carril derecho de Boavista será compartido entre coches y bicis a 30 km/h. ¿Cuál debería haber sido la solución?',
+          options: {
+            segregated: 'Carril bici segregado — quitar un carril a los coches',
+            shared30: 'Carril compartido a 30 km/h (la solución actual)',
+            metrobus: 'Permitir bicis en el carril del metrobús',
+            nothing: 'No hacer nada — Boavista ya está demasiado transitada',
+          },
+        },
+        q2: {
+          category: 'MICROMOVILIDAD',
+          title: 'Patinetes en aceras. Patinetes en carriles bici. Patinetes en carreteras. Oporto necesita una posición clara.',
+          options: {
+            likebikes: 'Mismas reglas que las bicis — compartir carriles bici',
+            exclusive: 'Carril exclusivo en avenidas principales',
+            banned: 'Prohibidas en aceras con fiscalización real',
+            regulation: 'Edad mínima 16 años + casco obligatorio',
+          },
+        },
+        q3: {
+          category: 'VELOCIDAD',
+          title: 'París bajó a 30 km/h en toda la ciudad. Bruselas también. Oporto está estudiando zonas 30. ¿Hasta dónde debemos llegar?',
+          options: {
+            everywhere: 'Toda la ciudad a 30 km/h, como París',
+            schoolsonly: 'Sólo zonas escolares y residenciales',
+            shared: 'Sólo avenidas con modos suaves compartidos',
+            keep50: 'Mantener los 50 km/h actuales',
+          },
+        },
+        q4: {
+          category: 'ESCUELAS',
+          title: 'Oeiras tiene 23 líneas de Bike Bus y Pedi Bus, financiadas por el municipio. Oporto tiene cero apoyo municipal. ¿Cómo se resuelve esto?',
+          options: {
+            fullfunding: 'El Ayuntamiento de Oporto financia Bike Bus en todas las escuelas',
+            schoolself: 'Cada escuela decide y se organiza sola',
+            logistics: 'El Ayuntamiento solo da apoyo logístico (señalización, acompañamiento)',
+            parents: 'Padres y voluntarios sin participación municipal',
+          },
+        },
+        q5: {
+          category: 'CAMPUS',
+          title: 'FEUP, FLUP, FEP, FBAUP. Cuatro campus universitarios en Oporto, casi cero estacionamiento de bicis. ¿De quién es la responsabilidad?',
+          options: {
+            university: 'Universidad de Oporto — es dentro del campus',
+            cityhall: 'Ayuntamiento — es espacio público adyacente',
+            partnership: 'Asociación entre universidad y ayuntamiento',
+            students: 'Estudiantes y asociaciones de estudiantes organizan',
+          },
+        },
+      },
     },
   },
   fr: {
@@ -1823,6 +1979,58 @@ const translations = {
         cta: 'ENTRE DANS LE FORUM →',
       },
       months: ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUN', 'JUL', 'AOÛ', 'SEP', 'OCT', 'NOV', 'DÉC'],
+      questions: {
+        q1: {
+          category: 'PISTES CYCLABLES',
+          title: 'La mairie de Porto a décidé : la voie de droite de la Boavista sera partagée entre voitures et vélos à 30 km/h. Quelle aurait dû être la solution ?',
+          options: {
+            segregated: 'Piste cyclable séparée — retirer une voie aux voitures',
+            shared30: 'Voie partagée à 30 km/h (la solution actuelle)',
+            metrobus: 'Autoriser les vélos dans la voie du métrobus',
+            nothing: 'Ne rien faire — la Boavista est déjà trop fréquentée',
+          },
+        },
+        q2: {
+          category: 'MICROMOBILITÉ',
+          title: 'Trottinettes sur les trottoirs. Trottinettes sur les pistes cyclables. Trottinettes sur la route. Porto a besoin d\'une position claire.',
+          options: {
+            likebikes: 'Mêmes règles que les vélos — partager les pistes cyclables',
+            exclusive: 'Voie exclusive sur les avenues principales',
+            banned: 'Interdites sur les trottoirs avec un vrai contrôle',
+            regulation: 'Âge minimum 16 ans + casque obligatoire',
+          },
+        },
+        q3: {
+          category: 'VITESSE',
+          title: 'Paris est passé à 30 km/h dans toute la ville. Bruxelles aussi. Porto étudie les zones 30. Jusqu\'où devons-nous aller ?',
+          options: {
+            everywhere: 'Toute la ville à 30 km/h, comme Paris',
+            schoolsonly: 'Uniquement zones scolaires et résidentielles',
+            shared: 'Uniquement avenues avec modes doux partagés',
+            keep50: 'Maintenir les 50 km/h actuels',
+          },
+        },
+        q4: {
+          category: 'ÉCOLES',
+          title: 'Oeiras a 23 lignes de Vélobus et Pédibus, financées par la municipalité. Porto n\'a aucun soutien municipal. Comment résoudre cela ?',
+          options: {
+            fullfunding: 'La mairie de Porto finance le Vélobus dans toutes les écoles',
+            schoolself: 'Chaque école décide et s\'organise seule',
+            logistics: 'La mairie ne fournit qu\'un soutien logistique (signalisation, accompagnement)',
+            parents: 'Parents et bénévoles sans implication de la mairie',
+          },
+        },
+        q5: {
+          category: 'CAMPUS',
+          title: 'FEUP, FLUP, FEP, FBAUP. Quatre campus universitaires à Porto, presque zéro stationnement vélo. À qui la responsabilité ?',
+          options: {
+            university: 'Université de Porto — c\'est dans le campus',
+            cityhall: 'Mairie — c\'est l\'espace public adjacent',
+            partnership: 'Partenariat entre université et mairie',
+            students: 'Étudiants et associations étudiantes s\'organisent',
+          },
+        },
+      },
     },
   },
 };
