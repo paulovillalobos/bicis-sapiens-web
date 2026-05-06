@@ -33,14 +33,10 @@ export default function Navbar({ onJoinClick }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-display text-sm font-bold">BS</span>
-            </div>
-            <span className={`font-display text-lg font-semibold tracking-tight transition-colors ${
-              scrolled ? 'text-foreground' : 'text-white'
-            }`}>
-              Bicis Sapiens
+          <a href="#" className="flex items-center gap-3 group">
+            <img src="/logo-solid.svg" alt="Bicis Sapiens" width="36" height="36" className="w-9 h-9" />
+            <span className="font-display text-lg font-black tracking-tightest text-foreground">
+              Bicis <i className="text-primary">Sapiens</i>
             </span>
           </a>
 
@@ -50,10 +46,10 @@ export default function Navbar({ onJoinClick }) {
               <a
                 key={item.key}
                 href={item.href}
-                className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`px-3 py-2 text-xs font-mono uppercase tracking-widest transition-colors ${
                   scrolled
                     ? 'text-muted-foreground hover:text-foreground hover:bg-secondary'
-                    : 'text-white/80 hover:text-white hover:bg-white/10'
+                    : 'text-foreground/70 hover:text-foreground hover:bg-foreground/5'
                 }`}
               >
                 {t(`nav.${item.key}`)}
@@ -64,17 +60,15 @@ export default function Navbar({ onJoinClick }) {
           {/* Right side */}
           <div className="flex items-center gap-3">
             {/* Language selector */}
-            <div className="hidden sm:flex items-center gap-0.5 bg-secondary/50 backdrop-blur rounded-lg p-0.5">
+            <div className="hidden sm:flex items-center gap-0.5 bg-secondary/50 backdrop-blur p-0.5 border border-border">
               {LANGS.map(l => (
                 <button
                   key={l}
                   onClick={() => setLang(l.toLowerCase())}
-                  className={`px-2 py-1 text-xs font-mono font-medium rounded-md transition-all ${
+                  className={`px-2 py-1 text-xs font-mono uppercase tracking-widest transition-all ${
                     lang === l.toLowerCase()
                       ? 'bg-primary text-primary-foreground'
-                      : scrolled
-                        ? 'text-muted-foreground hover:text-foreground'
-                        : 'text-white/60 hover:text-white'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {l}
@@ -85,7 +79,7 @@ export default function Navbar({ onJoinClick }) {
             {/* CTA */}
             <button
               onClick={onJoinClick}
-              className="hidden md:inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="hidden md:inline-flex items-center px-4 py-2.5 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               {t('hero.cta')}
             </button>
@@ -93,9 +87,7 @@ export default function Navbar({ onJoinClick }) {
             {/* Mobile menu */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className={`lg:hidden p-2 rounded-lg transition-colors ${
-                scrolled ? 'text-foreground' : 'text-white'
-              }`}
+              className="lg:hidden p-2 text-foreground transition-colors"
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -112,7 +104,7 @@ export default function Navbar({ onJoinClick }) {
                 key={item.key}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
-                className="block px-3 py-2.5 text-sm font-medium text-foreground hover:bg-secondary rounded-lg"
+                className="block px-3 py-2.5 text-xs font-mono uppercase tracking-widest text-foreground hover:bg-secondary"
               >
                 {t(`nav.${item.key}`)}
               </a>
@@ -123,7 +115,7 @@ export default function Navbar({ onJoinClick }) {
                   <button
                     key={l}
                     onClick={() => { setLang(l.toLowerCase()); setMenuOpen(false); }}
-                    className={`px-3 py-1.5 text-xs font-mono font-medium rounded-md transition-all ${
+                    className={`px-3 py-1.5 text-xs font-mono uppercase tracking-widest transition-all ${
                       lang === l.toLowerCase()
                         ? 'bg-primary text-primary-foreground'
                         : 'text-muted-foreground hover:text-foreground bg-secondary'
@@ -135,7 +127,7 @@ export default function Navbar({ onJoinClick }) {
               </div>
               <button
                 onClick={() => { onJoinClick(); setMenuOpen(false); }}
-                className="w-full px-4 py-2.5 text-sm font-medium rounded-lg bg-primary text-primary-foreground"
+                className="w-full px-4 py-3 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground"
               >
                 {t('hero.cta')}
               </button>

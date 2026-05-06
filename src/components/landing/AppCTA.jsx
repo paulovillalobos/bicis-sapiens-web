@@ -32,7 +32,7 @@ export default function AppCTA() {
   };
 
   return (
-    <section id="app" ref={ref} className="reveal-section py-24 sm:py-32 bg-gradient-to-br from-[#0A1F14] via-[#0F3D5C] to-[#0A0A0A] text-white overflow-hidden">
+    <section id="app" ref={ref} className="reveal-section py-24 sm:py-32 bg-background text-foreground overflow-hidden border-t border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Content */}
@@ -70,14 +70,14 @@ export default function AppCTA() {
                 <button
                   onClick={() => handleSubmit('app_waitlist')}
                   disabled={submitting || !email}
-                  className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-xl bg-accent text-accent-foreground hover:bg-accent/90 transition-all disabled:opacity-50"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {t('app.waitlist')} <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleSubmit('app_backer')}
                   disabled={submitting || !email}
-                  className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-xl border border-white/30 text-white hover:bg-white/10 transition-all disabled:opacity-50"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-mono uppercase tracking-widest border border-foreground/30 text-foreground hover:bg-foreground/5 transition-colors disabled:opacity-50"
                 >
                   {t('app.support')}
                 </button>
@@ -92,8 +92,8 @@ export default function AppCTA() {
           <div className="relative flex justify-center">
             <div className="relative w-64 sm:w-72">
               {/* Phone frame */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-[3rem] p-3 border border-white/20 shadow-2xl">
-                <div className="bg-gradient-to-b from-[#1B5E3F] to-[#0F3D5C] rounded-[2.5rem] overflow-hidden aspect-[9/19.5]">
+              <div className="bg-foreground/5 backdrop-blur-sm rounded-[3rem] p-3 border border-foreground/15">
+                <div className="bg-primary rounded-[2.5rem] overflow-hidden aspect-[9/19.5]">
                   {/* Status bar */}
                   <div className="flex items-center justify-between px-8 pt-4 pb-2">
                     <span className="text-[10px] text-white/60 font-mono">9:41</span>

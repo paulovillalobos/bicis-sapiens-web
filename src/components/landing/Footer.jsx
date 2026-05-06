@@ -50,7 +50,7 @@ export default function Footer() {
                 <button
                   type="submit"
                   disabled={submitting || !consent}
-                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium rounded-xl bg-accent text-accent-foreground hover:bg-accent/90 transition-all disabled:opacity-50"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {t('footer.subscribe')} <ArrowRight className="w-4 h-4" />
                 </button>
@@ -74,11 +74,11 @@ export default function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-display text-sm font-bold">BS</span>
-              </div>
-              <span className="font-display text-lg font-semibold text-background">Bicis Sapiens</span>
+            <div className="flex items-center gap-3 mb-4">
+              <img src="/logo-solid.svg" alt="Bicis Sapiens" width="36" height="36" className="w-9 h-9" />
+              <span className="font-display text-lg font-black tracking-tightest text-background">
+                Bicis <i className="text-primary">Sapiens</i>
+              </span>
             </div>
             <p className="text-sm text-background/40 max-w-xs">
               Movimento cívico para uma cidade 100% amiga da bicicleta.

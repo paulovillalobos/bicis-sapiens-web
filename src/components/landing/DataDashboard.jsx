@@ -57,9 +57,9 @@ export default function DataDashboard() {
                 <button
                   key={city}
                   onClick={() => setCompareCity(compareCity === city ? null : city)}
-                  className={`px-3 py-1.5 text-xs font-mono rounded-lg transition-all ${
+                  className={`px-3 py-1.5 text-xs font-mono uppercase tracking-widest transition-colors ${
                     compareCity === city
-                      ? 'bg-accent text-accent-foreground'
+                      ? 'bg-primary text-primary-foreground'
                       : 'bg-background/10 text-background/60 hover:bg-background/20'
                   }`}
                 >
