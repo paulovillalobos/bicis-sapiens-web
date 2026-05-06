@@ -26,6 +26,15 @@ const HAIRLINE_SOFT  = 'rgba(255, 255, 255, 0.08)';
 const SURFACE        = 'rgba(255, 255, 255, 0.04)';
 const SURFACE_BORDER = 'rgba(255, 255, 255, 0.10)';
 
+// City identity colors — flag-rooted, distinct against obsidian.
+// The whole dashboard "wears" the active city's color: bottom bar fill,
+// city-name labels, and active pill background all draw from this map.
+const CITY_COLORS = {
+  Paris:      '#0055A4',  // French flag blue
+  Amsterdam:  '#F36C21',  // Dutch royal orange
+  Copenhagen: '#C60C30',  // Danish flag red
+};
+
 // --- Helpers ---
 function deltaPct(porto, compare, inverse = false) {
   if (!porto || !compare) return null;
@@ -115,7 +124,7 @@ const Delta = ({ children, deps }) => (
 );
 
 // --- Atom: bar row (track + animated fill + label) ---
-function BarRow({ pct, color, label, muted, delayMs }) {
+function BarRow({ pct, color, label, labelColor, delayMs, pulsing }) {
   return (
     <div className="flex items-center gap-2">
       <div
@@ -123,7 +132,7 @@ function BarRow({ pct, color, label, muted, delayMs }) {
         style={{ height: 4, background: 'rgba(255, 255, 255, 0.08)', borderRadius: 2 }}
       >
         <div
-          className="bs-data-bar-fill absolute left-0 top-0 h-full"
+          className={`bs-data-bar-fill absolute left-0 top-0 h-full ${pulsing ? 'is-pulsing' : ''}`}
           style={{
             width: `${pct}%`,
             background: color,
@@ -138,7 +147,9 @@ function BarRow({ pct, color, label, muted, delayMs }) {
           fontSize: 10,
           letterSpacing: '0.05em',
           minWidth: 32,
-          color: muted ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.6)',
+          color: labelColor,
+          opacity: 0.9,
+          transition: 'color 600ms ease-out',
         }}
       >
         {label}
@@ -148,7 +159,7 @@ function BarRow({ pct, color, label, muted, delayMs }) {
 }
 
 // --- Stat cell ---
-function StatCell({ label, metric, decimals, portoVal, compareVal, compareShort, compareName, staggerIndex, transitioning, displayedCity }) {
+function StatCell({ label, metric, decimals, portoVal, compareVal, compareShort, compareName, cityColor, staggerIndex, transitioning, pulsing, displayedCity }) {
   const bars = makeBars(portoVal, compareVal);
   const portoWorse = isPortoWorse(metric, portoVal, compareVal);
   const portoBarColor = portoWorse ? CORAL : BLUE;
@@ -176,16 +187,19 @@ function StatCell({ label, metric, decimals, portoVal, compareVal, compareShort,
       <div
         className={`flex flex-col gap-1.5 bs-data-bars ${transitioning ? 'is-transitioning' : ''}`}
       >
-        <BarRow pct={bars.porto}   color={portoBarColor}                 label="Porto"        muted={false} delayMs={delayMs} />
-        <BarRow pct={bars.compare} color="rgba(255, 255, 255, 0.4)"      label={compareShort} muted={true}  delayMs={delayMs} />
+        <BarRow pct={bars.porto}   color={portoBarColor} label="Porto"        labelColor="rgba(255,255,255,0.6)" delayMs={delayMs} pulsing={pulsing} />
+        <BarRow pct={bars.compare} color={cityColor}     label={compareShort} labelColor={cityColor}             delayMs={delayMs} pulsing={pulsing} />
       </div>
 
       <p
         key={`${displayedCity}-${metric}`}
         className="bs-data-fade-in m-0"
-        style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: '0.5rem' }}
+        style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', marginTop: '0.5rem' }}
       >
-        {compareName}: <CountUp value={compareVal} decimals={decimals} />
+        <span style={{ color: cityColor, transition: 'color 600ms ease-out' }}>
+          {compareName}
+        </span>
+        : <CountUp value={compareVal} decimals={decimals} />
       </p>
     </div>
   );
@@ -200,15 +214,28 @@ export default function DataDashboard() {
   // Two-phase city change for dramatic feedback:
   //   selectedCity → button highlight (immediate)
   //   displayedCity → actual values (after 200ms fade dip)
+  //   pulsing → 200ms saturation boost right after values land
   const [selectedCity, setSelectedCity] = useState('Amsterdam');
   const [displayedCity, setDisplayedCity] = useState('Amsterdam');
+  const [pulsing, setPulsing] = useState(false);
   const transitioning = selectedCity !== displayedCity;
 
   useEffect(() => {
     if (selectedCity === displayedCity) return;
-    const id = setTimeout(() => setDisplayedCity(selectedCity), 200);
-    return () => clearTimeout(id);
+    const swap = setTimeout(() => {
+      setDisplayedCity(selectedCity);
+      setPulsing(true);
+    }, 200);
+    return () => clearTimeout(swap);
   }, [selectedCity, displayedCity]);
+
+  useEffect(() => {
+    if (!pulsing) return;
+    const id = setTimeout(() => setPulsing(false), 200);
+    return () => clearTimeout(id);
+  }, [pulsing]);
+
+  const cityColor = CITY_COLORS[displayedCity] || 'rgba(255, 255, 255, 0.4)';
 
   const porto = cityData.Porto;
   const compare = cityData[displayedCity];
@@ -278,15 +305,19 @@ export default function DataDashboard() {
             </span>
             {['Amsterdam', 'Paris', 'Copenhagen'].map((city) => {
               const active = selectedCity === city;
+              const activeColor = CITY_COLORS[city];
               return (
                 <button
                   key={city}
                   onClick={() => setSelectedCity(city)}
-                  className={`bs-data-pill font-mono uppercase ${active ? 'is-active' : ''}`}
+                  className={`bs-data-pill font-mono uppercase ${active ? 'is-active' : ''} ${active && pulsing ? 'is-pulsing' : ''}`}
                   style={{
                     fontSize: 11,
                     letterSpacing: '0.1em',
                     color: '#fff',
+                    background: active ? activeColor : undefined,
+                    borderColor: active ? activeColor : undefined,
+                    boxShadow: active ? `0 0 20px ${activeColor}4D` : undefined,
                   }}
                 >
                   {city}
@@ -366,7 +397,11 @@ export default function DataDashboard() {
                 borderTop: `0.5px solid ${HAIRLINE_SOFT}`,
               }}
             >
-              vs {displayedCity}: <CountUp value={compare.green} decimals={1} suffix="m²" />
+              vs{' '}
+              <span style={{ color: cityColor, transition: 'color 600ms ease-out' }}>
+                {displayedCity}
+              </span>
+              : <CountUp value={compare.green} decimals={1} suffix="m²" />
               {' — '}
               {t('numbers.greenSpace.portoHas')}{' '}
               <span style={{ color: BLUE, fontStyle: 'italic' }}>{greenRatio}×</span>{' '}
@@ -403,8 +438,10 @@ export default function DataDashboard() {
                   compareVal={stat.compareVal}
                   compareShort={compareShort}
                   compareName={displayedCity}
+                  cityColor={cityColor}
                   staggerIndex={i}
                   transitioning={transitioning}
+                  pulsing={pulsing}
                   displayedCity={displayedCity}
                 />
               </div>
