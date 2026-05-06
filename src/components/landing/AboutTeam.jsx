@@ -3,14 +3,15 @@ import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
 
 // ⚠️ ADVISOR REGISTRY — TO ADD A NEW ADVISOR:
-//   1. Drop a B&W portrait at /public/team/{slug}.jpg
+//   1. Drop a B&W portrait at /public/team/{slug}.webp
+//      (use cwebp-bin, target ~1200px tall, q82, ~5:6 portrait crop)
 //   2. Append { slug, initial, hasPhoto: true } here
 //   3. Add about.advisors.{slug} block to all 4 i18n locales
 //
 // hasPhoto controls whether we render an <img> or the initial fallback.
 // Set to false until the file exists — avoids a 404 in the network panel.
 const ADVISORS = [
-  { slug: 'paulo', initial: 'P', hasPhoto: false },
+  { slug: 'paulo', initial: 'P', hasPhoto: true },
 ];
 const ADVISOR_GRID_COLS = 4;
 
@@ -23,12 +24,12 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, desc }) {
   return (
     <div>
       <div
-        className="aspect-square w-full flex items-center justify-center overflow-hidden bg-white/[0.04]"
+        className="aspect-[5/6] w-full flex items-center justify-center overflow-hidden bg-white/[0.04]"
         style={{ border: '0.5px solid rgba(255,255,255,0.10)' }}
       >
         {!showInitial && (
           <img
-            src={`/team/${slug}.jpg`}
+            src={`/team/${slug}.webp`}
             alt={name}
             loading="lazy"
             decoding="async"
