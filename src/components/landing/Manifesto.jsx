@@ -1,53 +1,11 @@
 import React from 'react';
 import { useI18n } from '@/lib/i18n';
 
-// Inline minimal bike mark — used inside placeholder figures.
-// Same anatomy as logo-solid.svg (bike only, no tile/border).
-function BikeMark() {
+// Full-bleed editorial spread image (70vh tall, edge-to-edge)
+function ManifestoSpread({ src, alt }) {
   return (
-    <svg
-      className="bs-bike"
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      aria-hidden="true"
-    >
-      <g stroke="#FAFAF7" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="32" cy="62" r="13" />
-        <circle cx="68" cy="62" r="13" />
-        <line x1="32" y1="62" x2="50" y2="62" />
-        <line x1="50" y1="62" x2="46" y2="33" />
-        <line x1="50" y1="62" x2="65" y2="36" />
-        <line x1="46" y1="33" x2="65" y2="36" />
-        <line x1="65" y1="36" x2="76" y2="33" />
-        <line x1="42" y1="31" x2="51" y2="31" />
-      </g>
-    </svg>
-  );
-}
-
-// Renders a real <img> at /images/manifesto-XX.webp; falls back to an
-// EU-blue placeholder with bike silhouette + prompt caption when 404.
-// Image fades in via `is-loaded` class only on successful onLoad — so
-// during the 404 attempt, the placeholder is already visible underneath.
-function ManifestoFigure({ id, prompt, src }) {
-  return (
-    <figure className="bs-manifesto-figure" aria-label={`${id}: ${prompt}`}>
-      <img
-        src={src}
-        alt={prompt}
-        loading="lazy"
-        decoding="async"
-        onLoad={(e) => e.currentTarget.classList.add('is-loaded')}
-        onError={(e) => { e.currentTarget.style.display = 'none'; }}
-      />
-      <div className="bs-manifesto-placeholder">
-        <BikeMark />
-        <figcaption className="bs-manifesto-figcaption">
-          <span className="bs-manifesto-figcaption-id">{id}</span>
-          <span>{prompt}</span>
-        </figcaption>
-      </div>
+    <figure className="bs-manifesto-spread">
+      <img src={src} alt={alt} loading="lazy" decoding="async" />
     </figure>
   );
 }
@@ -64,60 +22,59 @@ export default function Manifesto() {
         </span>
       </div>
 
-      {/* PRINCIPLE 01 — IDENTIDADE / left-aligned */}
+      {/* PRINCIPLE 01 — text first, image follows. Left-aligned. */}
       <article className="bs-principle bs-principle--left">
         <span aria-hidden="true" className="bs-principle-watermark">01</span>
-        <p className="bs-principle-eyebrow">Identidade</p>
+        <p className="bs-principle-eyebrow">Identidade · O espaço público</p>
         <h2 className="bs-principle-mega">
-          Somos <em>humanos</em>.
+          A rua pertence às <em>crianças</em>.
         </h2>
         <p className="bs-principle-supporting">
-          {beliefs[2] || 'A rua pertence às crianças, aos idosos, às famílias.'}
+          Aos idosos, às famílias. Não a quem passa por ela mais depressa.
+          {beliefs[0] ? ` ${beliefs[0]}` : ''}
         </p>
       </article>
 
-      <ManifestoFigure
-        id="IMG_01"
-        prompt="niño 8 anos · bici clássica · calçada portuguesa · hora dorada"
-        src="/images/manifesto-01.webp"
+      <ManifestoSpread
+        src="/images/manifesto/manifesto-01-crianca-bicicleta.webp"
+        alt="Criança a atravessar uma rua de Porto em bicicleta clássica"
       />
 
-      {/* PRINCIPLE 02 — POSIÇÃO / right-aligned */}
+      {/* PRINCIPLE 02 — image first, text follows. Right-aligned. */}
+      <ManifestoSpread
+        src="/images/manifesto/manifesto-02-ciclista-rua-partilhada.webp"
+        alt="Ciclista numa rua partilhada do Porto, sem ciclovia dedicada"
+      />
+
       <article className="bs-principle bs-principle--right">
         <span aria-hidden="true" className="bs-principle-watermark">02</span>
-        <p className="bs-principle-eyebrow">Posição</p>
+        <p className="bs-principle-eyebrow">Posição · Sem obras</p>
         <h2 className="bs-principle-mega">
-          O carro não é <em>indispensável</em>.
+          A bicicleta não precisa de <em>infraestrutura</em>.
         </h2>
         <p className="bs-principle-supporting">
           {beliefs[5] || 'A bicicleta não precisa de infraestrutura dedicada para ser segura.'}
           {' '}
-          {beliefs[4] || 'Opomo-nos a decisões sem análise nem consenso.'}
+          Precisa de respeito.
+          {beliefs[4] ? ` ${beliefs[4]}` : ' Opomo-nos a decisões sem análise nem consenso.'}
         </p>
       </article>
 
-      <ManifestoFigure
-        id="IMG_02"
-        prompt="anciana com bastão · paso de cebra · autos parados · respeito"
-        src="/images/manifesto-02.webp"
-      />
-
-      {/* PRINCIPLE 03 — VISÃO / centered */}
+      {/* PRINCIPLE 03 — text first, image follows. Centered. */}
       <article className="bs-principle bs-principle--center">
         <span aria-hidden="true" className="bs-principle-watermark">03</span>
-        <p className="bs-principle-eyebrow">Visão · 25 anos</p>
+        <p className="bs-principle-eyebrow">Visão · Mobilidade humana</p>
         <h2 className="bs-principle-mega">
-          Uma cidade <em>silenciosa</em>.
+          Mobilidade humana, em <em>família</em>.
         </h2>
         <p className="bs-principle-supporting">
-          {beliefs[6] || 'Visão a 25 anos: cidade silenciosa, com árvores, com espaço para crianças.'}
+          {beliefs[6] || 'Cidade silenciosa, com árvores, com espaço para crianças jogarem na rua.'}
         </p>
       </article>
 
-      <ManifestoFigure
-        id="IMG_03"
-        prompt="cargo bike · pai com 2 crianças · cuesta de Porto · azulejos ao fundo"
-        src="/images/manifesto-03.webp"
+      <ManifestoSpread
+        src="/images/manifesto/manifesto-03-cargo-bike-familia.webp"
+        alt="Cargo bike a subir uma rua do Porto com pai e duas crianças, azulejos ao fundo"
       />
 
       <div className="bs-manifesto-colophon">
