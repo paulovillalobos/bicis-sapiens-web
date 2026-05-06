@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --background: 40 20% 98%;
+    --foreground: 0 0% 4%;
+    --card: 40 20% 99%;
+    --card-foreground: 0 0% 4%;
+    --popover: 40 20% 99%;
+    --popover-foreground: 0 0% 4%;
+    --primary: 153 54% 24%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 40 10% 93%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 40 10% 93%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 145 65% 58%;
+    --accent-foreground: 153 54% 14%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 10% 88%;
+    --input: 40 10% 88%;
+    --ring: 153 54% 24%;
+    --chart-1: 153 54% 24%;
+    --chart-2: 200 72% 21%;
+    --chart-3: 145 65% 58%;
+    --chart-4: 199 89% 60%;
+    --chart-5: 40 20% 70%;
+    --radius: 0.625rem;
+
+    --deep-blue: 200 72% 21%;
+    --light-blue: 199 89% 60%;
+    --sidebar-background: 40 20% 97%;
+    --sidebar-foreground: 220 9% 26%;
+    --sidebar-primary: 153 54% 24%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 40 10% 93%;
+    --sidebar-accent-foreground: 0 0% 9%;
+    --sidebar-border: 40 10% 88%;
+    --sidebar-ring: 153 54% 24%;
+  }
+
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 40 20% 98%;
+    --card: 0 0% 7%;
+    --card-foreground: 40 20% 98%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 40 20% 98%;
+    --primary: 145 65% 58%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 40 20% 98%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 220 9% 60%;
+    --accent: 153 54% 24%;
+    --accent-foreground: 40 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 145 65% 58%;
+    --chart-1: 145 65% 58%;
+    --chart-2: 199 89% 60%;
+    --chart-3: 153 54% 24%;
+    --chart-4: 200 72% 21%;
+    --chart-5: 40 20% 50%;
+
+    --deep-blue: 199 89% 60%;
+    --light-blue: 200 72% 40%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 40 20% 95%;
+    --sidebar-primary: 145 65% 58%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 40 20% 95%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 145 65% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Animated counter */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Subtle parallax */
+.parallax-light {
+  will-change: transform;
+}
+
+/* Map styles */
+.leaflet-container {
+  font-family: var(--font-body) !important;
+  border-radius: var(--radius);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px !important;
+  font-family: var(--font-body) !important;
+}
+
+/* Section reveal animation */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stat card hover */
+.stat-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px -8px rgba(27, 94, 63, 0.12);
+}
+
+/* Scroll indicator pulse */
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(6px); }
+}
+
+.scroll-indicator {
+  animation: scrollPulse 2s ease-in-out infinite;
+}

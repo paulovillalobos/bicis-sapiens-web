@@ -1,0 +1,50 @@
+import React, { useState } from 'react';
+import { I18nProvider } from '@/lib/i18n';
+import Navbar from '@/components/landing/Navbar';
+import Hero from '@/components/landing/Hero';
+import Manifesto from '@/components/landing/Manifesto';
+import DataDashboard from '@/components/landing/DataDashboard';
+import Solution3Cs from '@/components/landing/Solution3Cs';
+import InteractiveMap from '@/components/landing/InteractiveMap';
+import BikeBus from '@/components/landing/BikeBus';
+import AppCTA from '@/components/landing/AppCTA';
+import CommunityHub from '@/components/landing/CommunityHub';
+import Municipalities from '@/components/landing/Municipalities';
+import Resources from '@/components/landing/Resources';
+import AboutTeam from '@/components/landing/AboutTeam';
+import Donate from '@/components/landing/Donate';
+import Footer from '@/components/landing/Footer';
+import JoinModal from '@/components/landing/JoinModal';
+
+function LandingContent() {
+  const [joinOpen, setJoinOpen] = useState(false);
+  const openJoin = () => setJoinOpen(true);
+
+  return (
+    <div className="font-body min-h-screen bg-background text-foreground">
+      <Navbar onJoinClick={openJoin} />
+      <Hero onJoinClick={openJoin} />
+      <Manifesto />
+      <DataDashboard />
+      <Solution3Cs />
+      <InteractiveMap />
+      <BikeBus onJoinClick={openJoin} />
+      <AppCTA />
+      <CommunityHub onJoinClick={openJoin} />
+      <Municipalities />
+      <Resources />
+      <AboutTeam />
+      <Donate />
+      <Footer />
+      <JoinModal open={joinOpen} onOpenChange={setJoinOpen} />
+    </div>
+  );
+}
+
+export default function Landing() {
+  return (
+    <I18nProvider>
+      <LandingContent />
+    </I18nProvider>
+  );
+}

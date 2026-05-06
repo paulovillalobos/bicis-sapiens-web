@@ -1,0 +1,55 @@
+{
+  "name": "Subscriber",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Subscriber email address"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full name"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "city": {
+      "type": "string",
+      "description": "City"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "movement",
+        "newsletter",
+        "app_waitlist",
+        "app_backer",
+        "bike_bus_create",
+        "bike_bus_join"
+      ],
+      "description": "Type of subscription"
+    },
+    "consent_given": {
+      "type": "boolean",
+      "default": false,
+      "description": "RGPD consent given"
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "pt",
+        "en",
+        "es",
+        "fr"
+      ],
+      "description": "Preferred language"
+    }
+  },
+  "required": [
+    "email",
+    "type",
+    "consent_given"
+  ]
+}
