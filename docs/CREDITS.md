@@ -8,11 +8,20 @@ Fontes de dados, imagens e bibliotecas usados no projeto.
 
 Os 68 brasões das freguesias do Greater Porto são propriedade dos respetivos detentores (juntas de freguesia, câmaras municipais, ou domínio público).
 
-**29 brasões** atualmente integrados nesta versão, com origem em **Wikimedia Commons** (licenças variadas — maioritariamente CC BY-SA ou domínio público para heráldica histórica).
+**50 de 68 brasões** atualmente integrados (73%), com origem em três tipos de fontes:
 
-A obtenção foi feita via:
-1. Consulta SPARQL ao **Wikidata** filtrando freguesias portuguesas (`wdt:P31 wd:Q1131296`) com brasão (`wdt:P94`).
-2. Transferência através de **Wikimedia Commons** (`Special:FilePath/{filename}?width=240`) com `User-Agent` identificado e taxa de pedido respeitada (≥1 s entre pedidos).
+- **Wikimedia Commons** (44) — licenças maioritariamente CC BY-SA ou domínio público para heráldica histórica. Obtidos via:
+  1. Consulta SPARQL ao **Wikidata** com `wdt:P31 wd:Q1131296` (freguesia portuguesa) + `wdt:P94` (coat of arms image).
+  2. Parsing do parâmetro `imagem_brasao` do infobox da página `pt.wikipedia.org` correspondente.
+  3. Pesquisa direta no Commons por nomes de ficheiro (`MTS-`, `VNG-`, `PRT-`, etc., convenção da Heráldica de Portugal por Sérgio Horta).
+- **pt.wikipedia.org Special:FilePath** (1) — para `Castêlo da Maia`, ficheiro carregado localmente em pt.wiki em vez do Commons.
+- **Sites oficiais das Juntas/Uniões de Freguesia** (5):
+  - **União das Freguesias de Sandim, Olival, Lever e Crestuma** (`uf-solc.pt`) — usado para `Sandim` e `Lever`, ambas membros da UF (logotipo da união, dado que estas freguesias deixaram de ter brasão próprio post-2013).
+  - **União das Freguesias de Nogueira e Silva Escura** (`nse.pt`) — logotipo institucional.
+  - **Junta de Freguesia de Anta** (`jf-anta.pt`) — brasão original da freguesia, redimensionado para 480 px de largura.
+  - **Junta de Freguesia de Silvalde** (`jf-silvalde.pt`) — logotipo institucional.
+
+Transferências automatizadas com `User-Agent` identificado e ≥0,8 s de pausa entre pedidos para respeitar a infraestrutura do Wikimedia/CDN.
 
 Detalhes por freguesia em [`/docs/missing-brasoes.md`](./missing-brasoes.md).
 

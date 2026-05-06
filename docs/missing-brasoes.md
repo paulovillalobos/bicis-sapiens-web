@@ -2,168 +2,111 @@
 
 Estado da coleção dos 68 brasões heráldicos das freguesias do Greater Porto.
 
-**29 de 68 implementados** (43%). 39 pendentes.
+**50 de 68 implementados (73%).** 18 pendentes.
+
+| Município | Total | Com brasão | Faltam |
+|---|---|---|---|
+| Espinho | 5 | 5 | 0 ✓ |
+| Gondomar | 7 | 3 | 4 |
+| Maia | 10 | 9 | 1 |
+| Matosinhos | 10 | 9 | 1 |
+| Porto | 7 | 2 | 5 |
+| Valongo | 5 | 5 | 0 ✓ |
+| Vila Nova de Gaia | 24 | 17 | 7 |
+| **Total** | **68** | **50** | **18** |
 
 ---
 
-## Brasões em falta
+## Brasões em falta (18)
 
 Cada um destes precisa de ser:
 
-1. encontrado (pt.wikipedia.org, junta de freguesia, câmara municipal, ou heraldica-portugal.com)
+1. encontrado em fontes adicionais (junta de freguesia oficial, câmara municipal, ou contacto direto com a junta);
+2. transferido para `/public/brasoes/{municipio_slug}/{slug}.{svg|png}`;
+3. registado em `/public/data/freguesias-brasoes.json` na entrada do DICOFRE correspondente.
 
-2. transferido para `/public/brasoes/{municipio_slug}/{slug}.{svg|png}`
-
-3. registado em `/public/data/freguesias-brasoes.json` na entrada do DICOFRE correspondente:
-
-```json
-
-"131203": {
-  "name": "Campanhã",
-  "municipio": "Porto",
-  "slug": "campanha",
-  "expected": "/brasoes/porto/campanha.svg",
-  "brasao": "/brasoes/porto/campanha.png",   <- preencher
-  "attribution": "Wikimedia Commons · CC BY-SA",  <- ou fonte real
-  "wikidata_qid": "Q...",
-  ...
-}
-```
-
+Razão típica para a falha: estas freguesias ou (a) foram absorvidas em uniões em 2013 (Lei 11-A/2013) sem que o brasão original tenha sido digitalizado, ou (b) nunca tiveram brasão heráldico oficialmente aprovado pelo Conselho de Heráldica.
 
 ### Porto (5 em falta)
 
-| DICOFRE | Freguesia | Slug esperado |
-|---|---|---|
-| `131203` | Campanhã | `/brasoes/porto/campanha.svg` |
-| `131210` | Paranhos | `/brasoes/porto/paranhos.svg` |
-| `131216` | União das freguesias de Aldoar, Foz do Douro e Nevogilde | `/brasoes/porto/aldoar-foz-do-douro-e-nevogilde.svg` |
-| `131217` | União das freguesias de Cedofeita, Santo Ildefonso, Sé, Miragaia, São Nicolau e Vitória | `/brasoes/porto/cedofeita-santo-ildefonso-se-miragaia-sao-nicolau-e-vitoria.svg` |
-| `131218` | União das freguesias de Lordelo do Ouro e Massarelos | `/brasoes/porto/lordelo-do-ouro-e-massarelos.svg` |
+| DICOFRE | Freguesia | Slug esperado | Notas |
+|---|---|---|---|
+| `131203` | Campanhã | `/brasoes/porto/campanha.svg` | Página pt.wiki existe; sem `imagem_brasao`. Tentar `jf-campanha.pt` ou contactar JF. |
+| `131210` | Paranhos | `/brasoes/porto/paranhos.svg` | Página pt.wiki existe (`Paranhos (Porto)`); sem brasão no infobox. |
+| `131216` | UF Aldoar, Foz do Douro e Nevogilde | `/brasoes/porto/aldoar-foz-do-douro-e-nevogilde.svg` | UF de 2013. Tentar `uffan.pt` ou similar. |
+| `131217` | UF Cedofeita, Santo Ildefonso, Sé, Miragaia, São Nicolau e Vitória | `/brasoes/porto/cedofeita-santo-ildefonso-se-miragaia-sao-nicolau-e-vitoria.svg` | Mega-UF de 6 freguesias do centro histórico. |
+| `131218` | UF Lordelo do Ouro e Massarelos | `/brasoes/porto/lordelo-do-ouro-e-massarelos.svg` | UF de 2013. |
 
-### Matosinhos (8 em falta)
+### Matosinhos (1 em falta)
 
-| DICOFRE | Freguesia | Slug esperado |
-|---|---|---|
-| `130815` | Custóias | `/brasoes/matosinhos/custoias.svg` |
-| `130816` | Guifões | `/brasoes/matosinhos/guifoes.svg` |
-| `130817` | Lavra | `/brasoes/matosinhos/lavra.svg` |
-| `130819` | Leça do Balio | `/brasoes/matosinhos/leca-do-balio.svg` |
-| `130820` | Matosinhos | `/brasoes/matosinhos/matosinhos.svg` |
-| `130821` | Perafita | `/brasoes/matosinhos/perafita.svg` |
-| `130822` | Santa Cruz do Bispo | `/brasoes/matosinhos/santa-cruz-do-bispo.svg` |
-| `130823` | São Mamede de Infesta | `/brasoes/matosinhos/sao-mamede-de-infesta.svg` |
+| DICOFRE | Freguesia | Slug esperado | Notas |
+|---|---|---|---|
+| `130822` | Santa Cruz do Bispo | `/brasoes/matosinhos/santa-cruz-do-bispo.svg` | Falsos positivos no Commons (brasão pessoal de bispo). Verificar JF. |
 
-### Vila Nova de Gaia (16 em falta)
+### Vila Nova de Gaia (7 em falta)
 
-| DICOFRE | Freguesia | Slug esperado |
-|---|---|---|
-| `131702` | Avintes | `/brasoes/vila-nova-de-gaia/avintes.svg` |
-| `131732` | Crestuma | `/brasoes/vila-nova-de-gaia/crestuma.svg` |
-| `131733` | Grijó | `/brasoes/vila-nova-de-gaia/grijo.svg` |
-| `131734` | Gulpilhares | `/brasoes/vila-nova-de-gaia/gulpilhares.svg` |
-| `131735` | Lever | `/brasoes/vila-nova-de-gaia/lever.svg` |
-| `131736` | Mafamude | `/brasoes/vila-nova-de-gaia/mafamude.svg` |
-| `131737` | Olival | `/brasoes/vila-nova-de-gaia/olival.svg` |
-| `131738` | Pedroso | `/brasoes/vila-nova-de-gaia/pedroso.svg` |
-| `131739` | Perosinho | `/brasoes/vila-nova-de-gaia/perosinho.svg` |
-| `131740` | Sandim | `/brasoes/vila-nova-de-gaia/sandim.svg` |
-| `131741` | Santa Marinha | `/brasoes/vila-nova-de-gaia/santa-marinha.svg` |
-| `131743` | Seixezelo | `/brasoes/vila-nova-de-gaia/seixezelo.svg` |
-| `131744` | Sermonde | `/brasoes/vila-nova-de-gaia/sermonde.svg` |
-| `131745` | Serzedo | `/brasoes/vila-nova-de-gaia/serzedo.svg` |
-| `131742` | São Pedro da Afurada | `/brasoes/vila-nova-de-gaia/sao-pedro-da-afurada.svg` |
-| `131747` | Vilar do Paraíso | `/brasoes/vila-nova-de-gaia/vilar-do-paraiso.svg` |
+| DICOFRE | Freguesia | Slug esperado | Notas |
+|---|---|---|---|
+| `131702` | Avintes | `/brasoes/vila-nova-de-gaia/avintes.svg` | Site `jfavintes.pt` ativo mas sem brasão localizável. |
+| `131733` | Grijó | `/brasoes/vila-nova-de-gaia/grijo.svg` | UF Pedroso e Grijó (`uf-pegrijo.pt` não responde). |
+| `131736` | Mafamude | `/brasoes/vila-nova-de-gaia/mafamude.svg` | UF Mafamude e Vilar do Paraíso. |
+| `131738` | Pedroso | `/brasoes/vila-nova-de-gaia/pedroso.svg` | UF Pedroso e Seixezelo. |
+| `131741` | Santa Marinha | `/brasoes/vila-nova-de-gaia/santa-marinha.svg` | UF Santa Marinha e São Pedro da Afurada. |
+| `131742` | São Pedro da Afurada | `/brasoes/vila-nova-de-gaia/sao-pedro-da-afurada.svg` | Mesma UF que Santa Marinha. |
+| `131743` | Seixezelo | `/brasoes/vila-nova-de-gaia/seixezelo.svg` | UF Pedroso e Seixezelo. |
 
-### Maia (3 em falta)
+### Maia (1 em falta)
 
-| DICOFRE | Freguesia | Slug esperado |
-|---|---|---|
-| `130618` | Castêlo da Maia | `/brasoes/maia/castelo-da-maia.svg` |
-| `130619` | Cidade da Maia | `/brasoes/maia/cidade-da-maia.svg` |
-| `130620` | Nogueira e Silva Escura | `/brasoes/maia/nogueira-e-silva-escura.svg` |
+| DICOFRE | Freguesia | Slug esperado | Notas |
+|---|---|---|---|
+| `130619` | Cidade da Maia | `/brasoes/maia/cidade-da-maia.svg` | UF nova (Maia + Vermoim + Gueifães). Verificar `cm-maia.pt`. |
 
 ### Gondomar (4 em falta)
 
-| DICOFRE | Freguesia | Slug esperado |
-|---|---|---|
-| `130414` | União das freguesias de Foz do Sousa e Covelo | `/brasoes/gondomar/foz-do-sousa-e-covelo.svg` |
-| `130413` | União das freguesias de Fânzeres e São Pedro da Cova | `/brasoes/gondomar/fanzeres-e-sao-pedro-da-cova.svg` |
-| `130415` | União das freguesias de Gondomar (São Cosme), Valbom e Jovim | `/brasoes/gondomar/gondomar-sao-cosme-valbom-e-jovim.svg` |
-| `130416` | União das freguesias de Melres e Medas | `/brasoes/gondomar/melres-e-medas.svg` |
-
-### Espinho (3 em falta)
-
-| DICOFRE | Freguesia | Slug esperado |
-|---|---|---|
-| `010707` | Anta | `/brasoes/espinho/anta.svg` |
-| `010708` | Guetim | `/brasoes/espinho/guetim.svg` |
-| `010705` | Silvalde | `/brasoes/espinho/silvalde.svg` |
+| DICOFRE | Freguesia | Slug esperado | Notas |
+|---|---|---|---|
+| `130413` | UF Fânzeres e São Pedro da Cova | `/brasoes/gondomar/fanzeres-e-sao-pedro-da-cova.svg` | UF de 2013. |
+| `130414` | UF Foz do Sousa e Covelo | `/brasoes/gondomar/foz-do-sousa-e-covelo.svg` | UF de 2013. |
+| `130415` | UF Gondomar (São Cosme), Valbom e Jovim | `/brasoes/gondomar/gondomar-sao-cosme-valbom-e-jovim.svg` | UF central de Gondomar. |
+| `130416` | UF Melres e Medas | `/brasoes/gondomar/melres-e-medas.svg` | UF de 2013. |
 
 ---
 
-## Brasões já transferidos
-
+## Brasões já transferidos (50)
 
 ### Porto (2)
 
-- `131202` **Bonfim** — `/brasoes/porto/bonfim.png` · [Wikidata:Q892377](https://www.wikidata.org/wiki/Q892377)
-- `131211` **Ramalde** — `/brasoes/porto/ramalde.png` · [Wikidata:Q1973526](https://www.wikidata.org/wiki/Q1973526)
+- `131202` Bonfim · Wikimedia Commons
+- `131211` Ramalde · Wikimedia Commons
 
-### Matosinhos (2)
+### Matosinhos (9)
 
-- `130818` **Leça da Palmeira** — `/brasoes/matosinhos/leca-da-palmeira.png` · [Wikidata:Q1822474](https://www.wikidata.org/wiki/Q1822474)
-- `130824` **Senhora da Hora** — `/brasoes/matosinhos/senhora-da-hora.png` · [Wikidata:Q2117134](https://www.wikidata.org/wiki/Q2117134)
+- `130815` Custóias, `130816` Guifões, `130817` Lavra, `130818` Leça da Palmeira,
+  `130819` Leça do Balio, `130820` Matosinhos, `130821` Perafita,
+  `130823` São Mamede de Infesta, `130824` Senhora da Hora — todos via Wikimedia Commons.
 
-### Vila Nova de Gaia (8)
+### Vila Nova de Gaia (17)
 
-- `131701` **Arcozelo** — `/brasoes/vila-nova-de-gaia/arcozelo.png` · [Wikidata:Q637926](https://www.wikidata.org/wiki/Q637926)
-- `131703` **Canelas** — `/brasoes/vila-nova-de-gaia/canelas.png` · [Wikidata:Q1016625](https://www.wikidata.org/wiki/Q1016625)
-- `131704` **Canidelo** — `/brasoes/vila-nova-de-gaia/canidelo.png` · [Wikidata:Q2259985](https://www.wikidata.org/wiki/Q2259985)
-- `131709` **Madalena** — `/brasoes/vila-nova-de-gaia/madalena.png` · [Wikidata:Q2786562](https://www.wikidata.org/wiki/Q2786562)
-- `131712` **Oliveira do Douro** — `/brasoes/vila-nova-de-gaia/oliveira-do-douro.png` · [Wikidata:Q64706](https://www.wikidata.org/wiki/Q64706)
-- `131717` **São Félix da Marinha** — `/brasoes/vila-nova-de-gaia/sao-felix-da-marinha.png` · [Wikidata:Q1786429](https://www.wikidata.org/wiki/Q1786429)
-- `131746` **Valadares** — `/brasoes/vila-nova-de-gaia/valadares.png` · [Wikidata:Q1023424](https://www.wikidata.org/wiki/Q1023424)
-- `131723` **Vilar de Andorinho** — `/brasoes/vila-nova-de-gaia/vilar-de-andorinho.png` · [Wikidata:Q2229479](https://www.wikidata.org/wiki/Q2229479)
+- Pré-existentes (8): `131701` Arcozelo · `131703` Canelas · `131704` Canidelo · `131709` Madalena · `131712` Oliveira do Douro · `131717` São Félix da Marinha · `131746` Valadares · `131723` Vilar de Andorinho.
+- Novos (9): `131732` Crestuma · `131734` Gulpilhares · `131735` Lever (UF-SOLC logo) · `131737` Olival · `131739` Perosinho · `131740` Sandim (UF-SOLC logo) · `131744` Sermonde · `131745` Serzedo · `131747` Vilar do Paraíso.
 
-### Maia (7)
+### Maia (9)
 
-- `130603` **Folgosa** — `/brasoes/maia/folgosa.png` · [Wikidata:Q1023173](https://www.wikidata.org/wiki/Q1023173)
-- `130608` **Milheirós** — `/brasoes/maia/milheiros.png` · [Wikidata:Q1886457](https://www.wikidata.org/wiki/Q1886457)
-- `130609` **Moreira** — `/brasoes/maia/moreira.png` · [Wikidata:Q1947508](https://www.wikidata.org/wiki/Q1947508)
-- `130617` **Pedrouços** — `/brasoes/maia/pedroucos.png` · [Wikidata:Q1216704](https://www.wikidata.org/wiki/Q1216704)
-- `130613` **São Pedro Fins** — `/brasoes/maia/sao-pedro-fins.png` · [Wikidata:Q1023419](https://www.wikidata.org/wiki/Q1023419)
-- `130616` **Vila Nova da Telha** — `/brasoes/maia/vila-nova-da-telha.png` · [Wikidata:Q1023401](https://www.wikidata.org/wiki/Q1023401)
-- `130601` **Águas Santas** — `/brasoes/maia/aguas-santas.png` · [Wikidata:Q249827](https://www.wikidata.org/wiki/Q249827)
+- Pré-existentes (7): `130601` Águas Santas · `130603` Folgosa · `130608` Milheirós · `130609` Moreira · `130613` São Pedro Fins · `130616` Vila Nova da Telha · `130617` Pedrouços.
+- Novos (2): `130618` Castêlo da Maia (pt.wiki) · `130620` Nogueira e Silva Escura (logotipo nse.pt).
 
 ### Gondomar (3)
 
-- `130412` **Baguim do Monte (Rio Tinto)** — `/brasoes/gondomar/baguim-do-monte-rio-tinto.png` · [Wikidata:Q800162](https://www.wikidata.org/wiki/Q800162)
-- `130405` **Lomba** — `/brasoes/gondomar/lomba.png` · [Wikidata:Q1868763](https://www.wikidata.org/wiki/Q1868763)
-- `130408` **Rio Tinto** — `/brasoes/gondomar/rio-tinto.jpg` · [Wikidata:Q1020836](https://www.wikidata.org/wiki/Q1020836)
+- `130405` Lomba · `130408` Rio Tinto · `130412` Baguim do Monte (Rio Tinto) — todos via Wikimedia Commons.
 
-### Valongo (5)
+### Valongo (5) — completo ✓
 
-- `131501` **Alfena** — `/brasoes/valongo/alfena.jpg` · [Wikidata:Q1971893](https://www.wikidata.org/wiki/Q1971893)
-- `131507` **Campo** — `/brasoes/valongo/campo.png` · [Wikidata:Q168483](https://www.wikidata.org/wiki/Q168483)
-- `131503` **Ermesinde** — `/brasoes/valongo/ermesinde.png` · [Wikidata:Q1020811](https://www.wikidata.org/wiki/Q1020811)
-- `131508` **Sobrado** — `/brasoes/valongo/sobrado.png` · [Wikidata:Q957411](https://www.wikidata.org/wiki/Q957411)
-- `131505` **Valongo** — `/brasoes/valongo/valongo.png` · [Wikidata:Q630477](https://www.wikidata.org/wiki/Q630477)
+- `131501` Alfena · `131503` Ermesinde · `131505` Valongo · `131507` Campo · `131508` Sobrado.
 
-### Espinho (2)
+### Espinho (5) — completo ✓
 
-- `010702` **Espinho** — `/brasoes/espinho/espinho.png` · [Wikidata:Q74380](https://www.wikidata.org/wiki/Q74380)
-- `010704` **Paramos** — `/brasoes/espinho/paramos.png` · [Wikidata:Q1023183](https://www.wikidata.org/wiki/Q1023183)
-
----
-
-## Fontes recomendadas (por ordem)
-
-1. **Wikidata** (via SPARQL — `wdt:P94` em `wd:Q1131296`). Cobertura: ~43% das freguesias do Greater Porto. Esgotado neste lote.
-2. **pt.wikipedia.org** — infobox da página da freguesia. Frequente para freguesias que ainda não têm `P94` no Wikidata mas que têm imagem na página da Wikipedia.
-3. **Junta de Freguesia oficial** — `https://www.jf-{slug}.pt` ou `freguesia-{slug}.pt`. Header ou rodapé.
-4. **Câmara Municipal** — página com freguesias do concelho.
-5. **heraldica-portugal.com** — repositório especializado.
+- Pré-existentes (2): `010702` Espinho · `010704` Paramos.
+- Novos (3): `010705` Silvalde (logotipo jf-silvalde.pt) · `010707` Anta (jf-anta.pt) · `010708` Guetim (Wikimedia Commons).
 
 ---
 
@@ -171,5 +114,22 @@ Cada um destes precisa de ser:
 
 - A app procura `bmap[dicofre].brasao` — se for `null`, mostra fallback (Lucide Shield + DICOFRE).
 - Formatos aceites: `.svg` (preferido), `.png`, `.jpg`. Lazy-loaded via `<img loading="lazy">`.
-- Tamanho recomendado: 240×240 px mínimo, fundo transparente.
-- A escala de descarga em massa do Wikimedia exige `?width=240` (thumbnails) + `User-Agent` válido + ~1s de pausa entre pedidos. Bulk-fetch directo da imagem original devolve 429.
+- Brasões obtidos de Wikimedia exigem `Special:FilePath/{filename}?width=480` + `User-Agent` válido + ≥0,8 s de pausa entre pedidos.
+- Logotipos institucionais (Sandim, Lever, Nogueira e Silva Escura, Silvalde) são tecnicamente logotipos das uniões de freguesia ou da junta atual, não brasões heráldicos formais. Substituir por brasões oficiais quando disponíveis.
+
+## Fontes recomendadas para os 18 em falta
+
+1. **Sites oficiais das juntas / uniões** — quando ativos. Muitos têm o brasão na página inicial ou rodapé. URL pattern típico: `jf-{slug}.pt` ou `uf-{slug}.pt`.
+2. **Câmaras municipais** — páginas que listam freguesias do concelho (`cm-porto.pt`, `cm-gaia.pt`, `cm-maia.pt`, `cm-gondomar.pt`).
+3. **Contacto direto com a junta** — pedido por email do brasão em formato vetorial.
+4. **Diário da República** — pesquisa por "anúncio de brasão" + nome da freguesia (publicação oficial dos brasões aprovados pelo Conselho de Heráldica).
+
+---
+
+## Scripts deste lote
+
+- `scripts/scrape-brasoes.py` — pase 1: extracção via parâmetro `imagem_brasao` do infobox pt.wiki.
+- `scripts/scrape-brasoes-pass2.py` — pase 2: listagem de todas as imagens da página + filtro heurístico (descartado por falsos positivos).
+- `scripts/scrape-brasoes-pass3.py` — pase 3: pesquisa direta no Commons + pt.wiki por nomes de ficheiro de brasão.
+- `scripts/scrape-brasoes-pass4.py` — pase 4: tentativa em sites oficiais de juntas/uniões.
+- `scripts/update-brasoes-json.py` — sincroniza `freguesias-brasoes.json` com os ficheiros realmente presentes em `public/brasoes/`.

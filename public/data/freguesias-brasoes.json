@@ -67,8 +67,8 @@
     "municipio": "Matosinhos",
     "slug": "custoias",
     "expected": "/brasoes/matosinhos/custoias.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/matosinhos/custoias.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "130816": {
@@ -76,8 +76,8 @@
     "municipio": "Matosinhos",
     "slug": "guifoes",
     "expected": "/brasoes/matosinhos/guifoes.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/matosinhos/guifoes.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "130817": {
@@ -85,8 +85,8 @@
     "municipio": "Matosinhos",
     "slug": "lavra",
     "expected": "/brasoes/matosinhos/lavra.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/matosinhos/lavra.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "130818": {
@@ -103,8 +103,8 @@
     "municipio": "Matosinhos",
     "slug": "leca-do-balio",
     "expected": "/brasoes/matosinhos/leca-do-balio.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/matosinhos/leca-do-balio.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "130820": {
@@ -112,8 +112,8 @@
     "municipio": "Matosinhos",
     "slug": "matosinhos",
     "expected": "/brasoes/matosinhos/matosinhos.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/matosinhos/matosinhos.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "130821": {
@@ -121,8 +121,8 @@
     "municipio": "Matosinhos",
     "slug": "perafita",
     "expected": "/brasoes/matosinhos/perafita.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/matosinhos/perafita.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "130822": {
@@ -139,8 +139,8 @@
     "municipio": "Matosinhos",
     "slug": "sao-mamede-de-infesta",
     "expected": "/brasoes/matosinhos/sao-mamede-de-infesta.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/matosinhos/sao-mamede-de-infesta.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "130824": {
@@ -193,8 +193,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "crestuma",
     "expected": "/brasoes/vila-nova-de-gaia/crestuma.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/crestuma.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "131733": {
@@ -211,8 +211,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "gulpilhares",
     "expected": "/brasoes/vila-nova-de-gaia/gulpilhares.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/gulpilhares.png",
+    "attribution": "Wikimedia Commons · Brasão de Armas da Freguesia de Gulpilhares",
     "wikidata_qid": null
   },
   "131735": {
@@ -220,8 +220,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "lever",
     "expected": "/brasoes/vila-nova-de-gaia/lever.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/lever.png",
+    "attribution": "União das Freguesias de Sandim, Olival, Lever e Crestuma · uf-solc.pt",
     "wikidata_qid": null
   },
   "131709": {
@@ -247,8 +247,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "olival",
     "expected": "/brasoes/vila-nova-de-gaia/olival.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/olival.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "131712": {
@@ -274,8 +274,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "perosinho",
     "expected": "/brasoes/vila-nova-de-gaia/perosinho.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/perosinho.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "131740": {
@@ -283,8 +283,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "sandim",
     "expected": "/brasoes/vila-nova-de-gaia/sandim.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/sandim.png",
+    "attribution": "União das Freguesias de Sandim, Olival, Lever e Crestuma · uf-solc.pt",
     "wikidata_qid": null
   },
   "131741": {
@@ -328,8 +328,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "sermonde",
     "expected": "/brasoes/vila-nova-de-gaia/sermonde.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/sermonde.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "131745": {
@@ -337,8 +337,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "serzedo",
     "expected": "/brasoes/vila-nova-de-gaia/serzedo.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/serzedo.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "131746": {
@@ -364,8 +364,8 @@
     "municipio": "Vila Nova de Gaia",
     "slug": "vilar-do-paraiso",
     "expected": "/brasoes/vila-nova-de-gaia/vilar-do-paraiso.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/vila-nova-de-gaia/vilar-do-paraiso.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "130601": {
@@ -382,8 +382,8 @@
     "municipio": "Maia",
     "slug": "castelo-da-maia",
     "expected": "/brasoes/maia/castelo-da-maia.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/maia/castelo-da-maia.jpg",
+    "attribution": "pt.wikipedia.org · Novo brasão Castelo da Maia",
     "wikidata_qid": null
   },
   "130619": {
@@ -427,8 +427,8 @@
     "municipio": "Maia",
     "slug": "nogueira-e-silva-escura",
     "expected": "/brasoes/maia/nogueira-e-silva-escura.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/maia/nogueira-e-silva-escura.png",
+    "attribution": "Junta da União das Freguesias de Nogueira e Silva Escura · nse.pt (logotipo)",
     "wikidata_qid": null
   },
   "130617": {
@@ -571,8 +571,8 @@
     "municipio": "Espinho",
     "slug": "anta",
     "expected": "/brasoes/espinho/anta.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/espinho/anta.png",
+    "attribution": "Junta de Freguesia de Anta · jf-anta.pt",
     "wikidata_qid": null
   },
   "010702": {
@@ -589,8 +589,8 @@
     "municipio": "Espinho",
     "slug": "guetim",
     "expected": "/brasoes/espinho/guetim.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/espinho/guetim.png",
+    "attribution": "Wikimedia Commons · CC BY-SA",
     "wikidata_qid": null
   },
   "010704": {
@@ -607,8 +607,8 @@
     "municipio": "Espinho",
     "slug": "silvalde",
     "expected": "/brasoes/espinho/silvalde.svg",
-    "brasao": null,
-    "attribution": null,
+    "brasao": "/brasoes/espinho/silvalde.png",
+    "attribution": "Junta de Freguesia de Silvalde · jf-silvalde.pt (logotipo)",
     "wikidata_qid": null
   }
 }
