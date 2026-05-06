@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import { SupabaseAuthProvider } from '@/lib/SupabaseAuth';
+import { I18nProvider } from '@/lib/i18n';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -53,12 +54,14 @@ function App() {
   return (
     <AuthProvider>
       <SupabaseAuthProvider>
-        <QueryClientProvider client={queryClientInstance}>
-          <Router>
-            <AuthenticatedApp />
-          </Router>
-          <Toaster />
-        </QueryClientProvider>
+        <I18nProvider>
+          <QueryClientProvider client={queryClientInstance}>
+            <Router>
+              <AuthenticatedApp />
+            </Router>
+            <Toaster />
+          </QueryClientProvider>
+        </I18nProvider>
       </SupabaseAuthProvider>
     </AuthProvider>
   )

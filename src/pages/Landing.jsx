@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { I18nProvider } from '@/lib/i18n';
 import Navbar from '@/components/landing/Navbar';
 import Hero from '@/components/landing/Hero';
 import Interstitial from '@/components/landing/Interstitial';
@@ -42,9 +41,5 @@ function LandingContent() {
 }
 
 export default function Landing() {
-  return (
-    <I18nProvider>
-      <LandingContent />
-    </I18nProvider>
-  );
+  return <LandingContent />;
 }
