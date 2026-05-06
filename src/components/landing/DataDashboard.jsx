@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
-import AnimatedCounter from './AnimatedCounter';
 
+// --- KEEP AS-IS: data + sources untouched ---
 const cityData = {
   Porto:      { pop: 5736,  cars: 0.52, green: 5.2,  buses: 1.8, metro: 0.9, commute: 34, bikes: 0.02, parking: 42 },
   Amsterdam:  { pop: 5135,  cars: 0.23, green: 27.5, buses: 2.4, metro: 1.8, commute: 24, bikes: 0.73, parking: 2800 },
   Paris:      { pop: 20169, cars: 0.36, green: 14.5, buses: 3.1, metro: 3.2, commute: 41, bikes: 0.15, parking: 1250 },
   Copenhagen: { pop: 7140,  cars: 0.19, green: 39.0, buses: 2.9, metro: 1.5, commute: 21, bikes: 0.67, parking: 3200 },
 };
-
 const sources = {
   Porto:      'INE · CMP · STCP 2023',
   Amsterdam:  'CBS · GVB 2023',
@@ -17,151 +16,257 @@ const sources = {
   Copenhagen: 'DST · DOT 2023',
 };
 
-// The thesis stat of the movement: bikes per inhabitant.
-// One card gets the inverted obsidian treatment to draw the eye.
-const FEATURED_KEY = 'bikes';
+// betterIs: 'higher' = more is better (Porto worse if less)
+//           'lower'  = less is better (Porto worse if more)
+const META = {
+  buses:   { betterIs: 'higher' },
+  metro:   { betterIs: 'higher' },
+  green:   { betterIs: 'higher' },
+  bikes:   { betterIs: 'higher' },
+  cars:    { betterIs: 'lower'  },
+  commute: { betterIs: 'lower'  },
+};
+
+const RUST = '#993C1D';
+const HAIRLINE = '#d4d4d0';
+const HAIRLINE_SOFT = '#e8e6df';
+const HERO_STAT_BG = '#f0eee6';
+
+// "3.2×" or "44%" — magnitude only; the suffix word ("fewer"/"more") is in i18n template.
+function deltaShort(portoVal, compareVal, betterIs = 'higher') {
+  if (!portoVal || !compareVal) return '—';
+  if (betterIs === 'higher') {
+    if (portoVal >= compareVal) {
+      const pct = Math.round((portoVal / compareVal - 1) * 100);
+      return `${pct}%`;
+    }
+    const ratio = compareVal / portoVal;
+    if (ratio >= 2) return `${ratio.toFixed(1).replace(/\.0$/, '')}×`;
+    return `${Math.round((1 - portoVal / compareVal) * 100)}%`;
+  }
+  // betterIs lower → Porto worse if more
+  if (portoVal > compareVal) {
+    const pct = Math.round((portoVal / compareVal - 1) * 100);
+    return `${pct}%`;
+  }
+  return `${Math.round((1 - portoVal / compareVal) * 100)}%`;
+}
+
+function isPortoWorse(metric, portoVal, compareVal) {
+  const meta = META[metric] || { betterIs: 'higher' };
+  if (meta.betterIs === 'higher') return portoVal < compareVal;
+  return portoVal > compareVal;
+}
+
+// Bar widths normalized to max(porto, compare) + 10% headroom.
+function barPositions(portoVal, compareVal) {
+  const max = Math.max(portoVal, compareVal) * 1.1 || 1;
+  return {
+    portoPct: (portoVal / max) * 100,
+    comparePct: (compareVal / max) * 100,
+  };
+}
+
+// Substitute {0}, {1}, ... in a template string with React nodes.
+function interpolate(template, replacements) {
+  if (!template) return '';
+  return template.split(/(\{\d+\})/g).map((part, i) => {
+    const m = part.match(/^\{(\d+)\}$/);
+    if (!m) return part;
+    const idx = parseInt(m[1], 10);
+    return <React.Fragment key={i}>{replacements[idx] ?? ''}</React.Fragment>;
+  });
+}
+
+const Delta = ({ children }) => (
+  <span style={{ color: RUST }} className="font-medium whitespace-nowrap">{children}</span>
+);
+
+// --- Component ---
 
 export default function DataDashboard() {
   const { t } = useI18n();
   const ref = useScrollReveal();
-  const [compareCity, setCompareCity] = useState(null);
+  const [compareCity, setCompareCity] = useState('Amsterdam');
 
-  const statKeys = [
-    { key: 'pop',     label: 'data.pop_density', decimals: 0, betterIs: 'neutral' },
-    { key: 'cars',    label: 'data.cars',        decimals: 2, betterIs: 'lower' },
-    { key: 'green',   label: 'data.green',       decimals: 1, suffix: ' m²', benchmark: 'OMS · 9 m²/hab', betterIs: 'higher' },
-    { key: 'buses',   label: 'data.buses',       decimals: 1, betterIs: 'higher' },
-    { key: 'metro',   label: 'data.metro',       decimals: 1, betterIs: 'higher' },
-    { key: 'commute', label: 'data.commute',     decimals: 0, suffix: ' min', betterIs: 'lower' },
-    { key: 'bikes',   label: 'data.bikes',       decimals: 2, betterIs: 'higher' },
-    { key: 'parking', label: 'data.parking',     decimals: 0, betterIs: 'higher' },
+  const porto = cityData.Porto;
+  const compare = cityData[compareCity];
+
+  // Deltas for the thesis sentence
+  const dBuses = deltaShort(porto.buses, compare.buses, 'higher');
+  const dGreen = deltaShort(porto.green, compare.green, 'higher');
+  const dMetro = deltaShort(porto.metro, compare.metro, 'higher');
+  const dCars  = deltaShort(porto.cars,  compare.cars,  'lower');
+
+  // WHO benchmark for green (target 9 m²/hab)
+  const whoMin = 9;
+  const whoDeltaPct = Math.round((1 - porto.green / whoMin) * 100);
+
+  const thesis = interpolate(t('data.thesis'), [
+    <Delta>{dBuses}</Delta>,
+    <Delta>{dGreen}</Delta>,
+    <Delta>{dMetro}</Delta>,
+    <strong className="font-medium">{compareCity}</strong>,
+  ]);
+
+  const thesisCtx = interpolate(t('data.thesisContext'), [
+    <Delta>{dCars}</Delta>,
+  ]);
+
+  // Secondary stats row
+  const secondaryStats = [
+    { metric: 'buses', label: t('data.buses'), porto: porto.buses, compare: compare.buses },
+    { metric: 'metro', label: t('data.metro'), porto: porto.metro, compare: compare.metro },
+    { metric: 'cars',  label: t('data.cars'),  porto: porto.cars,  compare: compare.cars  },
+    { metric: 'bikes', label: t('data.bikes'), porto: porto.bikes, compare: compare.bikes },
   ];
 
   return (
-    <section id="data" ref={ref} className="reveal-section py-24 sm:py-32 bg-background text-foreground">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+    <section
+      id="data"
+      ref={ref}
+      className="reveal-section bg-bone text-obsidian"
+    >
+      <div className="max-w-[1280px] mx-auto px-6 sm:px-10 py-16 sm:py-20">
+
+        {/* HEADER */}
+        <header
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-6 mb-10"
+          style={{ borderBottom: `0.5px solid ${HAIRLINE}` }}
+        >
           <div>
-            <span className="font-mono text-xs tracking-widest uppercase text-accent">
-              02 / 13 · {t('data.title')}
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-4 tracking-tightest text-foreground max-w-3xl">
-              {t('data.title')}
-            </h2>
-            <p className="mt-4 text-foreground/60 max-w-xl font-body">
+            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-obsidian/55 mb-2">
+              Issue 01 · {t('data.issue')}
+            </p>
+            <h2 className="font-data font-medium leading-[1.1] tracking-tight m-0 max-w-[680px]"
+                style={{ fontSize: 'clamp(28px, 4vw, 40px)' }}>
               {t('data.subtitle')}
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-1.5 flex-wrap font-mono text-[11px] tracking-[0.1em] uppercase">
+            <span className="text-obsidian/55 mr-2">{t('data.compare')}</span>
+            {['Amsterdam', 'Paris', 'Copenhagen'].map((city) => (
+              <button
+                key={city}
+                onClick={() => setCompareCity(city)}
+                className={`px-3.5 py-1.5 transition-colors ${
+                  compareCity === city
+                    ? 'bg-obsidian text-bone'
+                    : 'bg-transparent text-obsidian hover:bg-obsidian/5'
+                }`}
+                style={{
+                  border: `0.5px solid ${compareCity === city ? '#0A0A0A' : HAIRLINE}`,
+                }}
+              >
+                {city}
+              </button>
+            ))}
+          </div>
+        </header>
+
+        {/* HERO ROW */}
+        <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-12 mb-12 items-start">
+          {/* Thesis */}
+          <div>
+            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-obsidian/55 mb-3">
+              {t('data.thesisLabel')}
+            </p>
+            <p className="font-data font-medium leading-[1.4] m-0 mb-4"
+               style={{ fontSize: 'clamp(20px, 2.4vw, 26px)' }}>
+              {thesis}
+            </p>
+            <p className="text-sm sm:text-[14px] leading-relaxed text-obsidian/65 m-0">
+              {thesisCtx}
             </p>
           </div>
 
-          {/* Compare toggle */}
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-foreground/40">
-              {t('data.compare')}
-            </span>
-            <div className="flex gap-1">
-              {['Amsterdam', 'Paris', 'Copenhagen'].map(city => (
-                <button
-                  key={city}
-                  onClick={() => setCompareCity(compareCity === city ? null : city)}
-                  className={`px-3 py-2 text-[10px] font-mono uppercase tracking-widest border transition-colors ${
-                    compareCity === city
-                      ? 'bg-primary text-primary-foreground border-primary'
-                      : 'bg-transparent text-foreground/60 border-border hover:border-foreground hover:text-foreground'
-                  }`}
-                >
-                  {city}
-                </button>
-              ))}
-            </div>
+          {/* Hero stat — green space + WHO benchmark */}
+          <div className="p-7 sm:p-8" style={{ background: HERO_STAT_BG }}>
+            <p className="font-mono text-[11px] tracking-[0.15em] uppercase text-obsidian/55 mb-3 m-0">
+              {t('data.green')}
+            </p>
+            <p className="font-data font-medium leading-none m-0"
+               style={{ fontSize: 'clamp(56px, 7vw, 72px)' }}>
+              {porto.green}
+              <sup className="align-super" style={{ fontSize: '0.42em' }}>m²</sup>
+            </p>
+            <p className="text-sm text-obsidian/55 mt-2 m-0">
+              {t('data.perResident')}
+            </p>
+            <p className="text-[13px] mt-1 m-0 font-medium" style={{ color: RUST }}>
+              ↓ {whoDeltaPct}% {t('data.belowWHO')}
+            </p>
           </div>
         </div>
 
-        {/* Stats grid — physical platforms, EU-blue offset shadows on obsidian */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {statKeys.map(stat => {
-            const portoVal = cityData.Porto[stat.key];
-            const compVal = compareCity ? cityData[compareCity][stat.key] : null;
-            const isFeatured = stat.key === FEATURED_KEY;
-
-            // Delta math + good/bad coloring
-            let deltaPct = null;
-            let portoIsWorse = false;
-            if (compVal !== null && compVal !== 0) {
-              deltaPct = Math.round(((portoVal - compVal) / compVal) * 100);
-              if (stat.betterIs === 'higher') portoIsWorse = portoVal < compVal;
-              if (stat.betterIs === 'lower')  portoIsWorse = portoVal > compVal;
-            }
-
-            // Card surface — featured inverted, rest bone with subtle blue shadow
-            const cardSurface = isFeatured
-              ? 'bg-obsidian text-bone shadow-[8px_8px_0_0_#003399] hover:shadow-[12px_12px_0_0_#003399]'
-              : 'bg-bone text-obsidian shadow-[4px_4px_0_0_rgba(0,51,153,0.45)] hover:shadow-[8px_8px_0_0_rgba(0,51,153,0.65)]';
-
-            const labelColor   = isFeatured ? 'text-bone/55'    : 'text-obsidian/55';
-            const numberColor  = isFeatured ? 'text-bone'       : 'text-obsidian';
-            const captionColor = isFeatured ? 'text-bone/45'    : 'text-obsidian/45';
-            const dividerColor = isFeatured ? 'border-bone/15'  : 'border-obsidian/12';
-            const compNumberColor = isFeatured ? 'text-eu-yellow' : 'text-eu-blue';
-            const deltaColor = portoIsWorse
-              ? 'text-eu-yellow'
-              : (isFeatured ? 'text-bone/40' : 'text-obsidian/40');
-
+        {/* SECONDARY STATS */}
+        <div
+          className="grid grid-cols-2 lg:grid-cols-4"
+          style={{
+            borderTop: `0.5px solid ${HAIRLINE}`,
+            borderBottom: `0.5px solid ${HAIRLINE}`,
+          }}
+        >
+          {secondaryStats.map((stat, i) => {
+            const worse = isPortoWorse(stat.metric, stat.porto, stat.compare);
+            const bars = barPositions(stat.porto, stat.compare);
+            const isLastInRow = (i + 1) % 4 === 0;        // desktop: last column
+            const isLastInRowMobile = (i + 1) % 2 === 0;  // mobile: last column of 2
+            const isFirstRow = i < 2;                     // mobile: first row separator
             return (
               <div
-                key={stat.key}
-                className={`relative p-8 sm:p-10 flex flex-col min-h-[280px] transition-all duration-300 ease-out hover:-translate-y-1 ${cardSurface}`}
+                key={stat.metric}
+                className="p-5 sm:p-6"
+                style={{
+                  borderRight: !isLastInRow ? `0.5px solid ${HAIRLINE_SOFT}` : 'none',
+                  borderBottom: isFirstRow ? `0.5px solid ${HAIRLINE_SOFT}` : 'none',
+                }}
               >
-                {/* Eyebrow / label */}
-                <p className={`font-mono text-[10px] uppercase tracking-widest mb-8 ${labelColor}`}>
-                  {t(stat.label)}
+                <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-obsidian/55 m-0 mb-3">
+                  {stat.label}
                 </p>
-
-                {/* Porto value */}
-                <div>
-                  <span className={`font-data text-5xl sm:text-6xl font-black tracking-tightest leading-none ${numberColor}`}>
-                    <AnimatedCounter value={portoVal} decimals={stat.decimals} suffix={stat.suffix || ''} />
-                  </span>
-                  {stat.benchmark && (
-                    <p className={`font-mono text-[9px] uppercase tracking-widest mt-3 ${captionColor}`}>
-                      vs {stat.benchmark}
-                    </p>
-                  )}
+                <p
+                  className="font-data font-medium leading-none m-0"
+                  style={{
+                    fontSize: 'clamp(24px, 3vw, 32px)',
+                    color: worse ? RUST : '#0A0A0A',
+                  }}
+                >
+                  {stat.porto}
+                </p>
+                {/* Bar + tick */}
+                <div
+                  className="relative mt-4 mb-2"
+                  style={{ height: '4px', background: HAIRLINE_SOFT }}
+                >
+                  <div
+                    className="absolute left-0 top-0 h-full"
+                    style={{ width: `${bars.portoPct}%`, background: RUST }}
+                  />
+                  <div
+                    className="absolute"
+                    style={{
+                      left: `${bars.comparePct}%`,
+                      top: '-2px',
+                      width: '1px',
+                      height: '8px',
+                      background: '#0A0A0A',
+                    }}
+                  />
                 </div>
-
-                {/* Spacer pushes comparison block to bottom */}
-                <div className="flex-1" />
-
-                {/* Comparison block — only when a city is selected */}
-                {compVal !== null && (
-                  <div className={`mt-6 pt-5 border-t ${dividerColor}`}>
-                    <div className="flex items-baseline gap-3 flex-wrap">
-                      <span className={`font-data text-2xl sm:text-3xl font-black tracking-tightest leading-none ${compNumberColor}`}>
-                        <AnimatedCounter value={compVal} decimals={stat.decimals} suffix={stat.suffix || ''} />
-                      </span>
-                      {deltaPct !== null && stat.betterIs !== 'neutral' && (
-                        <span className={`font-mono text-[10px] uppercase tracking-widest ${deltaColor}`}>
-                          {deltaPct > 0 ? '+' : ''}{deltaPct}%
-                        </span>
-                      )}
-                    </div>
-                    <p className={`font-mono text-[9px] uppercase tracking-widest mt-2 ${captionColor}`}>
-                      {compareCity}
-                    </p>
-                  </div>
-                )}
+                <p className="text-[11px] text-obsidian/55 m-0">
+                  {compareCity}: {stat.compare}
+                </p>
               </div>
             );
           })}
         </div>
 
-        {/* Sources — single section footer instead of repeated per-card */}
-        <div className="mt-10 pt-6 border-t border-foreground/10">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-foreground/40">
-            {t('data.sources_label') || 'Sources'}: {sources.Porto}
-            {compareCity ? ` · ${sources[compareCity]}` : ''}
-          </p>
-        </div>
+        {/* SOURCES */}
+        <p className="font-mono text-[10px] tracking-[0.1em] uppercase text-obsidian/55 mt-6 m-0">
+          {t('data.source')}: {sources.Porto} / {sources[compareCity]}
+        </p>
       </div>
     </section>
   );
