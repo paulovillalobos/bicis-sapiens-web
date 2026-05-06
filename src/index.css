@@ -132,6 +132,72 @@
   color: hsl(var(--muted-foreground)) !important;
 }
 
+/* Leaflet zoom control — institutional sharp corners */
+.leaflet-touch .leaflet-bar,
+.leaflet-bar {
+  border-radius: 0 !important;
+  border: 1px solid hsl(var(--border)) !important;
+  box-shadow: none !important;
+}
+.leaflet-bar a,
+.leaflet-touch .leaflet-bar a {
+  background: rgba(10, 10, 10, 0.92) !important;
+  color: #FAFAF7 !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 500 !important;
+}
+.leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+.leaflet-bar a:hover {
+  background: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+}
+
+/* Custom tooltip on hover (used by InteractiveMap) */
+.bs-tooltip,
+.leaflet-tooltip.bs-tooltip {
+  background: #0A0A0A !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 8px 10px !important;
+  color: #FAFAF7 !important;
+  font-family: var(--font-body) !important;
+}
+.leaflet-tooltip.bs-tooltip::before { display: none !important; }
+.bs-tt-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #FFD60A;
+  margin-bottom: 2px;
+}
+.bs-tt-name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: -0.03em;
+  color: #FAFAF7;
+  line-height: 1.1;
+}
+
+/* Choropleth polygons — staggered fade-in on load */
+@keyframes bsPolygonIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.leaflet-overlay-pane svg path {
+  animation: bsPolygonIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.leaflet-overlay-pane svg path:nth-child(3n) { animation-delay: 70ms; }
+.leaflet-overlay-pane svg path:nth-child(5n) { animation-delay: 140ms; }
+.leaflet-overlay-pane svg path:nth-child(7n) { animation-delay: 210ms; }
+.leaflet-overlay-pane svg path:nth-child(11n) { animation-delay: 280ms; }
+
 /* Section reveal */
 .reveal-section {
   opacity: 0;
