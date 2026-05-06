@@ -4,8 +4,12 @@ import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
+import { SupabaseAuthProvider } from '@/lib/SupabaseAuth';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Landing from './pages/Landing';
+import Login from './pages/Login';
+import ForumList from './pages/Forum/ForumList';
+import ForumThread from './pages/Forum/ForumThread';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -35,6 +39,9 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/comunidade/login" element={<Login />} />
+      <Route path="/comunidade/foro" element={<ForumList />} />
+      <Route path="/comunidade/foro/:slug" element={<ForumThread />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
@@ -45,12 +52,14 @@ function App() {
 
   return (
     <AuthProvider>
-      <QueryClientProvider client={queryClientInstance}>
-        <Router>
-          <AuthenticatedApp />
-        </Router>
-        <Toaster />
-      </QueryClientProvider>
+      <SupabaseAuthProvider>
+        <QueryClientProvider client={queryClientInstance}>
+          <Router>
+            <AuthenticatedApp />
+          </Router>
+          <Toaster />
+        </QueryClientProvider>
+      </SupabaseAuthProvider>
     </AuthProvider>
   )
 }

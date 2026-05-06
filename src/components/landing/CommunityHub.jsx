@@ -192,7 +192,7 @@ export default function CommunityHub({ onJoinClick }) {
                     {t('community.beFirst')}
                   </span>
                   <a
-                    href="/comunidade/forum"
+                    href="/comunidade/foro"
                     className="font-mono text-[12px] uppercase tracking-[0.3em] text-[#d4a017] font-medium hover:text-[#e8b62a] transition-colors"
                   >
                     {t('community.respond')} →
@@ -207,7 +207,7 @@ export default function CommunityHub({ onJoinClick }) {
         <div className="border-t-[0.5px] border-white/15 pt-12 grid lg:grid-cols-2 gap-3 lg:gap-4">
           {/* Primary — links to forum route. 404s until Part B wires it. */}
           <a
-            href="/comunidade/forum"
+            href="/comunidade/foro"
             className="inline-flex items-center justify-center gap-2 px-5 py-5 text-[13px] font-medium bg-[#1d4ed8] text-white hover:bg-[#1944c0] transition-colors rounded-[4px]"
           >
             {t('community.ctaPrimary')} <span aria-hidden="true">→</span>
