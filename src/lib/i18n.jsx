@@ -14,12 +14,16 @@ const translations = {
       scroll: 'Descobre mais',
       ticker: 'BICIS SAPIENS · MOVIMENTO CÍVICO · PORTO · MMXXVI · 100% CICLÁVEL · SEM OBRAS · COM PESSOAS · ',
     },
-    interstitial: {
-      eyebrow: 'Uma pausa',
-      title: 'Esta informação é para todos.',
-      subtitle: 'Para entendermos juntos. Para imaginarmos juntos. Para decidirmos juntos.',
-      heroWord: 'JUNTOS',
-      hint: 'Continuar',
+    pausa: {
+      kicker: 'Uma Pausa',
+      signs: { stop: 'PARE' },
+      headline: { line1: 'Esta informação', line2: 'é para todos.' },
+      quote: {
+        line1: 'Para entendermos juntos.',
+        line2: 'Para imaginarmos juntos.',
+        line3: 'Para decidirmos juntos.',
+      },
+      bigword: 'juntos',
     },
     manifesto: {
       title: 'Manifesto',
@@ -169,12 +173,16 @@ const translations = {
       scroll: 'Discover more',
       ticker: 'BICIS SAPIENS · CIVIC MOVEMENT · PORTO · MMXXVI · 100% CYCLABLE · NO INFRASTRUCTURE · WITH PEOPLE · ',
     },
-    interstitial: {
-      eyebrow: 'A pause',
-      title: 'This information is for all of us.',
-      subtitle: 'To understand together. To imagine together. To decide together.',
-      heroWord: 'TOGETHER',
-      hint: 'Continue',
+    pausa: {
+      kicker: 'A Pause',
+      signs: { stop: 'STOP' },
+      headline: { line1: 'This information', line2: 'is for everyone.' },
+      quote: {
+        line1: 'To understand together.',
+        line2: 'To imagine together.',
+        line3: 'To decide together.',
+      },
+      bigword: 'together',
     },
     manifesto: {
       title: 'Manifesto',
@@ -324,12 +332,16 @@ const translations = {
       scroll: 'Descubre más',
       ticker: 'BICIS SAPIENS · MOVIMIENTO CÍVICO · PORTO · MMXXVI · 100% CICLABLE · SIN OBRAS · CON PERSONAS · ',
     },
-    interstitial: {
-      eyebrow: 'Una pausa',
-      title: 'Esta información es para todos.',
-      subtitle: 'Para entenderlo juntos. Para imaginarlo juntos. Para decidirlo juntos.',
-      heroWord: 'JUNTOS',
-      hint: 'Continuar',
+    pausa: {
+      kicker: 'Una Pausa',
+      signs: { stop: 'ALTO' },
+      headline: { line1: 'Esta información', line2: 'es para todos.' },
+      quote: {
+        line1: 'Para entender juntos.',
+        line2: 'Para imaginar juntos.',
+        line3: 'Para decidir juntos.',
+      },
+      bigword: 'juntos',
     },
     manifesto: {
       title: 'Manifiesto',
@@ -479,12 +491,16 @@ const translations = {
       scroll: 'Découvrir plus',
       ticker: 'BICIS SAPIENS · MOUVEMENT CIVIQUE · PORTO · MMXXVI · 100% CYCLABLE · SANS TRAVAUX · AVEC DES PERSONNES · ',
     },
-    interstitial: {
-      eyebrow: 'Une pause',
-      title: 'Cette information est pour nous tous.',
-      subtitle: 'Pour comprendre ensemble. Pour imaginer ensemble. Pour décider ensemble.',
-      heroWord: 'ENSEMBLE',
-      hint: 'Continuer',
+    pausa: {
+      kicker: 'Une Pause',
+      signs: { stop: 'STOP' },
+      headline: { line1: 'Cette information', line2: 'est pour tous.' },
+      quote: {
+        line1: 'Pour comprendre ensemble.',
+        line2: 'Pour imaginer ensemble.',
+        line3: 'Pour décider ensemble.',
+      },
+      bigword: 'ensemble',
     },
     manifesto: {
       title: 'Manifeste',
