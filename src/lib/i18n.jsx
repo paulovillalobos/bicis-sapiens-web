@@ -5,8 +5,14 @@ const translations = {
     nav: { manifesto: 'Manifesto', dados: 'Dados', solucao: 'Solução', mapa: 'Mapa', comboios: 'Comboios', app: 'App', comunidade: 'Comunidade', municipios: 'Municípios', recursos: 'Recursos', sobre: 'Sobre', doar: 'Doar' },
     hero: {
       tagline: 'O espaço público é de todos.\nA cidade também.',
+      tagline_html: 'O espaço público<br>é de <em>todos</em>.<br>A cidade também.',
+      counter: 'O Manifesto',
+      eyebrow: 'Porto · Portugal',
+      lead: 'O Porto pode ser 100% ciclável. Sem obras. Com pessoas.',
       cta: 'Junta-te ao movimento',
+      ctaSecondary: 'Ver os dados',
       scroll: 'Descobre mais',
+      ticker: 'BICIS SAPIENS · MOVIMENTO CÍVICO · PORTO · MMXXVI · 100% CICLÁVEL · SEM OBRAS · COM PESSOAS · ',
     },
     manifesto: {
       title: 'Manifesto',
@@ -19,6 +25,27 @@ const translations = {
         'A bicicleta não precisa de infraestrutura dedicada para ser segura.',
         'Visão a 25 anos: cidade silenciosa, com árvores, com espaço para crianças.',
       ],
+      principles: [
+        {
+          chapter: '01 / 03',
+          eyebrow: 'Identidade · O espaço público',
+          mega_html: 'A rua pertence às <em>crianças.</em>',
+          supporting: 'Aos idosos, às famílias. Não a quem passa por ela mais depressa.',
+        },
+        {
+          chapter: '02 / 03',
+          eyebrow: 'Posição · Sem obras',
+          mega_html: 'A bicicleta não precisa de <em>infraestrutura.</em>',
+          supporting: 'A bicicleta não precisa de infraestrutura dedicada para ser segura. Precisa de respeito.',
+        },
+        {
+          chapter: '03 / 03',
+          eyebrow: 'Visão · Mobilidade humana',
+          mega_html: 'Mobilidade humana, em <em>família.</em>',
+          supporting: 'Cidade silenciosa, com árvores, com espaço para crianças jogarem na rua.',
+        },
+      ],
+      colophon: 'Bicis Sapiens · movimento cívico · bicisapiens.org',
     },
     data: {
       title: 'Porto em Números',
@@ -131,8 +158,14 @@ const translations = {
     nav: { manifesto: 'Manifesto', dados: 'Data', solucao: 'Solution', mapa: 'Map', comboios: 'Bike Bus', app: 'App', comunidade: 'Community', municipios: 'Municipalities', recursos: 'Resources', sobre: 'About', doar: 'Donate' },
     hero: {
       tagline: 'Public space belongs to everyone.\nSo does the city.',
+      tagline_html: 'Public space<br>belongs to <em>everyone</em>.<br>The city too.',
+      counter: 'The Manifesto',
+      eyebrow: 'Porto · Portugal',
+      lead: 'Porto can be 100% cyclable. No new infrastructure. With people.',
       cta: 'Join the movement',
+      ctaSecondary: 'See the data',
       scroll: 'Discover more',
+      ticker: 'BICIS SAPIENS · CIVIC MOVEMENT · PORTO · MMXXVI · 100% CYCLABLE · NO INFRASTRUCTURE · WITH PEOPLE · ',
     },
     manifesto: {
       title: 'Manifesto',
@@ -145,6 +178,27 @@ const translations = {
         'A bicycle doesn\'t need dedicated infrastructure to be safe.',
         'Vision for 25 years: a silent city, with trees, with space for children.',
       ],
+      principles: [
+        {
+          chapter: '01 / 03',
+          eyebrow: 'Identity · Public space',
+          mega_html: 'The street belongs to <em>children.</em>',
+          supporting: 'To the elderly, to families. Not to those who pass through fastest.',
+        },
+        {
+          chapter: '02 / 03',
+          eyebrow: 'Position · No new infrastructure',
+          mega_html: 'Cycling doesn\'t need <em>infrastructure.</em>',
+          supporting: 'Bicycles don\'t need dedicated infrastructure to be safe. They need respect.',
+        },
+        {
+          chapter: '03 / 03',
+          eyebrow: 'Vision · Human mobility',
+          mega_html: 'Human mobility, with <em>family.</em>',
+          supporting: 'A quiet city, with trees, with room for children to play on the street.',
+        },
+      ],
+      colophon: 'Bicis Sapiens · civic movement · bicisapiens.org',
     },
     data: {
       title: 'Porto in Numbers',
@@ -257,8 +311,14 @@ const translations = {
     nav: { manifesto: 'Manifiesto', dados: 'Datos', solucao: 'Solución', mapa: 'Mapa', comboios: 'Bici Bus', app: 'App', comunidade: 'Comunidad', municipios: 'Municipios', recursos: 'Recursos', sobre: 'Sobre', doar: 'Donar' },
     hero: {
       tagline: 'El espacio público es de todos.\nLa ciudad también.',
+      tagline_html: 'El espacio público<br>es de <em>todos</em>.<br>La ciudad también.',
+      counter: 'El Manifiesto',
+      eyebrow: 'Porto · Portugal',
+      lead: 'Porto puede ser 100% ciclable. Sin obras. Con personas.',
       cta: 'Únete al movimiento',
+      ctaSecondary: 'Ver los datos',
       scroll: 'Descubre más',
+      ticker: 'BICIS SAPIENS · MOVIMIENTO CÍVICO · PORTO · MMXXVI · 100% CICLABLE · SIN OBRAS · CON PERSONAS · ',
     },
     manifesto: {
       title: 'Manifiesto',
@@ -271,6 +331,27 @@ const translations = {
         'La bicicleta no necesita infraestructura dedicada para ser segura.',
         'Visión a 25 años: ciudad silenciosa, con árboles, con espacio para niños.',
       ],
+      principles: [
+        {
+          chapter: '01 / 03',
+          eyebrow: 'Identidad · El espacio público',
+          mega_html: 'La calle pertenece a los <em>niños.</em>',
+          supporting: 'A los mayores, a las familias. No a quien pasa por ella más rápido.',
+        },
+        {
+          chapter: '02 / 03',
+          eyebrow: 'Posición · Sin obras',
+          mega_html: 'La bicicleta no necesita <em>infraestructura.</em>',
+          supporting: 'La bicicleta no necesita infraestructura dedicada para ser segura. Necesita respeto.',
+        },
+        {
+          chapter: '03 / 03',
+          eyebrow: 'Visión · Movilidad humana',
+          mega_html: 'Movilidad humana, en <em>familia.</em>',
+          supporting: 'Ciudad silenciosa, con árboles, con espacio para que los niños jueguen en la calle.',
+        },
+      ],
+      colophon: 'Bicis Sapiens · movimiento cívico · bicisapiens.org',
     },
     data: {
       title: 'Porto en Números',
@@ -383,8 +464,14 @@ const translations = {
     nav: { manifesto: 'Manifeste', dados: 'Données', solucao: 'Solution', mapa: 'Carte', comboios: 'Vélo Bus', app: 'App', comunidade: 'Communauté', municipios: 'Municipalités', recursos: 'Ressources', sobre: 'À propos', doar: 'Donner' },
     hero: {
       tagline: 'L\'espace public appartient à tous.\nLa ville aussi.',
+      tagline_html: 'L\'espace public<br>appartient à <em>tous</em>.<br>La ville aussi.',
+      counter: 'Le Manifeste',
+      eyebrow: 'Porto · Portugal',
+      lead: 'Porto peut être 100% cyclable. Sans travaux. Avec des personnes.',
       cta: 'Rejoins le mouvement',
+      ctaSecondary: 'Voir les données',
       scroll: 'Découvrir plus',
+      ticker: 'BICIS SAPIENS · MOUVEMENT CIVIQUE · PORTO · MMXXVI · 100% CYCLABLE · SANS TRAVAUX · AVEC DES PERSONNES · ',
     },
     manifesto: {
       title: 'Manifeste',
@@ -397,6 +484,27 @@ const translations = {
         'Le vélo n\'a pas besoin d\'infrastructure dédiée pour être sûr.',
         'Vision à 25 ans : ville silencieuse, avec des arbres, avec de l\'espace pour les enfants.',
       ],
+      principles: [
+        {
+          chapter: '01 / 03',
+          eyebrow: 'Identité · L\'espace public',
+          mega_html: 'La rue appartient aux <em>enfants.</em>',
+          supporting: 'Aux personnes âgées, aux familles. Pas à ceux qui y passent le plus vite.',
+        },
+        {
+          chapter: '02 / 03',
+          eyebrow: 'Position · Sans travaux',
+          mega_html: 'Le vélo n\'a pas besoin d\'<em>infrastructure.</em>',
+          supporting: 'Le vélo n\'a pas besoin d\'infrastructure dédiée pour être sûr. Il a besoin de respect.',
+        },
+        {
+          chapter: '03 / 03',
+          eyebrow: 'Vision · Mobilité humaine',
+          mega_html: 'Mobilité humaine, en <em>famille.</em>',
+          supporting: 'Une ville silencieuse, avec des arbres, avec de l\'espace pour que les enfants jouent dans la rue.',
+        },
+      ],
+      colophon: 'Bicis Sapiens · mouvement civique · bicisapiens.org',
     },
     data: {
       title: 'Porto en Chiffres',

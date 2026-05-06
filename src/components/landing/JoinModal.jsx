@@ -86,7 +86,7 @@ export default function JoinModal({ open, onOpenChange }) {
               className="mt-1 rounded border-border"
               required
             />
-            <span className="text-xs text-muted-foreground">{t('join.consent')}</span>
+            <span className="text-xs text-foreground/55">{t('join.consent')}</span>
           </label>
 
           <button

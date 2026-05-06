@@ -1,7 +1,8 @@
 import React from 'react';
+import { useI18n } from '@/lib/i18n';
 
-// PT-PT first per brief. TODO: re-introduce i18n keys when copy stabilizes.
 export default function Hero({ onJoinClick }) {
+  const { t } = useI18n();
   return (
     <section id="hero" className="bs-hero">
       <div className="bs-hero-bg">
@@ -20,19 +21,16 @@ export default function Hero({ onJoinClick }) {
         <div className="bs-hero-overlay" aria-hidden="true" />
       </div>
 
-      <div className="bs-hero-content">
-        <p className="bs-hero-counter">01 / 13 · O MANIFESTO</p>
-        <p className="bs-hero-eyebrow">— PORTO · PORTUGAL</p>
+      <div className="bs-hero-content bs-glass">
+        <p className="bs-hero-counter">01 / 13 · {t('hero.counter')}</p>
+        <p className="bs-hero-eyebrow">— {t('hero.eyebrow')}</p>
 
-        <h1 className="bs-hero-title">
-          O espaço público<br />
-          é de <em>todos</em>.<br />
-          A cidade também.
-        </h1>
+        <h1
+          className="bs-hero-title"
+          dangerouslySetInnerHTML={{ __html: t('hero.tagline_html') }}
+        />
 
-        <p className="bs-hero-lead">
-          O Porto pode ser 100% ciclável. Sem obras. Com pessoas.
-        </p>
+        <p className="bs-hero-lead">{t('hero.lead')}</p>
 
         <div className="bs-hero-cta">
           <button
@@ -40,18 +38,18 @@ export default function Hero({ onJoinClick }) {
             onClick={onJoinClick}
             className="bs-btn bs-btn-primary"
           >
-            Junta-te ao movimento <span aria-hidden="true">→</span>
+            {t('hero.cta')} <span aria-hidden="true">→</span>
           </button>
           <a href="#data" className="bs-btn bs-btn-secondary">
-            Ver os dados <span aria-hidden="true">↓</span>
+            {t('hero.ctaSecondary')} <span aria-hidden="true">↓</span>
           </a>
         </div>
       </div>
 
       <div className="bs-hero-ticker" aria-hidden="true">
         <div className="bs-ticker-track">
-          <span className="bs-ticker-item">BICIS SAPIENS · MOVIMENTO CÍVICO · PORTO · MMXXVI · 100% CICLÁVEL · SEM OBRAS · COM PESSOAS · </span>
-          <span className="bs-ticker-item">BICIS SAPIENS · MOVIMENTO CÍVICO · PORTO · MMXXVI · 100% CICLÁVEL · SEM OBRAS · COM PESSOAS · </span>
+          <span className="bs-ticker-item">{t('hero.ticker')}</span>
+          <span className="bs-ticker-item">{t('hero.ticker')}</span>
         </div>
       </div>
     </section>

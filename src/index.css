@@ -289,8 +289,25 @@
 .bs-hero-content {
   position: relative;
   z-index: 2;
-  max-width: 900px;
+  max-width: 720px;
   width: 100%;
+}
+
+/* Glass / frosted container for text panels over imagery.
+   Used on hero content panel + each manifesto principle content panel.
+   iOS/macOS card feel: obsidian at low opacity + backdrop blur, hairline
+   border for definition. */
+.bs-glass {
+  background: rgba(10, 10, 10, 0.42);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(250, 250, 247, 0.06);
+  padding: clamp(1.75rem, 4vw, 3.25rem);
+}
+/* Older browsers without backdrop-filter: bump bg opacity so the panel
+   remains legible (no glass effect, but no transparent text either). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .bs-glass { background: rgba(10, 10, 10, 0.78); }
 }
 
 .bs-hero-counter,
@@ -475,11 +492,10 @@
 .bs-principle-content {
   position: relative;
   z-index: 2;
-  max-width: 64rem;
+  max-width: 56rem;
   width: 100%;
-  /* Subtle drop-shadow so type holds against any zone of the photo
-     without looking embossed. */
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+  /* No text-shadow — the .bs-glass panel applied via JSX provides the
+     contrast layer, and double-treatment looks embossed. */
 }
 
 /* Small chapter mark above the eyebrow — yellow mono counter (the only
