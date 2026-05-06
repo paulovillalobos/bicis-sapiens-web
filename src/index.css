@@ -413,6 +413,209 @@
   to   { transform: translateX(-50%); }
 }
 
+/* =========================================================================
+   MANIFESTO — cinematic editorial. 3 principles, mixed alignment, watermark
+   chapter numbers, full-bleed image placeholders between scenes.
+   ========================================================================= */
+.bs-manifesto {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  padding: 8rem 0 6rem;
+  overflow: hidden;
+}
+.bs-manifesto-header {
+  max-width: 80rem;
+  margin: 0 auto 6rem;
+  padding: 0 1.5rem;
+}
+@media (min-width: 768px) {
+  .bs-manifesto-header { padding: 0 2rem; margin-bottom: 8rem; }
+}
+
+.bs-principle {
+  position: relative;
+  isolation: isolate;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: clamp(8rem, 18vh, 14rem) 1.5rem;
+}
+@media (min-width: 768px) {
+  .bs-principle { padding-left: 2rem; padding-right: 2rem; }
+}
+
+.bs-principle-watermark {
+  position: absolute;
+  top: 50%;
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  font-size: clamp(220px, 38vw, 560px);
+  line-height: 0.78;
+  color: rgba(250, 250, 247, 0.038);
+  z-index: -1;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.bs-principle--left .bs-principle-watermark   { left: -2vw;  transform: translateY(-50%); }
+.bs-principle--right .bs-principle-watermark  { right: -2vw; transform: translateY(-50%); }
+.bs-principle--center .bs-principle-watermark { left: 50%;   transform: translate(-50%, -50%); }
+
+.bs-principle-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: rgba(250, 250, 247, 0.5);
+  margin: 0 0 2rem;
+}
+
+.bs-principle-mega {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(48px, 11vw, 180px);
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  color: #FAFAF7;
+  margin: 0;
+  max-width: 16ch;
+}
+
+/* Outline keyword (overrides global h1/h2/h3 em rule) */
+.bs-principle-mega em,
+.bs-principle-mega i {
+  font-style: italic;
+  color: transparent;
+  font-weight: 900;
+  -webkit-text-stroke: 2px #003399;
+  text-stroke: 2px #003399;
+  paint-order: stroke;
+}
+
+.bs-principle-supporting {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.4vw, 32px);
+  line-height: 1.45;
+  color: rgba(250, 250, 247, 0.78);
+  margin: 2.5rem 0 0;
+  max-width: 36ch;
+}
+
+/* Alignment per principle */
+.bs-principle--left  { text-align: left; }
+.bs-principle--right { text-align: right; }
+.bs-principle--right .bs-principle-mega,
+.bs-principle--right .bs-principle-supporting,
+.bs-principle--right .bs-principle-eyebrow { margin-left: auto; }
+.bs-principle--center { text-align: center; }
+.bs-principle--center .bs-principle-mega,
+.bs-principle--center .bs-principle-supporting,
+.bs-principle--center .bs-principle-eyebrow { margin-left: auto; margin-right: auto; }
+
+/* Full-bleed image figure between principles */
+.bs-manifesto-figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  margin: 0;
+  background: #003399;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .bs-manifesto-figure { aspect-ratio: 4 / 5; }
+}
+.bs-manifesto-figure > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bs-manifesto-figure > img.is-loaded { opacity: 1; }
+
+.bs-manifesto-placeholder {
+  position: absolute;
+  inset: 0;
+  background: #003399;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+/* Subtle azulejo flecking on placeholder, low contrast */
+.bs-manifesto-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(250,250,247,0.05) 0, transparent 1.5px),
+    radial-gradient(circle at 80% 70%, rgba(250,250,247,0.04) 0, transparent 1.5px),
+    radial-gradient(circle at 50% 50%, rgba(250,250,247,0.03) 0, transparent 1px);
+  background-size: 60px 60px, 80px 80px, 40px 40px;
+}
+.bs-manifesto-placeholder svg.bs-bike {
+  width: clamp(80px, 14vw, 220px);
+  height: auto;
+  opacity: 0.18;
+  position: relative;
+  z-index: 1;
+}
+.bs-manifesto-figcaption {
+  position: absolute;
+  bottom: clamp(16px, 2.5vw, 32px);
+  left: clamp(16px, 2.5vw, 32px);
+  right: clamp(16px, 2.5vw, 32px);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 247, 0.55);
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+.bs-manifesto-figcaption-id {
+  color: rgba(250, 250, 247, 0.85);
+  font-weight: 500;
+}
+
+/* Final colophon — magazine sign-off */
+.bs-manifesto-colophon {
+  max-width: 80rem;
+  margin: clamp(8rem, 14vh, 12rem) auto 0;
+  padding: 3rem 1.5rem 0;
+  border-top: 1px solid hsl(var(--border));
+}
+@media (min-width: 768px) {
+  .bs-manifesto-colophon { padding: 3rem 2rem 0; }
+}
+.bs-manifesto-colophon p {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 247, 0.4);
+  margin: 0;
+}
+.bs-manifesto-colophon-mark {
+  display: inline-block;
+  margin-right: 1rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #003399;
+  vertical-align: -1px;
+}
+
 /* Hero entry stagger — counter → eyebrow → title → lead → cta */
 .bs-hero-content > * {
   opacity: 0;
