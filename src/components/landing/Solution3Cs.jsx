@@ -6,28 +6,31 @@ import { BookOpen, Users, FileText } from 'lucide-react';
 
 const icons = [BookOpen, Users, FileText];
 const keys = ['info', 'consensus', 'proposal'];
+// Featured: Consenso — the differentiator of the movement (per brief).
+const FEATURED_INDEX = 1;
 
 export default function Solution3Cs() {
   const { t } = useI18n();
   const ref = useScrollReveal();
 
   return (
-    <section id="solution" ref={ref} className="reveal-section py-24 sm:py-32">
+    <section id="solution" ref={ref} className="reveal-section py-24 sm:py-32 bg-background text-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
-          <span className="font-mono text-xs tracking-widest uppercase text-primary">
-            03 — {t('solution.title')}
+          <span className="font-mono text-xs tracking-widest uppercase text-accent">
+            03 / 13 · {t('solution.title')}
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold mt-4 tracking-tight text-foreground">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-4 tracking-tightest text-foreground max-w-3xl">
             {t('solution.title')}
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid md:grid-cols-3 gap-px bg-border">
           {keys.map((key, i) => {
             const Icon = icons[i];
             const section = t(`solution.${key}`) || {};
             const bullets = section.bullets || [];
+            const isFeatured = i === FEATURED_INDEX;
 
             return (
               <motion.div
@@ -36,25 +39,36 @@ export default function Solution3Cs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: i * 0.15 }}
                 viewport={{ once: true }}
-                className="group relative bg-card border border-border rounded-2xl p-8 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500"
+                className={`group relative bg-bone text-obsidian p-8 sm:p-10 transition-transform duration-500 hover:-translate-y-0.5 ${isFeatured ? 'pl-9 sm:pl-11' : ''}`}
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                  <Icon className="w-6 h-6 text-primary" />
+                {isFeatured && (
+                  <span aria-hidden="true" className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
+                )}
+
+                <div className="w-11 h-11 bg-primary/10 flex items-center justify-center mb-8">
+                  <Icon className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-display text-2xl font-semibold text-foreground mb-3">
+
+                <p className="font-mono text-[10px] uppercase tracking-widest text-obsidian/55 mb-3">
+                  0{i + 1}
+                </p>
+
+                <h3 className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-obsidian mb-4 leading-[1.05]">
                   {section.title}
                 </h3>
-                <p className="text-muted-foreground mb-6">{section.desc}</p>
-                <ul className="space-y-3">
+                <p className="text-obsidian/65 mb-6 font-body leading-relaxed">{section.desc}</p>
+
+                <ul className="space-y-2.5 pt-5 border-t border-obsidian/12">
                   {bullets.map((bullet, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm text-foreground/80">
-                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
-                      {bullet}
+                    <li key={j} className="flex items-start gap-3 text-sm text-obsidian/80">
+                      <div className="w-1.5 h-1.5 bg-primary mt-2 shrink-0" />
+                      <span>{bullet}</span>
                     </li>
                   ))}
                 </ul>
-                {/* Number watermark */}
-                <span className="absolute top-6 right-8 font-display text-8xl font-bold text-primary/[0.04] select-none">
+
+                {/* Watermark number, very subtle */}
+                <span aria-hidden="true" className="absolute top-6 right-8 font-display text-7xl font-black tracking-tightest text-obsidian/[0.05] select-none leading-none">
                   {i + 1}
                 </span>
               </motion.div>
@@ -62,7 +76,7 @@ export default function Solution3Cs() {
           })}
         </div>
 
-        <p className="mt-12 text-center font-display text-xl sm:text-2xl text-muted-foreground italic">
+        <p className="mt-12 max-w-3xl font-display text-xl sm:text-2xl text-foreground/60 italic leading-relaxed">
           {t('solution.subtitle')}
         </p>
       </div>

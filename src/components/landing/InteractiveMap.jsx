@@ -38,7 +38,7 @@ function MapButtons({ onReset, onClearCompare, hasCompare }) {
         <button
           onClick={onClearCompare}
           title="Sair da comparação"
-          className="w-9 h-9 grid place-items-center bg-background/90 backdrop-blur border border-border text-foreground/80 hover:text-accent hover:border-accent transition-colors"
+          className="w-9 h-9 grid place-items-center bg-background/90 backdrop-blur border border-border text-foreground/80 hover:text-primary hover:border-primary transition-colors"
         >
           <GitCompare className="w-4 h-4" />
         </button>
@@ -106,7 +106,7 @@ function FreguesiaPanel({ feature, onClose, label }) {
     <div className="h-full overflow-y-auto bg-background">
       <div className="p-6 sm:p-8">
         <div className="flex items-start justify-between gap-4 mb-6">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-accent">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/55">
             {label} &middot; {p.municipio}
           </div>
           <button
@@ -155,7 +155,7 @@ function FreguesiaPanel({ feature, onClose, label }) {
           {p.camara_email && (
             <a
               href={`mailto:${p.camara_email}`}
-              className="text-xs font-mono text-foreground/70 hover:text-accent transition-colors break-all"
+              className="text-xs font-mono text-foreground/70 hover:text-primary transition-colors break-all"
             >
               {p.camara_email}
             </a>
@@ -206,7 +206,7 @@ function FreguesiasLayer({ data, onClick, selectedDicofres }) {
       sub.setStyle({
         fillColor: p.cor_principal,
         fillOpacity: 0.6,
-        color: isSelected ? '#FFD60A' : '#FAFAF7',
+        color: isSelected ? '#003399' : '#FAFAF7',
         weight: isSelected ? 3 : 1.5,
         opacity: 1,
       });
@@ -226,7 +226,7 @@ function FreguesiasLayer({ data, onClick, selectedDicofres }) {
       mouseover: (e) => {
         const p = e.target.feature.properties;
         const sel = selectedRef.current.includes(p.dicofre);
-        e.target.setStyle({ fillOpacity: 0.9, color: '#FFD60A', weight: sel ? 3 : 2 });
+        e.target.setStyle({ fillOpacity: 0.9, color: '#003399', weight: sel ? 3 : 2 });
         e.target.bringToFront();
       },
       mouseout: (e) => {
@@ -235,7 +235,7 @@ function FreguesiasLayer({ data, onClick, selectedDicofres }) {
         e.target.setStyle({
           fillColor: p.cor_principal,
           fillOpacity: 0.6,
-          color: sel ? '#FFD60A' : '#FAFAF7',
+          color: sel ? '#003399' : '#FAFAF7',
           weight: sel ? 3 : 1.5,
         });
       },
@@ -347,7 +347,7 @@ export default function InteractiveMap() {
   return (
     <section id="map" ref={sectionRef} className="reveal-section bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8">
-        <span className="font-mono text-xs tracking-widest uppercase text-primary">
+        <span className="font-mono text-xs tracking-widest uppercase text-accent">
           05 — {t('map.title') || 'Mapa'}
         </span>
         <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-4 tracking-tightest text-foreground max-w-3xl">
@@ -434,7 +434,7 @@ export default function InteractiveMap() {
           {[
             { key: 'escolas',  label: 'Escolas',  swatch: '#FAFAF7' },
             { key: 'parques',  label: 'Parques',  swatch: '#5C7A52' },
-            { key: 'comboios', label: 'Bike Bus', swatch: '#FFD60A' },
+            { key: 'comboios', label: 'Bike Bus', swatch: '#003399' },
           ].map(opt => (
             <label key={opt.key} className="flex items-center gap-2.5 py-1.5 cursor-pointer text-foreground/70 hover:text-foreground">
               <input
@@ -461,7 +461,7 @@ export default function InteractiveMap() {
         {/* Legend */}
         {stats && (
           <div className="absolute bottom-4 left-4 z-[400] bg-background/85 backdrop-blur border border-border p-4 w-[280px] sm:w-[320px]">
-            <div className="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+            <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/55 mb-3">
               Greater Porto
             </div>
             <div className="grid grid-cols-3 gap-3">

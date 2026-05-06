@@ -12,7 +12,7 @@ export default function Manifesto() {
     <section id="manifesto" ref={ref} className="reveal-section py-24 sm:py-32 lg:py-40">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
-          <span className="font-mono text-xs tracking-widest uppercase text-primary">
+          <span className="font-mono text-xs tracking-widest uppercase text-accent">
             01 — {t('manifesto.title')}
           </span>
         </div>

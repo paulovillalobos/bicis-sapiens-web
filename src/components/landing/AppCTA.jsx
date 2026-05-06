@@ -47,8 +47,8 @@ export default function AppCTA() {
             <div className="mt-8 space-y-4">
               {Array.isArray(bullets) && bullets.map((bullet, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center mt-0.5 shrink-0">
-                    <Check className="w-3.5 h-3.5 text-accent" />
+                  <div className="w-6 h-6 rounded-full bg-foreground/10 flex items-center justify-center mt-0.5 shrink-0">
+                    <Check className="w-3.5 h-3.5 text-primary" />
                   </div>
                   <p className="text-white/80 text-lg">{bullet}</p>
                 </div>
@@ -63,7 +63,7 @@ export default function AppCTA() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('footer.emailPlaceholder')}
-                  className="flex-1 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-accent transition-colors"
+                  className="flex-1 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-primary transition-colors"
                 />
               </div>
               <div className="flex gap-3">
@@ -83,7 +83,7 @@ export default function AppCTA() {
                 </button>
               </div>
               {success && (
-                <p className="text-accent text-sm font-medium">{t('join.success')}</p>
+                <p className="text-primary text-xs font-mono uppercase tracking-widest">{t('join.success')}</p>
               )}
             </div>
           </div>
@@ -103,15 +103,15 @@ export default function AppCTA() {
                   {/* App content mockup */}
                   <div className="px-6 pt-6">
                     <div className="flex items-center gap-2 mb-6">
-                      <Bike className="w-5 h-5 text-accent" />
-                      <span className="font-display text-sm font-semibold text-white">Bicis Sapiens</span>
+                      <Bike className="w-5 h-5 text-white" />
+                      <span className="font-display text-sm font-black tracking-tightest text-white">Bicis <i>Sapiens</i></span>
                     </div>
                     <div className="bg-white/10 rounded-2xl p-4 mb-4">
                       <div className="w-full h-32 bg-white/5 rounded-xl mb-3 flex items-center justify-center">
                         <span className="text-white/30 text-xs font-mono">Mapa de rota</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-accent" />
+                        <div className="w-2 h-2 rounded-full bg-white" />
                         <span className="text-white/80 text-xs">Casa → Escola da Constituição</span>
                       </div>
                       <div className="flex gap-4 mt-2 text-[10px] text-white/50 font-mono">
@@ -128,7 +128,7 @@ export default function AppCTA() {
                 </div>
               </div>
               {/* Glow */}
-              <div className="absolute -inset-10 bg-accent/10 rounded-full blur-3xl -z-10" />
+              <div className="absolute -inset-10 bg-transparent rounded-full blur-3xl -z-10" />
             </div>
           </div>
         </div>
