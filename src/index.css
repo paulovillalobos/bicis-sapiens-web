@@ -289,25 +289,8 @@
 .bs-hero-content {
   position: relative;
   z-index: 2;
-  max-width: 720px;
+  max-width: 900px;
   width: 100%;
-}
-
-/* Glass / frosted container for text panels over imagery.
-   Used on hero content panel + each manifesto principle content panel.
-   iOS/macOS card feel: obsidian at low opacity + backdrop blur, hairline
-   border for definition. */
-.bs-glass {
-  background: rgba(10, 10, 10, 0.42);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
-  border: 1px solid rgba(250, 250, 247, 0.06);
-  padding: clamp(1.75rem, 4vw, 3.25rem);
-}
-/* Older browsers without backdrop-filter: bump bg opacity so the panel
-   remains legible (no glass effect, but no transparent text either). */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .bs-glass { background: rgba(10, 10, 10, 0.78); }
 }
 
 .bs-hero-counter,
@@ -492,10 +475,11 @@
 .bs-principle-content {
   position: relative;
   z-index: 2;
-  max-width: 56rem;
+  max-width: 64rem;
   width: 100%;
-  /* No text-shadow — the .bs-glass panel applied via JSX provides the
-     contrast layer, and double-treatment looks embossed. */
+  /* Subtle drop-shadow so type holds against any zone of the photo
+     without looking embossed. Image breathes; no glass card. */
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
 }
 
 /* Small chapter mark above the eyebrow — yellow mono counter (the only
@@ -532,33 +516,14 @@
   max-width: 18ch;
 }
 
-/* Highlighted keyword: EU-blue marker behind italic yellow type.
-   The bg is a linear-gradient with transparent stops at the top and
-   bottom of the inline-box so the blue band is shorter than the
-   element's intrinsic ascender/descender extent. Without this, on a
-   tight display line-height the bg of an <em> on line N visually
-   crashes the descenders of line N-1 (Playfair has tall ascenders +
-   diacritic clearance, so the inline-box is ~118% of the em even when
-   the visible letterforms only fill ~80%). */
+/* Highlighted keyword: EU-yellow italic Playfair, no background, no
+   marker box — clean type floating over the photo. Inherits the
+   subtle parent text-shadow for legibility on any zone of the image. */
 .bs-principle-mega em,
 .bs-principle-mega i {
   font-style: italic;
   font-weight: 900;
   color: #FFD60A;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 14%,
-    #003399 14%,
-    #003399 96%,
-    transparent 96%,
-    transparent 100%
-  );
-  padding: 0 0.15em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  /* Marker is its own contrast — no parent text-shadow. */
-  text-shadow: none;
 }
 
 .bs-principle-supporting {

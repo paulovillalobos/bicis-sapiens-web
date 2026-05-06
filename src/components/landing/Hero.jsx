@@ -21,7 +21,7 @@ export default function Hero({ onJoinClick }) {
         <div className="bs-hero-overlay" aria-hidden="true" />
       </div>
 
-      <div className="bs-hero-content bs-glass">
+      <div className="bs-hero-content">
         <p className="bs-hero-counter">01 / 13 · {t('hero.counter')}</p>
         <p className="bs-hero-eyebrow">— {t('hero.eyebrow')}</p>
 

@@ -29,7 +29,7 @@ function Principle({ index, t, src, alt }) {
       />
       <div className="bs-principle-overlay" aria-hidden="true" />
 
-      <div className="bs-principle-content bs-glass">
+      <div className="bs-principle-content">
         <span className="bs-principle-chapter">{t(`${base}.chapter`)}</span>
         <p className="bs-principle-eyebrow">{t(`${base}.eyebrow`)}</p>
         <h2
