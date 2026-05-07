@@ -381,9 +381,46 @@
   font-weight: 400;
   font-size: clamp(22px, 2.2vw, 28px);   /* up one step from 20-24 */
   color: #FFFFFF;
-  max-width: 600px;
+  max-width: 640px;
   line-height: 1.4;
+  margin: 0 0 24px;
+}
+
+/* Block-em accent inside the hero subline. Same pattern as the headline em
+   (#1d4ed8 royal blue rectangle + #d4a017 yellow italic letterform), but
+   sized to the subline's typographic scale, not the headline's. The lead
+   is wrapped in <p>, not <h1/h2>, so the global h1 em / h2 em rule does
+   not catch it — explicit override below. */
+.bs-hero-lead em,
+.bs-hero-lead i {
+  font-style: italic;
+  font-weight: 400;
+  color: #d4a017;
+  background: #1d4ed8;
+  display: inline-block;
+  padding: 0 0.08em;
+  line-height: 0.95;
+  vertical-align: baseline;
+}
+
+/* Three dimensions — tracked uppercase, yellow, weight 500. Sits below
+   the lead with a generous gap so the eye reads them as the manifesto's
+   anchor, not as a continuation of the sentence. */
+.bs-hero-dimensions {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #d4a017;
   margin: 0 0 48px;
+  line-height: 1.4;
+}
+.bs-hero-dimensions-sep {
+  /* Soft separator — same yellow but at lower contrast so the three
+     dimensions read as a list, not a sentence. */
+  color: rgba(212, 160, 23, 0.55);
+  padding: 0 0.2em;
 }
 
 .bs-hero-cta {
@@ -622,15 +659,16 @@
   vertical-align: -1px;
 }
 
-/* Hero entry stagger — eyebrow → title → lead → cta */
+/* Hero entry stagger — eyebrow → title → lead → dimensions → cta */
 .bs-hero-content > * {
   opacity: 0;
   animation: bs-hero-fade-up 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-.bs-hero-eyebrow { animation-delay: 0ms; }
-.bs-hero-title   { animation-delay: 200ms; }
-.bs-hero-lead    { animation-delay: 600ms; }
-.bs-hero-cta     { animation-delay: 900ms; }
+.bs-hero-eyebrow    { animation-delay: 0ms; }
+.bs-hero-title      { animation-delay: 200ms; }
+.bs-hero-lead       { animation-delay: 600ms; }
+.bs-hero-dimensions { animation-delay: 800ms; }
+.bs-hero-cta        { animation-delay: 1000ms; }
 
 @keyframes bs-hero-fade-up {
   from { opacity: 0; transform: translateY(24px); }

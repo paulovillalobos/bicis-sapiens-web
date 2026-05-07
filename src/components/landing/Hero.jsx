@@ -29,7 +29,19 @@ export default function Hero({ onJoinClick }) {
           dangerouslySetInnerHTML={{ __html: t('hero.tagline_html') }}
         />
 
-        <p className="bs-hero-lead">{t('hero.lead')}</p>
+        <p
+          className="bs-hero-lead"
+          dangerouslySetInnerHTML={{ __html: t('hero.lead_html') }}
+        />
+
+        <p className="bs-hero-dimensions">
+          {(t('hero.dimensions') || []).map((d, i, arr) => (
+            <span key={i}>
+              {d}
+              {i < arr.length - 1 && <span aria-hidden="true" className="bs-hero-dimensions-sep"> · </span>}
+            </span>
+          ))}
+        </p>
 
         <div className="bs-hero-cta">
           <button
