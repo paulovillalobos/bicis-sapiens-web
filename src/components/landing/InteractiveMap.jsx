@@ -30,7 +30,11 @@ const TILE_ATTR =
 //      can place Porto inside Portugal vs the surrounding peninsula.
 //   4. Freguesias (intact)
 //   5. AMP halo + cartographic labels (Porto / Oceano Atlântico)
-const NAVY_OCEAN = '#0a1929';
+// Brighter midnight blue — the previous #0a1929 was too close to
+// obsidian to read as water. This sits in the Economist / Bloomberg
+// dark-map range: present, evidently blue, still respectful of the
+// dark theme.
+const NAVY_OCEAN = '#0e2e5e';
 
 // Simplified Iberian Peninsula outline (~37 vertices, [lng, lat]).
 // Used as the HOLE in the ocean donut. Low res by design.
@@ -531,8 +535,7 @@ export default function InteractiveMap() {
 
   // Localized cartographic label icons — rebuilt when locale changes
   const oceanIcon    = useMemo(() => buildOceanIcon(t('map.labels.ocean')), [t]);
-  const portugalIcon = useMemo(() => buildCountryIcon('Portugal'), []);
-  const spainIcon    = useMemo(() => buildCountryIcon('España'),  []);
+  const portugalIcon = useMemo(() => buildCountryIcon(t('map.labels.portugal')), [t]);
 
   useEffect(() => {
     let cancelled = false;
@@ -727,12 +730,6 @@ export default function InteractiveMap() {
             <Marker
               position={PORTUGAL_LABEL_POS}
               icon={portugalIcon}
-              interactive={false}
-              keyboard={false}
-            />
-            <Marker
-              position={SPAIN_LABEL_POS}
-              icon={spainIcon}
               interactive={false}
               keyboard={false}
             />
