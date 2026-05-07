@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
-import { MapContainer, GeoJSON, ZoomControl, useMap, Marker, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMap, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import { Search, X, ArrowRight, RotateCcw, GitCompare, Shield } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
@@ -12,45 +12,86 @@ const PORTO_BOUNDS = [[40.80, -9.85], [41.55, -7.85]];
 const PORTO_CENTER = [41.155, -8.85];
 const PORTO_ZOOM = 10;
 
-// Editorial geography stack — replaces the previous CARTO Dark Matter tile
-// layer, which couldn't distinguish ocean from land. Now: navy ocean as
-// the map container background + a hand-drawn Iberian Peninsula polygon
-// filled with site bg #0a0a0a so the coastline reads as an obsidian/navy
-// boundary. No third-party tiles, no labels we don't control.
+// CARTO Dark Matter no-labels — gives subtle urban features (cities,
+// roads) without competing labels. Tile layer underpins the editorial
+// overlays so other-city context is visible like before.
+const TILE_URL = 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png';
+const TILE_ATTR =
+  '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &middot; ' +
+  '&copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>';
+
+// Editorial geography stack:
+//   1. CARTO Dark Matter tiles below — urban context, no labels
+//   2. Ocean tint donut polygon — outer rect minus the Iberian peninsula
+//      hole. Filled NAVY at high opacity → ocean reads as blue, land
+//      shows through tile features (cities, roads, urban density).
+//   3. Portugal–Spain border polyline — faint dashed white so the eye
+//      can place Porto inside Portugal vs the surrounding peninsula.
+//   4. Freguesias (intact)
+//   5. AMP halo + cartographic labels (Porto / Oceano Atlântico)
 const NAVY_OCEAN = '#0a1929';
 
-// Simplified Iberian Peninsula outline (~37 vertices). Resolution is
-// intentionally low — per brief, surrounding territory should feel
-// "casi fantasma", not atlas-precise. Coordinates as [lng, lat].
-const IBERIA_GEOJSON = {
+// Simplified Iberian Peninsula outline (~37 vertices, [lng, lat]).
+// Used as the HOLE in the ocean donut. Low res by design.
+const IBERIA_COORDS = [
+  [-9.30, 42.90], [-9.00, 43.50], [-7.80, 43.55], [-6.50, 43.55],
+  [-5.50, 43.45], [-4.50, 43.45], [-3.50, 43.45], [-2.50, 43.40],
+  [-1.80, 43.35], [-1.40, 43.25], [-0.50, 42.95], [ 0.30, 42.85],
+  [ 1.00, 42.70], [ 2.20, 42.45], [ 3.20, 42.30], [ 3.30, 41.90],
+  [ 2.50, 41.55], [ 1.00, 41.10], [ 0.50, 40.50], [ 0.00, 39.50],
+  [-0.30, 38.80], [-0.70, 37.90], [-1.50, 37.40], [-2.50, 36.80],
+  [-4.00, 36.60], [-5.30, 36.10], [-6.30, 36.50], [-7.40, 37.10],
+  [-8.50, 37.05], [-8.95, 37.05], [-9.00, 38.00], [-9.50, 38.65],
+  [-9.40, 39.30], [-9.10, 40.00], [-8.85, 40.50], [-8.75, 41.00],
+  [-8.75, 41.70], [-8.85, 42.00], [-8.95, 42.50], [-9.30, 42.90],
+];
+
+const OCEAN_OVERLAY = {
   type: 'FeatureCollection',
   features: [{
     type: 'Feature',
-    properties: { name: 'Iberian Peninsula' },
+    properties: { name: 'Atlantic + Mediterranean tint' },
     geometry: {
       type: 'Polygon',
-      coordinates: [[
-        [-9.30, 42.90], [-9.00, 43.50], [-7.80, 43.55], [-6.50, 43.55],
-        [-5.50, 43.45], [-4.50, 43.45], [-3.50, 43.45], [-2.50, 43.40],
-        [-1.80, 43.35], [-1.40, 43.25], [-0.50, 42.95], [ 0.30, 42.85],
-        [ 1.00, 42.70], [ 2.20, 42.45], [ 3.20, 42.30], [ 3.30, 41.90],
-        [ 2.50, 41.55], [ 1.00, 41.10], [ 0.50, 40.50], [ 0.00, 39.50],
-        [-0.30, 38.80], [-0.70, 37.90], [-1.50, 37.40], [-2.50, 36.80],
-        [-4.00, 36.60], [-5.30, 36.10], [-6.30, 36.50], [-7.40, 37.10],
-        [-8.50, 37.05], [-8.95, 37.05], [-9.00, 38.00], [-9.50, 38.65],
-        [-9.40, 39.30], [-9.10, 40.00], [-8.85, 40.50], [-8.75, 41.00],
-        [-8.75, 41.70], [-8.85, 42.00], [-8.95, 42.50], [-9.30, 42.90],
-      ]],
+      coordinates: [
+        // Outer ring (CCW): big rectangle covering all visible map area
+        [
+          [-20, 30], [12, 30], [12, 48], [-20, 48], [-20, 30],
+        ],
+        // Inner ring (CW = reversed Iberia): the hole that lets land
+        // tile features show through
+        IBERIA_COORDS.slice().reverse(),
+      ],
     },
   }],
 };
 
-const IBERIA_STYLE = {
-  fillColor: '#0a0a0a',
-  fillOpacity: 1,
-  color: 'rgba(255, 255, 255, 0.10)',
-  weight: 0.5,
+const OCEAN_OVERLAY_STYLE = {
+  fillColor: NAVY_OCEAN,
+  fillOpacity: 0.88,
+  color: 'rgba(255, 255, 255, 0.16)',
+  weight: 0.6,
 };
+
+// Portugal–Spain border, north → south, [lng, lat]. Hand-traced low
+// resolution — enough to anchor "Porto is in Portugal" without atlas
+// precision.
+const PORTUGAL_SPAIN_BORDER = [
+  [-8.88, 41.87],   // N coast — Caminha / Vigo
+  [-8.20, 42.05],
+  [-7.40, 41.85],
+  [-6.55, 41.95],
+  [-6.20, 41.55],
+  [-7.05, 41.10],
+  [-6.85, 40.40],
+  [-6.95, 39.85],
+  [-7.25, 39.55],
+  [-7.40, 39.10],
+  [-7.30, 38.50],
+  [-7.00, 38.20],
+  [-6.95, 37.80],
+  [-7.40, 37.20],   // Algarve / Atlantic
+];
 
 // Andrew's monotone-chain convex hull. Used to wrap a faint white halo
 // around the AMP cluster so the eye reads "this is Greater Porto" at a
@@ -614,15 +655,32 @@ export default function InteractiveMap() {
             className="w-full h-full bs-map"
             style={{ background: NAVY_OCEAN }}
           >
-            {/* Iberian Peninsula context — fills the navy bg with site-bg
-                land, leaving only the ocean visible as navy. Coastline as
-                a faint hairline. Non-interactive. */}
+            {/* CARTO tiles — urban context (cities, roads) under everything */}
+            <TileLayer url={TILE_URL} attribution={TILE_ATTR} subdomains="abcd" maxZoom={20} />
+
+            {/* Ocean tint donut — paints the Atlantic + Mediterranean blue
+                while letting tile features show through on land. */}
             <GeoJSON
-              data={IBERIA_GEOJSON}
-              style={() => IBERIA_STYLE}
+              data={OCEAN_OVERLAY}
+              style={() => OCEAN_OVERLAY_STYLE}
               interactive={false}
             />
+
+            {/* Portugal–Spain border (faint dashed white) — anchors Porto
+                inside Portugal and lets the eye distinguish the two
+                countries on land. */}
+            <Polyline
+              positions={PORTUGAL_SPAIN_BORDER.map(([lng, lat]) => [lat, lng])}
+              pathOptions={{
+                color: 'rgba(255, 255, 255, 0.45)',
+                weight: 1,
+                dashArray: '4 5',
+                interactive: false,
+              }}
+            />
+
             <FreguesiasLayer data={geojson} onClick={handleClick} selectedDicofres={selectedDicofres} />
+
             {/* AMP halo — single white perimeter around the cluster */}
             {ampHullLatLng && (
               <Polyline
@@ -635,6 +693,7 @@ export default function InteractiveMap() {
                 }}
               />
             )}
+
             {/* Cartographic labels */}
             <Marker
               position={OCEAN_LABEL_POS}
@@ -648,6 +707,7 @@ export default function InteractiveMap() {
               interactive={false}
               keyboard={false}
             />
+
             <ZoomControl position="bottomright" />
             <FitBoundsOnMount bounds={PORTO_BOUNDS} options={{ padding: [20, 20] }} />
             <CtrlWheelZoom />
