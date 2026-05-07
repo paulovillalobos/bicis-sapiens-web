@@ -6,13 +6,14 @@ import L from 'leaflet';
 import { Search, X, ArrowRight, RotateCcw, GitCompare, Shield } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
-// Bounds expanded south so the country reads like a country (Google
-// places the "Portugal" label around lat 39.5 — we widen far enough
-// to host the label near that geographic center while keeping the
-// AMP cluster anchored in the upper third of the frame).
-const PORTO_BOUNDS = [[39.30, -9.85], [41.70, -6.30]];
-const PORTO_CENTER = [40.50, -8.10];
-const PORTO_ZOOM = 8;
+// Initial view: tight crop on the AMP cluster so freguesias are the
+// protagonist from the moment the section opens. Ocean / Portugal
+// label / Iberian peninsula context remain loaded but live off-frame;
+// they reveal as the user zooms out (or resets via the button, which
+// uses these same bounds, so reset always returns here too).
+const PORTO_BOUNDS = [[40.85, -9.00], [41.45, -7.85]];
+const PORTO_CENTER = [41.15, -8.45];
+const PORTO_ZOOM = 10;
 
 // CARTO Dark Matter no-labels — gives subtle urban features (cities,
 // roads) without competing labels. Tile layer underpins the editorial
