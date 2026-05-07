@@ -187,7 +187,7 @@ function StatCell({ label, metric, decimals, portoVal, compareVal, compareShort,
       <div
         className={`flex flex-col gap-1.5 bs-data-bars ${transitioning ? 'is-transitioning' : ''}`}
       >
-        <BarRow pct={bars.porto}   color={portoBarColor} label="Porto"        labelColor="rgba(255,255,255,0.6)" delayMs={delayMs} pulsing={pulsing} />
+        <BarRow pct={bars.porto}   color={portoBarColor} label="Porto"        labelColor="#ffffff" delayMs={delayMs} pulsing={pulsing} />
         <BarRow pct={bars.compare} color={cityColor}     label={compareShort} labelColor={cityColor}             delayMs={delayMs} pulsing={pulsing} />
       </div>
 
@@ -235,7 +235,7 @@ export default function DataDashboard() {
     return () => clearTimeout(id);
   }, [pulsing]);
 
-  const cityColor = CITY_COLORS[displayedCity] || 'rgba(255, 255, 255, 0.4)';
+  const cityColor = CITY_COLORS[displayedCity] || '#d4a017';
 
   const porto = cityData.Porto;
   const compare = cityData[displayedCity];
