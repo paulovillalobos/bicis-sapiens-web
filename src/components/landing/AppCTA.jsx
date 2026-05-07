@@ -53,7 +53,7 @@ export default function AppCTA() {
           <div className="order-2 lg:order-1">
             <span
               className="font-mono uppercase text-eu-yellow"
-              style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500 }}
+              style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500 }}
             >
               06 — {t('app.title')}
             </span>
@@ -84,7 +84,7 @@ export default function AppCTA() {
 
             <p
               className="mt-6 font-mono uppercase max-w-[520px]"
-              style={{ fontSize: 12, letterSpacing: '0.2em', color: '#d4a017', fontWeight: 500 }}
+              style={{ fontSize: 13, letterSpacing: '0.16em', color: '#d4a017', fontWeight: 500 }}
             >
               {t('app.taglineMono')}
             </p>
@@ -103,7 +103,7 @@ export default function AppCTA() {
                 <button
                   type="submit"
                   disabled={submitting || !email}
-                  className="group inline-flex items-center justify-center gap-2 px-6 py-4 text-xs font-mono uppercase tracking-widest bg-eu-blue text-bone hover:bg-eu-yellow hover:text-eu-blue transition-colors disabled:opacity-50 disabled:hover:bg-eu-blue disabled:hover:text-bone"
+                  className="group inline-flex items-center justify-center gap-2 px-6 py-4 text-[13px] font-mono uppercase tracking-[0.18em] bg-eu-blue text-bone hover:bg-eu-yellow hover:text-eu-blue transition-colors disabled:opacity-50 disabled:hover:bg-eu-blue disabled:hover:text-bone"
                 >
                   {t('app.joinList')}
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -112,7 +112,7 @@ export default function AppCTA() {
 
               <p
                 className="mt-4 font-mono uppercase"
-                style={{ fontSize: 12, letterSpacing: '0.2em', color: '#fff', fontWeight: 500 }}
+                style={{ fontSize: 13, letterSpacing: '0.16em', color: '#fff', fontWeight: 500 }}
               >
                 {t('app.socialProof')}
               </p>
@@ -203,7 +203,7 @@ function Phone({ t }) {
 
             {/* Status bar */}
             <div className="relative flex items-center justify-between px-7 pt-3 pb-2 z-10">
-              <span className="text-[12px] text-bone font-mono tracking-tight">9:41</span>
+              <span className="text-[13px] text-bone font-mono tracking-tight">9:41</span>
               <div className="flex items-center gap-1 text-bone">
                 <SignalIcon />
                 <WifiIcon />
@@ -293,7 +293,7 @@ function Phone({ t }) {
                 <p className="font-display text-[14px] font-black tracking-tightest text-bone leading-tight">
                   {t('app.phone.route')}
                 </p>
-                <div className="flex items-center gap-2.5 font-mono text-[9px] uppercase tracking-widest text-bone/65">
+                <div className="flex items-center gap-2.5 font-mono text-[13px] uppercase tracking-[0.18em] text-bone/65">
                   <span className="flex items-center gap-1">
                     <MapPin className="w-2.5 h-2.5" /> {t('app.phone.distance')}
                   </span>
@@ -312,7 +312,7 @@ function Phone({ t }) {
               <div className="flex-1" />
 
               {/* Start route button */}
-              <div className="bg-eu-yellow text-eu-blue py-3 text-center font-mono text-[11px] font-bold uppercase tracking-widest">
+              <div className="bg-eu-yellow text-eu-blue py-3 text-center font-mono text-[13px] font-bold uppercase tracking-[0.18em]">
                 {t('app.phone.startButton')}
               </div>
 

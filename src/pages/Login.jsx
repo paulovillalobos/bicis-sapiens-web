@@ -47,7 +47,7 @@ export default function Login() {
         <Link
           to="/comunidade/foro"
           className="font-mono uppercase mb-8 inline-block"
-          style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+          style={{ fontSize: 13, letterSpacing: '0.18em', color: FAINT }}
         >
           ← {t('forum.thread.breadcrumb')}
         </Link>
@@ -60,7 +60,7 @@ export default function Login() {
         </h1>
 
         {!isSupabaseConfigured() && (
-          <p className="font-mono uppercase mb-6" style={{ fontSize: 11, letterSpacing: '0.25em', color: YELLOW }}>
+          <p className="font-mono uppercase mb-6" style={{ fontSize: 13, letterSpacing: '0.16em', color: YELLOW }}>
             {t('forum.login.notConfigured')}
           </p>
         )}
@@ -70,13 +70,13 @@ export default function Login() {
             <p className="font-data m-0 mb-2" style={{ fontSize: 18, color: '#fff', lineHeight: 1.5 }}>
               {t('forum.login.linkSent')}
             </p>
-            <p className="m-0" style={{ fontSize: 14, color: SOFT, lineHeight: 1.6 }}>
+            <p className="m-0" style={{ fontSize: 15, color: SOFT, lineHeight: 1.6 }}>
               {t('forum.login.checkInbox', { email })}
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
-            <p className="m-0 mb-6" style={{ fontSize: 15, color: SOFT, lineHeight: 1.6 }}>
+            <p className="m-0 mb-6" style={{ fontSize: 16, color: SOFT, lineHeight: 1.6 }}>
               {t('forum.login.intro')}
             </p>
 
@@ -94,7 +94,7 @@ export default function Login() {
                 border: '0.5px solid rgba(255, 255, 255, 0.30)',
                 borderRadius: 4,
                 color: '#fff',
-                fontSize: 15,
+                fontSize: 16,
                 outline: 'none',
               }}
               onFocus={(e) => (e.target.style.borderColor = '#fff')}
@@ -102,7 +102,7 @@ export default function Login() {
             />
 
             {error && (
-              <p className="font-mono uppercase mb-4" style={{ fontSize: 11, letterSpacing: '0.25em', color: '#ef4444' }}>
+              <p className="font-mono uppercase mb-4" style={{ fontSize: 13, letterSpacing: '0.16em', color: '#ef4444' }}>
                 {error}
               </p>
             )}
@@ -111,12 +111,12 @@ export default function Login() {
               type="submit"
               disabled={!email || submitting || !isSupabaseConfigured()}
               className="w-full transition-opacity hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{ background: BLUE, color: '#fff', padding: '1rem', fontSize: 15, fontWeight: 500 }}
+              style={{ background: BLUE, color: '#fff', padding: '1rem', fontSize: 16, fontWeight: 500 }}
             >
               {submitting ? t('forum.login.sending') : t('forum.login.send')}
             </button>
 
-            <p className="font-mono uppercase text-center mt-6 m-0" style={{ fontSize: 10, letterSpacing: '0.25em', color: FAINT }}>
+            <p className="font-mono uppercase text-center mt-6 m-0" style={{ fontSize: 12, letterSpacing: '0.16em', color: FAINT }}>
               {t('forum.login.privacy')}
             </p>
           </form>

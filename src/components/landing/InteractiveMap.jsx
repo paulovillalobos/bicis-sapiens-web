@@ -23,7 +23,7 @@ const fmt = (n) => (n == null || Number.isNaN(n) ? '—' : Number(n).toLocaleStr
 function Skeleton() {
   return (
     <div className="absolute inset-0 grid place-items-center pointer-events-none z-[300] bg-background">
-      <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/40 animate-pulse">
+      <div className="font-mono text-[13px] uppercase tracking-[0.18em] text-foreground/85 animate-pulse">
         A carregar geometria CAOP…
       </div>
     </div>
@@ -38,7 +38,7 @@ function MapButtons({ onReset, onClearCompare, hasCompare }) {
         <button
           onClick={onClearCompare}
           title="Sair da comparação"
-          className="w-9 h-9 grid place-items-center bg-background/90 backdrop-blur border border-border text-foreground/80 hover:text-primary hover:border-primary transition-colors"
+          className="w-9 h-9 grid place-items-center bg-background/90 backdrop-blur border border-border text-foreground hover:text-primary hover:border-primary transition-colors"
         >
           <GitCompare className="w-4 h-4" />
         </button>
@@ -46,7 +46,7 @@ function MapButtons({ onReset, onClearCompare, hasCompare }) {
       <button
         onClick={onReset}
         title="Reset"
-        className="w-9 h-9 grid place-items-center bg-background/90 backdrop-blur border border-border text-foreground/80 hover:text-foreground hover:border-foreground transition-colors"
+        className="w-9 h-9 grid place-items-center bg-background/90 backdrop-blur border border-border text-foreground hover:text-foreground hover:border-foreground transition-colors"
       >
         <RotateCcw className="w-4 h-4" />
       </button>
@@ -113,11 +113,11 @@ function CtrlWheelZoom() {
 function StatRow({ label, value, unit }) {
   return (
     <div className="flex items-baseline justify-between border-b border-border/40 py-2.5">
-      <span className="font-mono text-[10px] uppercase tracking-widest text-foreground/50">{label}</span>
+      <span className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground">{label}</span>
       <span className="font-display text-base font-black tracking-tightest text-foreground">
         {value}
         {unit && (
-          <span className="text-foreground/40 text-[10px] ml-1.5 font-mono font-normal tracking-normal normal-case">
+          <span className="text-foreground text-[13px] ml-1.5 font-mono font-normal tracking-normal normal-case">
             {unit}
           </span>
         )}
@@ -139,10 +139,10 @@ function Brasao({ src, name, dicofre }) {
         aria-label={`Brasão de ${name} — em falta`}
       >
         <Shield
-          className="w-10 h-10 text-foreground/35"
+          className="w-10 h-10 text-foreground"
           strokeWidth={1.25}
         />
-        <p className="mt-2 font-mono text-[9px] tracking-widest text-foreground/35">
+        <p className="mt-2 font-mono text-[13px] tracking-[0.18em] text-foreground">
           {dicofre}
         </p>
       </div>
@@ -201,13 +201,13 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
     <div className="h-full overflow-y-auto bg-background">
       <div className="p-6 sm:p-8">
         <div className="flex items-start justify-between gap-4 mb-6">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/55">
+          <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-accent">
             {label} &middot; {p.municipio}
           </div>
           <button
             onClick={onClose}
             aria-label="Fechar"
-            className="p-1 -mr-1 -mt-1 text-foreground/60 hover:text-foreground transition-colors"
+            className="p-1 -mr-1 -mt-1 text-foreground hover:text-primary transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -220,7 +220,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
         <Brasao src={brasaoSrc} name={p.nome} dicofre={p.dicofre} />
 
         {brasaoEntry?.attribution && (
-          <p className="text-center font-mono text-[8px] uppercase tracking-widest text-foreground/30 mb-6">
+          <p className="text-center font-mono text-[13px] uppercase tracking-[0.18em] text-foreground mb-6">
             {brasaoEntry.attribution}
           </p>
         )}
@@ -238,7 +238,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
 
         {p.jf_nome && (
           <div className="border-t border-border pt-6 mb-6">
-            <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/50 mb-2">
+            <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mb-2">
               Junta de freguesia
             </div>
             <div className="font-display text-base font-black tracking-tightest text-foreground mb-1 leading-tight">
@@ -247,7 +247,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
             {p.jf_email && (
               <a
                 href={`mailto:${p.jf_email}`}
-                className="text-xs font-mono text-foreground/70 hover:text-primary transition-colors break-all block"
+                className="text-[13px] font-mono text-foreground/95 hover:text-primary transition-colors break-all block"
               >
                 {p.jf_email}
               </a>
@@ -257,7 +257,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
                 href={p.jf_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-mono text-foreground/50 hover:text-primary transition-colors break-all block mt-0.5"
+                className="text-[13px] font-mono text-foreground/90 hover:text-primary transition-colors break-all block mt-0.5"
               >
                 {p.jf_url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
               </a>
@@ -266,7 +266,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
         )}
 
         <div className="border-t border-border pt-6 mb-6">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/50 mb-2">
+          <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mb-2">
             Câmara municipal
           </div>
           <div className="font-display text-base font-black tracking-tightest text-foreground mb-1">
@@ -275,7 +275,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
           {p.camara_email && (
             <a
               href={`mailto:${p.camara_email}`}
-              className="text-xs font-mono text-foreground/70 hover:text-primary transition-colors break-all"
+              className="text-[13px] font-mono text-foreground/95 hover:text-primary transition-colors break-all"
             >
               {p.camara_email}
             </a>
@@ -286,7 +286,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
           {p.jf_email && (
             <a
               href={`mailto:${p.jf_email}`}
-              className="w-full inline-flex items-center justify-between px-5 py-4 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="w-full inline-flex items-center justify-between px-5 py-4 text-[13px] font-mono uppercase tracking-[0.18em] bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Contactar junta <ArrowRight className="w-4 h-4" />
             </a>
@@ -296,19 +296,19 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
               href={p.camara_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-between px-5 py-4 text-xs font-mono uppercase tracking-widest border border-foreground/25 text-foreground hover:bg-foreground/5 transition-colors"
+              className="w-full inline-flex items-center justify-between px-5 py-4 text-[13px] font-mono uppercase tracking-[0.18em] border border-foreground/25 text-foreground hover:bg-foreground/5 transition-colors"
             >
               Contactar câmara <ArrowRight className="w-4 h-4" />
             </a>
           )}
-          <button className="w-full inline-flex items-center justify-between px-5 py-4 text-xs font-mono uppercase tracking-widest border border-foreground/25 text-foreground hover:bg-foreground/5 transition-colors">
+          <button className="w-full inline-flex items-center justify-between px-5 py-4 text-[13px] font-mono uppercase tracking-[0.18em] border border-foreground/25 text-foreground hover:bg-foreground/5 transition-colors">
             Propostas para esta freguesia <ArrowRight className="w-4 h-4" />
           </button>
         </div>
 
         {p._todo && p._todo.length > 0 && (
-          <div className="mt-8 pt-6 border-t border-border/40 text-[10px] font-mono text-foreground/30 leading-relaxed">
-            <div className="uppercase tracking-widest mb-1.5 text-foreground/40">Dados em desenvolvimento</div>
+          <div className="mt-8 pt-6 border-t border-border/40 text-[13px] font-mono text-foreground leading-relaxed">
+            <div className="uppercase tracking-[0.18em] mb-1.5 text-foreground/85">Dados em desenvolvimento</div>
             <ul className="space-y-1">
               {p._todo.map((t, i) => <li key={i}>· {t}</li>)}
             </ul>
@@ -486,13 +486,13 @@ export default function InteractiveMap() {
   return (
     <section id="map" ref={sectionRef} className="reveal-section bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-6">
-        <span className="font-mono text-xs tracking-widest uppercase text-accent">
+        <span className="font-mono text-[13px] tracking-[0.18em] font-medium uppercase text-accent">
           05 — {t('map.title') || 'Mapa'}
         </span>
         <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-3 tracking-tightest text-foreground max-w-3xl">
           A cidade <i>vista</i> por freguesia.
         </h2>
-        <p className="text-foreground/60 max-w-2xl mt-3 font-body">
+        <p className="text-foreground text-base sm:text-lg max-w-2xl mt-4 font-body leading-relaxed">
           {t('map.subtitle') || 'Explora a Grande Área Metropolitana do Porto.'}
           {' '}Clica numa freguesia para ver os dados. Numa segunda para comparar.
         </p>
@@ -502,7 +502,7 @@ export default function InteractiveMap() {
         <div className="relative w-full h-[60vh] min-h-[420px] max-h-[640px] bg-background border border-border overflow-hidden">
         {loading && <Skeleton />}
         {error && (
-          <div className="absolute inset-0 grid place-items-center text-foreground/60 font-mono text-sm z-[400]">
+          <div className="absolute inset-0 grid place-items-center text-foreground/95 font-mono text-sm z-[400]">
             Erro a carregar dados: {error}
           </div>
         )}
@@ -531,7 +531,7 @@ export default function InteractiveMap() {
         {/* Search */}
         <div className="absolute top-4 left-4 z-[400] w-[260px] sm:w-[300px]">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40 pointer-events-none" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/85 pointer-events-none" />
             <input
               type="text"
               value={search}
@@ -539,7 +539,7 @@ export default function InteractiveMap() {
               onFocus={() => setSearchOpen(true)}
               onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
               placeholder="Buscar freguesia…"
-              className="w-full pl-9 pr-3 py-2.5 text-xs font-mono uppercase tracking-widest bg-background/95 backdrop-blur border border-border text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-primary"
+              className="w-full pl-9 pr-3 py-2.5 text-[13px] font-mono uppercase tracking-[0.18em] bg-background/95 backdrop-blur border border-border text-foreground placeholder:text-foreground/85 focus:outline-none focus:border-primary"
             />
           </div>
           {searchOpen && search.trim() && matches.length > 0 && (
@@ -553,7 +553,7 @@ export default function InteractiveMap() {
                     <div className="font-display font-black tracking-tightest text-sm text-foreground leading-tight">
                       {f.properties.nome}
                     </div>
-                    <div className="text-[9px] font-mono uppercase tracking-widest text-foreground/40 mt-0.5">
+                    <div className="text-[13px] font-mono uppercase tracking-[0.18em] text-foreground/85 mt-0.5">
                       {f.properties.municipio}
                     </div>
                   </button>
@@ -562,7 +562,7 @@ export default function InteractiveMap() {
             </ul>
           )}
           {searchOpen && search.trim() && matches.length === 0 && (
-            <div className="mt-1 bg-background/95 backdrop-blur border border-border px-3 py-2.5 text-[10px] font-mono uppercase tracking-widest text-foreground/40">
+            <div className="mt-1 bg-background/95 backdrop-blur border border-border px-3 py-2.5 text-[13px] font-mono uppercase tracking-[0.18em] text-foreground/85">
               Sem resultados
             </div>
           )}
@@ -577,7 +577,7 @@ export default function InteractiveMap() {
         {/* Legend */}
         {stats && (
           <div className="absolute bottom-4 left-4 z-[400] bg-background/85 backdrop-blur border border-border p-4 w-[280px] sm:w-[320px]">
-            <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/55 mb-3">
+            <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-accent mb-3">
               Greater Porto
             </div>
             <div className="grid grid-cols-3 gap-3">
@@ -585,19 +585,19 @@ export default function InteractiveMap() {
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {stats.freguesias}
                 </div>
-                <div className="font-mono text-[9px] uppercase tracking-widest text-foreground/50 mt-1.5">Freguesias</div>
+                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">Freguesias</div>
               </div>
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {stats.municipios}
                 </div>
-                <div className="font-mono text-[9px] uppercase tracking-widest text-foreground/50 mt-1.5">Municípios</div>
+                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">Municípios</div>
               </div>
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {(stats.populacao / 1e6).toFixed(2)}M
                 </div>
-                <div className="font-mono text-[9px] uppercase tracking-widest text-foreground/50 mt-1.5">Habitantes</div>
+                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">Habitantes</div>
               </div>
             </div>
           </div>
@@ -628,11 +628,11 @@ export default function InteractiveMap() {
 
         {/* Source attribution + scroll hint — sits below the map, breathes ~70px */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pt-5 pb-10">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/30 leading-relaxed max-w-3xl">
+          <p className="text-[13px] font-mono uppercase tracking-[0.18em] text-foreground leading-relaxed max-w-3xl">
             Geometria CAOP via GeoAPI.pt &middot; População: INE 2021 (parcial) + estimativas por densidade municipal &middot;
             Brasões: Wikipedia / Wikimedia Commons &middot; juntas de freguesia &middot; Heráldica de Portugal &middot; direitos dos respetivos detentores.
           </p>
-          <div className="hidden sm:flex items-center gap-2 text-foreground/35 font-mono text-[9px] uppercase tracking-[0.4em]">
+          <div className="hidden sm:flex items-center gap-2 text-foreground font-mono text-[13px] uppercase tracking-[0.4em]">
             <span>⌘ + scroll para zoom</span>
           </div>
         </div>
@@ -641,9 +641,9 @@ export default function InteractiveMap() {
         <a
           href="#bikeBus"
           aria-label="Continuar para a próxima secção"
-          className="scroll-indicator flex flex-col items-center gap-1 pb-8 text-foreground/35 hover:text-foreground/80 transition-colors"
+          className="scroll-indicator flex flex-col items-center gap-1 pb-8 text-foreground hover:text-foreground transition-colors"
         >
-          <span className="font-mono text-[9px] uppercase tracking-[0.5em]">Continuar</span>
+          <span className="font-mono text-[13px] uppercase tracking-[0.5em]">Continuar</span>
           <span aria-hidden="true" className="text-base leading-none">↓</span>
         </a>
       </div>

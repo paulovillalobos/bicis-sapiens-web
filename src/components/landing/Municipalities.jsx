@@ -49,7 +49,7 @@ export default function Municipalities() {
           <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
           <span
             className="font-mono uppercase font-medium m-0"
-            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
           >
             {t('municipalities.kicker')}
           </span>
@@ -105,13 +105,13 @@ export default function Municipalities() {
           <div className="flex items-baseline gap-4 mb-10 flex-wrap">
             <span
               className="font-mono uppercase font-medium m-0"
-              style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+              style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
             >
               {t('municipalities.offering.kicker')}
             </span>
             <span
               className="font-data italic m-0"
-              style={{ fontSize: 13, color: FAINT, fontWeight: 400 }}
+              style={{ fontSize: 14, color: FAINT, fontWeight: 400 }}
             >
               {t('municipalities.offering.subkicker')}
             </span>
@@ -137,7 +137,7 @@ export default function Municipalities() {
                   </span>
                   <span
                     className="font-mono uppercase"
-                    style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
+                    style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#ffffff' }}
                   >
                     {t(`municipalities.phases.${key}.role`)}
                   </span>
@@ -160,7 +160,7 @@ export default function Municipalities() {
                 {/* duration */}
                 <p
                   className="font-mono uppercase m-0 mb-4"
-                  style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
+                  style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#ffffff' }}
                 >
                   {t(`municipalities.phases.${key}.duration`)}
                 </p>
@@ -194,7 +194,7 @@ export default function Municipalities() {
           {/* card kicker */}
           <span
             className="font-mono uppercase font-medium m-0 block mb-6"
-            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
           >
             {t('municipalities.partner.kicker')}
           </span>
@@ -215,7 +215,7 @@ export default function Municipalities() {
             </h3>
             <span
               className="font-mono uppercase"
-              style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+              style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
             >
               {t('municipalities.partner.tag')}
             </span>
@@ -252,7 +252,7 @@ export default function Municipalities() {
               target="_blank"
               rel="noreferrer noopener"
               className="font-mono uppercase mt-6 inline-block transition-opacity hover:opacity-80"
-              style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+              style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
             >
               {t('municipalities.partner.docLink')}
             </a>
@@ -263,7 +263,7 @@ export default function Municipalities() {
         <div className="mb-16">
           <span
             className="font-mono uppercase font-medium m-0 block mb-6"
-            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
           >
             {t('municipalities.team.kicker')}
           </span>
@@ -324,7 +324,7 @@ export default function Municipalities() {
                 target="_blank"
                 rel="noreferrer noopener"
                 className="font-mono uppercase inline-block transition-opacity hover:opacity-80"
-                style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+                style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
               >
                 {t('municipalities.cta.secondary')}
               </a>
@@ -332,7 +332,7 @@ export default function Municipalities() {
               <span
                 className="font-mono uppercase inline-block cursor-not-allowed select-none"
                 aria-disabled="true"
-                style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
+                style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#ffffff' }}
               >
                 {t('municipalities.cta.secondary')}
               </span>
@@ -342,7 +342,7 @@ export default function Municipalities() {
           {/* Trust line — addresses the two main objections of municipal officers */}
           <p
             className="font-mono uppercase text-center mt-4 m-0"
-            style={{ fontSize: 10, letterSpacing: '0.3em', color: FAINT }}
+            style={{ fontSize: 12, letterSpacing: '0.18em', color: FAINT }}
           >
             {t('municipalities.cta.trust')}
           </p>

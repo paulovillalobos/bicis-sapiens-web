@@ -29,7 +29,7 @@ export default function Support() {
           <span aria-hidden="true" className="block w-8 h-px" style={{ background: '#d4a017' }} />
           <span
             className="font-mono uppercase font-medium"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+            style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
           >
             {t('support.kicker')}
           </span>
@@ -60,7 +60,7 @@ export default function Support() {
         <div className="max-w-[720px] mx-auto pt-8 pb-12">
           <p
             className="font-mono uppercase font-medium m-0 mb-4 text-center"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+            style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
           >
             {t('support.volunteer.kicker')}
           </p>
@@ -109,7 +109,7 @@ export default function Support() {
 
             <p
               className="font-mono uppercase m-0 text-center"
-              style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+              style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
             >
               {t('support.volunteer.trustLine')}
             </p>
@@ -123,7 +123,7 @@ export default function Support() {
         >
           <p
             className="font-data italic m-0"
-            style={{ fontSize: 14, lineHeight: 1.6, color: '#ffffff' }}
+            style={{ fontSize: 15, lineHeight: 1.6, color: '#ffffff' }}
           >
             {t('support.future')}
           </p>

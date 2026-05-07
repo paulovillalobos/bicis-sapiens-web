@@ -144,7 +144,7 @@ function BarRow({ pct, color, label, labelColor, delayMs, pulsing }) {
       <span
         className="font-mono uppercase"
         style={{
-          fontSize: 10,
+          fontSize: 12,
           letterSpacing: '0.05em',
           minWidth: 32,
           color: labelColor,
@@ -173,7 +173,7 @@ function StatCell({ label, metric, decimals, portoVal, compareVal, compareShort,
     >
       <p
         className="font-mono uppercase mb-3 m-0"
-        style={{ fontSize: 11, letterSpacing: '0.15em', color: '#d4a017' }}
+        style={{ fontSize: 13, letterSpacing: '0.15em', color: '#d4a017' }}
       >
         {label}
       </p>
@@ -194,7 +194,7 @@ function StatCell({ label, metric, decimals, portoVal, compareVal, compareShort,
       <p
         key={`${displayedCity}-${metric}`}
         className="bs-data-fade-in m-0"
-        style={{ fontSize: 11, color: '#ffffff', marginTop: '0.5rem' }}
+        style={{ fontSize: 13, color: '#ffffff', marginTop: '0.5rem' }}
       >
         <span style={{ color: cityColor, transition: 'color 600ms ease-out' }}>
           {compareName}
@@ -273,7 +273,7 @@ export default function DataDashboard() {
           <span
             key={transitioning ? 'updating' : 'kicker'}
             className="bs-data-fade-in font-mono uppercase font-medium m-0"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.18em', color: YELLOW }}
           >
             {transitioning ? t('numbers.updating') : t('numbers.kicker')}
           </span>
@@ -298,7 +298,7 @@ export default function DataDashboard() {
 
           <div
             className="flex items-center gap-1.5 flex-wrap font-mono uppercase"
-            style={{ fontSize: 11, letterSpacing: '0.1em' }}
+            style={{ fontSize: 13, letterSpacing: '0.1em' }}
           >
             <span style={{ color: '#d4a017', marginRight: 8 }}>
               {t('numbers.compareWith')}
@@ -312,7 +312,7 @@ export default function DataDashboard() {
                   onClick={() => setSelectedCity(city)}
                   className={`bs-data-pill font-mono uppercase ${active ? 'is-active' : ''} ${active && pulsing ? 'is-pulsing' : ''}`}
                   style={{
-                    fontSize: 11,
+                    fontSize: 13,
                     letterSpacing: '0.1em',
                     color: '#fff',
                     background: active ? activeColor : undefined,
@@ -335,7 +335,7 @@ export default function DataDashboard() {
           <div key={`thesis-${displayedCity}`} className="bs-data-thesis">
             <p
               className="font-mono uppercase m-0 mb-4"
-              style={{ fontSize: 11, letterSpacing: '0.15em', color: '#d4a017' }}
+              style={{ fontSize: 13, letterSpacing: '0.15em', color: '#d4a017' }}
             >
               {t('numbers.analysis')}
             </p>
@@ -354,7 +354,7 @@ export default function DataDashboard() {
             </p>
             <p
               className="m-0 leading-relaxed"
-              style={{ fontSize: 14, color: '#ffffff' }}
+              style={{ fontSize: 15, color: '#ffffff' }}
             >
               {t('numbers.context.prefix')}{' '}
               <Delta deps={`${displayedCity}-cars`}>{fmtDelta(dCars)}</Delta>{' '}
@@ -369,7 +369,7 @@ export default function DataDashboard() {
           >
             <p
               className="font-mono uppercase m-0 mb-3"
-              style={{ fontSize: 11, letterSpacing: '0.15em', color: '#d4a017' }}
+              style={{ fontSize: 13, letterSpacing: '0.15em', color: '#d4a017' }}
             >
               {t('numbers.greenSpace.label')}
             </p>
@@ -380,10 +380,10 @@ export default function DataDashboard() {
               {porto.green}
               <sup className="align-super" style={{ fontSize: '0.45em' }}>m²</sup>
             </p>
-            <p className="m-0 mt-2" style={{ fontSize: 14, color: '#ffffff' }}>
+            <p className="m-0 mt-2" style={{ fontSize: 15, color: '#ffffff' }}>
               {t('numbers.greenSpace.caption')}
             </p>
-            <p className="bs-data-oms-line m-0 mt-2" style={{ fontSize: 13, color: YELLOW }}>
+            <p className="bs-data-oms-line m-0 mt-2" style={{ fontSize: 14, color: YELLOW }}>
               <span className="bs-data-oms-arrow" aria-hidden="true">↓ </span>
               {whoDelta}{t('numbers.greenSpace.whoBelow')}
             </p>
@@ -392,7 +392,7 @@ export default function DataDashboard() {
               key={`gcompare-${displayedCity}`}
               className="bs-data-fade-in m-0 mt-3 pt-3"
               style={{
-                fontSize: 12,
+                fontSize: 13,
                 color: '#ffffff',
                 borderTop: `0.5px solid ${HAIRLINE_SOFT}`,
               }}
@@ -453,7 +453,7 @@ export default function DataDashboard() {
         <p
           key={`sources-${displayedCity}`}
           className="bs-data-fade-in font-mono uppercase m-0 mt-6"
-          style={{ fontSize: 10, letterSpacing: '0.1em', color: '#ffffff' }}
+          style={{ fontSize: 12, letterSpacing: '0.1em', color: '#ffffff' }}
         >
           {t('data.source')}: {sources.Porto} / {sources[displayedCity]}
         </p>

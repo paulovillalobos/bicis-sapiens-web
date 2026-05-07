@@ -140,7 +140,7 @@ export default function CommunityHub() {
           <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
           <span
             className="font-mono uppercase font-medium"
-            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
           >
             {t('civic_agenda.kicker')}
           </span>
@@ -190,19 +190,19 @@ export default function CommunityHub() {
           className="flex flex-wrap items-baseline gap-x-3 gap-y-2 pb-3 mb-12"
           style={{ borderBottom: `0.5px solid ${HAIRLINE}` }}
         >
-          <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>
+          <span className="font-mono uppercase" style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#ffffff' }}>
             {t('civic_agenda.week.label')} · {weekRange}
           </span>
           <span aria-hidden="true" style={{ color: '#d4a017' }}>·</span>
-          <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>
+          <span className="font-mono uppercase" style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#ffffff' }}>
             {t('civic_agenda.week.votes').replace('{N}', String(displayedTotalVotes))}
           </span>
           <span className="sm:ml-auto" />
           <span
             className="font-mono uppercase transition-colors duration-150"
             style={{
-              fontSize: 11,
-              letterSpacing: '0.3em',
+              fontSize: 13,
+              letterSpacing: '0.18em',
               color: answered > 0 ? BLUE : YELLOW,
             }}
           >
@@ -216,7 +216,7 @@ export default function CommunityHub() {
         {loading ? (
           <p
             className="font-mono uppercase"
-            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
+            style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#ffffff' }}
           >
             {t('forum.loading')}
           </p>
@@ -250,7 +250,7 @@ export default function CommunityHub() {
         >
           <span
             className="font-mono uppercase font-medium block mb-4"
-            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
           >
             {t('civic_agenda.deepForum.kicker')}
           </span>
@@ -263,7 +263,7 @@ export default function CommunityHub() {
           <Link
             to="/comunidade/foro"
             className="font-mono uppercase font-medium inline-block hover:opacity-80 transition-opacity"
-            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: YELLOW }}
           >
             {t('civic_agenda.deepForum.cta')}
           </Link>
@@ -323,12 +323,12 @@ function QuestionCard({ index, total, question, myOptionKey, onVote, t }) {
 
       {/* metadata row */}
       <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
-        <div className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em' }}>
+        <div className="font-mono uppercase" style={{ fontSize: 13, letterSpacing: '0.18em' }}>
           <span style={{ color: YELLOW, fontWeight: 500 }}>{num} / {totalStr}</span>
           <span style={{ color: '#d4a017', margin: '0 0.5em' }}>·</span>
           <span style={{ color: FAINT }}>{t(`${qPath}.category`)}</span>
         </div>
-        <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>
+        <span className="font-mono uppercase" style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#ffffff' }}>
           {t('civic_agenda.card.votes').replace('{N}', String(cardVotes))}
         </span>
       </div>
@@ -367,7 +367,7 @@ function QuestionCard({ index, total, question, myOptionKey, onVote, t }) {
       {hasVoted && (
         <p
           className="font-mono uppercase text-center m-0 mt-5"
-          style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
+          style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#ffffff' }}
         >
           {t('civic_agenda.card.thanked')}
         </p>
@@ -411,14 +411,14 @@ function OptionRow({ label, pct, hasVoted, isMine, onClick }) {
               transition: 'all 150ms ease-out',
             }}
           />
-          <span className="flex-1" style={{ fontSize: 15, color: '#fff' }}>
+          <span className="flex-1" style={{ fontSize: 16, color: '#fff' }}>
             {label}
           </span>
           {hasVoted && (
             <span
               className="font-data italic"
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 color: isMine ? '#fff' : SOFT,
                 fontVariantNumeric: 'tabular-nums',
               }}
@@ -468,7 +468,7 @@ function EmptyState({ t }) {
       <Link
         to="/comunidade/login"
         className="font-mono uppercase inline-block hover:opacity-80 transition-opacity"
-        style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#d4a017' }}
+        style={{ fontSize: 13, letterSpacing: '0.16em', fontWeight: 500, color: '#d4a017' }}
       >
         {t('civic_agenda.empty.cta')}
       </Link>

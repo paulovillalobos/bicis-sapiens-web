@@ -29,7 +29,7 @@ export default function Solution3Cs() {
           <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
           <span
             className="font-mono uppercase font-medium m-0"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.18em', color: YELLOW }}
           >
             {t('solution.kicker')}
           </span>
@@ -92,8 +92,8 @@ export default function Solution3Cs() {
                   <span
                     className="font-mono uppercase"
                     style={{
-                      fontSize: 12,
-                      letterSpacing: '0.2em',
+                      fontSize: 13,
+                      letterSpacing: '0.16em',
                       fontWeight: 500,
                       color: '#d4a017',
                     }}
@@ -160,8 +160,8 @@ export default function Solution3Cs() {
           <p
             className="font-mono uppercase m-0"
             style={{
-              fontSize: 12,
-              letterSpacing: '0.2em',
+              fontSize: 13,
+              letterSpacing: '0.16em',
               fontWeight: 500,
               color: '#d4a017',
               marginBottom: '0.75rem',

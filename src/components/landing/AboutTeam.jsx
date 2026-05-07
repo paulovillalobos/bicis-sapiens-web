@@ -54,7 +54,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
 
       <p
         className="font-mono uppercase font-medium m-0 mt-5"
-        style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+        style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
       >
         {role}
       </p>
@@ -69,7 +69,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
       {subtitle && (
         <p
           className="font-mono uppercase m-0 mt-2"
-          style={{ fontSize: 11, letterSpacing: '0.15em', color: '#1d4ed8' }}
+          style={{ fontSize: 13, letterSpacing: '0.15em', color: '#1d4ed8' }}
         >
           {subtitle}
         </p>
@@ -78,7 +78,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
       {desc1 && (
         <p
           className="m-0 mt-4"
-          style={{ fontSize: 14, lineHeight: 1.65, color: '#ffffff' }}
+          style={{ fontSize: 15, lineHeight: 1.65, color: '#ffffff' }}
         >
           {desc1}
         </p>
@@ -86,7 +86,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
       {desc2 && (
         <p
           className="m-0 mt-3"
-          style={{ fontSize: 14, lineHeight: 1.65, color: '#ffffff' }}
+          style={{ fontSize: 15, lineHeight: 1.65, color: '#ffffff' }}
         >
           {desc2}
         </p>
@@ -132,7 +132,7 @@ export default function AboutTeam() {
           <span aria-hidden="true" className="block w-8 h-px" style={{ background: '#d4a017' }} />
           <span
             className="font-mono uppercase font-medium"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+            style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
           >
             {t('about.kicker')}
           </span>
@@ -176,7 +176,7 @@ export default function AboutTeam() {
             />
             <p
               className="font-mono uppercase m-0 mt-3"
-              style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+              style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
             >
               {t('about.founder.photoCaption')}
             </p>
@@ -186,7 +186,7 @@ export default function AboutTeam() {
           <div>
             <p
               className="font-mono uppercase font-medium m-0 mb-3"
-              style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+              style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
             >
               {t('about.founder.role')}
             </p>
@@ -198,7 +198,7 @@ export default function AboutTeam() {
             </h3>
             <p
               className="font-mono uppercase m-0 mb-8"
-              style={{ fontSize: 13, letterSpacing: '0.15em', color: '#1d4ed8' }}
+              style={{ fontSize: 14, letterSpacing: '0.15em', color: '#1d4ed8' }}
             >
               {t('about.founder.epithet')}
             </p>
@@ -218,13 +218,13 @@ export default function AboutTeam() {
 
             {/* Bio narrative — REVIEW WITH RICARDO BEFORE LAUNCH */}
             <div className="flex flex-col gap-4 max-w-prose">
-              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: '#ffffff' }}>
+              <p className="m-0" style={{ fontSize: 15, lineHeight: 1.7, color: '#ffffff' }}>
                 {t('about.founder.bio.paragraph1')}
               </p>
-              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: '#ffffff' }}>
+              <p className="m-0" style={{ fontSize: 15, lineHeight: 1.7, color: '#ffffff' }}>
                 {t('about.founder.bio.paragraph2')}
               </p>
-              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: '#ffffff' }}>
+              <p className="m-0" style={{ fontSize: 15, lineHeight: 1.7, color: '#ffffff' }}>
                 {t('about.founder.bio.paragraph3')}
               </p>
             </div>
@@ -236,7 +236,7 @@ export default function AboutTeam() {
                 and keep only Origem · México · Base · Porto. */}
             <div
               className="mt-8 pt-6 border-t border-white/15 flex flex-wrap gap-x-6 gap-y-2 font-mono uppercase"
-              style={{ fontSize: 11, letterSpacing: '0.2em', color: '#d4a017' }}
+              style={{ fontSize: 13, letterSpacing: '0.16em', color: '#d4a017' }}
             >
               <span>
                 {t('about.founder.metadata.originLabel')}{' · '}
@@ -266,7 +266,7 @@ export default function AboutTeam() {
             <span aria-hidden="true" className="block w-8 h-px" style={{ background: '#d4a017' }} />
             <span
               className="font-mono uppercase font-medium"
-              style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+              style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
             >
               {t('about.advisors.kicker')}
             </span>
@@ -304,7 +304,7 @@ export default function AboutTeam() {
 
           <p
             className="mt-6 text-right font-mono uppercase m-0"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
+            style={{ fontSize: 13, letterSpacing: '0.18em', color: '#d4a017' }}
           >
             {t('about.advisors.growing')}
           </p>

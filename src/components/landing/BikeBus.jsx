@@ -51,8 +51,8 @@ function StatBlock({ value, label, italicBlue }) {
       <p
         className="font-mono m-0 uppercase"
         style={{
-          fontSize: 9,
-          letterSpacing: '0.25em',
+          fontSize: 11,
+          letterSpacing: '0.16em',
           color: '#d4a017',
           marginTop: '0.5rem',
         }}
@@ -77,8 +77,8 @@ function PortugueseCell({ city, t }) {
       <p
         className="font-mono m-0 uppercase"
         style={{
-          fontSize: 9,
-          letterSpacing: '0.3em',
+          fontSize: 11,
+          letterSpacing: '0.18em',
           color: YELLOW,
           minHeight: 14,
           marginBottom: '0.75rem',
@@ -130,8 +130,8 @@ function InternationalCell({ city, t }) {
         <span
           className="font-mono uppercase"
           style={{
-            fontSize: 9,
-            letterSpacing: '0.3em',
+            fontSize: 11,
+            letterSpacing: '0.18em',
             color: '#d4a017',
           }}
         >
@@ -143,7 +143,7 @@ function InternationalCell({ city, t }) {
       <p
         className="font-data m-0"
         style={{
-          fontSize: 13,
+          fontSize: 14,
           fontStyle: 'italic',
           color: '#ffffff',
           lineHeight: 1.5,
@@ -188,7 +188,7 @@ export default function BikeBus({ onJoinClick }) {
           <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
           <span
             className="font-mono uppercase font-medium"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 13, letterSpacing: '0.18em', color: YELLOW }}
           >
             {t('bikeBus.kicker')}
           </span>
@@ -231,8 +231,8 @@ export default function BikeBus({ onJoinClick }) {
         <p
           className="font-mono uppercase text-right m-0"
           style={{
-            fontSize: 11,
-            letterSpacing: '0.25em',
+            fontSize: 13,
+            letterSpacing: '0.16em',
             color: '#ffffff',
             marginTop: '1.25rem',
             marginBottom: '2.5rem',
@@ -271,7 +271,7 @@ export default function BikeBus({ onJoinClick }) {
               background: BLUE,
               color: '#fff',
               padding: '1.25rem 1.5rem',
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 500,
               borderRadius: 4,
               border: 'none',
@@ -293,7 +293,7 @@ export default function BikeBus({ onJoinClick }) {
               background: 'transparent',
               color: '#fff',
               padding: '1.25rem 1.5rem',
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 500,
               borderRadius: 4,
               border: '0.5px solid rgba(255,255,255,0.3)',

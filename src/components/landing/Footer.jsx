@@ -50,7 +50,7 @@ export default function Footer() {
                 <button
                   type="submit"
                   disabled={submitting || !consent}
-                  className="inline-flex items-center gap-2 px-6 py-3 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-mono uppercase tracking-[0.18em] bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {t('footer.subscribe')} <ArrowRight className="w-4 h-4" />
                 </button>
@@ -62,7 +62,7 @@ export default function Footer() {
                   onChange={(e) => setConsent(e.target.checked)}
                   className="mt-1 rounded border-background/30 bg-transparent"
                 />
-                <span className="text-xs text-background/50">{t('footer.consent')}</span>
+                <span className="text-[13px] text-background/90 font-medium">{t('footer.consent')}</span>
               </label>
             </form>
           </div>
@@ -80,16 +80,16 @@ export default function Footer() {
                 Bicis <i className="text-primary">Sapiens</i>
               </span>
             </div>
-            <p className="text-sm text-background/40 max-w-xs">
+            <p className="text-base text-background/85 max-w-xs leading-relaxed">
               Movimento cívico para uma cidade 100% amiga da bicicleta.
             </p>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-display text-sm font-semibold text-background mb-4">Contacto</h4>
+            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">Contacto</h4>
             <div className="space-y-2">
-              <a href="mailto:hola@bicisapiens.org" className="flex items-center gap-2 text-sm text-background/60 hover:text-background transition-colors">
+              <a href="mailto:hola@bicisapiens.org" className="flex items-center gap-2 text-base text-background/90 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" /> hola@bicisapiens.org
               </a>
             </div>
@@ -97,31 +97,31 @@ export default function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="font-display text-sm font-semibold text-background mb-4">Social</h4>
-            <div className="space-y-2 text-sm text-background/60">
-              <a href="#" className="block hover:text-background transition-colors">Instagram</a>
-              <a href="#" className="block hover:text-background transition-colors">Twitter / X</a>
-              <a href="#" className="block hover:text-background transition-colors">LinkedIn</a>
-              <a href="#" className="block hover:text-background transition-colors">YouTube</a>
+            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">Social</h4>
+            <div className="space-y-2 text-base text-background/90">
+              <a href="#" className="block hover:text-primary transition-colors">Instagram</a>
+              <a href="#" className="block hover:text-primary transition-colors">Twitter / X</a>
+              <a href="#" className="block hover:text-primary transition-colors">LinkedIn</a>
+              <a href="#" className="block hover:text-primary transition-colors">YouTube</a>
             </div>
           </div>
 
           {/* Legal */}
           <div>
-            <h4 className="font-display text-sm font-semibold text-background mb-4">Legal</h4>
-            <div className="space-y-2 text-sm text-background/60">
-              <a href="#" className="block hover:text-background transition-colors">{t('footer.privacy')}</a>
-              <a href="#" className="block hover:text-background transition-colors">{t('footer.cookies')}</a>
-              <a href="#" className="block hover:text-background transition-colors">{t('footer.rgpd')}</a>
+            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">Legal</h4>
+            <div className="space-y-2 text-base text-background/90">
+              <a href="#" className="block hover:text-primary transition-colors">{t('footer.privacy')}</a>
+              <a href="#" className="block hover:text-primary transition-colors">{t('footer.cookies')}</a>
+              <a href="#" className="block hover:text-primary transition-colors">{t('footer.rgpd')}</a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-background/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-background/30 font-mono">
+        <div className="border-t border-background/15 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-[13px] text-background/85 font-mono font-medium">
             © {new Date().getFullYear()} Bicis Sapiens. {t('footer.made')} <Heart className="w-3 h-3 inline text-destructive" /> no Porto.
           </p>
-          <p className="text-xs text-background/20 font-mono">bicisapiens.org</p>
+          <p className="text-[13px] text-background/85 font-mono font-medium">bicisapiens.org</p>
         </div>
       </div>
     </footer>
