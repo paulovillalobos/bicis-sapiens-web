@@ -217,7 +217,7 @@ export default function BikeBus({ onJoinClick }) {
                 fontStyle: 'italic',
                 fontWeight: 400,
                 lineHeight: 1.45,
-                color: 'rgba(255,255,255,0.7)',
+                color: '#ffffff',
               }}
             >
               {t('bikeBus.tagline.line1')}
@@ -304,7 +304,7 @@ export default function BikeBus({ onJoinClick }) {
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
           >
             <span>{t('bikeBus.cta.secondary')}</span>
-            <ArrowRight className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
+            <ArrowRight className="w-4 h-4" style={{ color: '#ffffff' }} />
           </button>
         </div>
 

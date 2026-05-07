@@ -164,8 +164,8 @@ export default function CommunityHub() {
               background: BLUE,
               color: YELLOW,
               fontStyle: 'italic',
-              padding: '0 0.18em',
-              lineHeight: 1.0,
+              padding: '0 0.06em',
+              lineHeight: 0.95,
               verticalAlign: 'baseline',
             }}
           >
@@ -194,7 +194,7 @@ export default function CommunityHub() {
           <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>
             {t('civic_agenda.week.label')} · {weekRange}
           </span>
-          <span aria-hidden="true" style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
+          <span aria-hidden="true" style={{ color: '#d4a017' }}>·</span>
           <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>
             {t('civic_agenda.week.votes').replace('{N}', String(displayedTotalVotes))}
           </span>
@@ -326,7 +326,7 @@ function QuestionCard({ index, total, question, myOptionKey, onVote, t }) {
       <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
         <div className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em' }}>
           <span style={{ color: YELLOW, fontWeight: 500 }}>{num} / {totalStr}</span>
-          <span style={{ color: 'rgba(255,255,255,0.20)', margin: '0 0.5em' }}>·</span>
+          <span style={{ color: '#d4a017', margin: '0 0.5em' }}>·</span>
           <span style={{ color: FAINT }}>{t(`${qPath}.category`)}</span>
         </div>
         <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>

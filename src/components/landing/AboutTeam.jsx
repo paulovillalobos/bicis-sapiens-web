@@ -78,7 +78,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
       {desc1 && (
         <p
           className="m-0 mt-4"
-          style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(255,255,255,0.75)' }}
+          style={{ fontSize: 14, lineHeight: 1.65, color: '#ffffff' }}
         >
           {desc1}
         </p>
@@ -86,7 +86,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
       {desc2 && (
         <p
           className="m-0 mt-3"
-          style={{ fontSize: 14, lineHeight: 1.65, color: 'rgba(255,255,255,0.75)' }}
+          style={{ fontSize: 14, lineHeight: 1.65, color: '#ffffff' }}
         >
           {desc2}
         </p>
@@ -152,7 +152,7 @@ export default function AboutTeam() {
           </h2>
           <p
             className="font-data italic m-0"
-            style={{ fontSize: 17, lineHeight: 1.6, color: 'rgba(255,255,255,0.7)' }}
+            style={{ fontSize: 17, lineHeight: 1.6, color: '#ffffff' }}
           >
             {t('about.taglineLine1')}<br />
             {t('about.taglineLine2')}

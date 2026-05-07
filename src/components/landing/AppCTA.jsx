@@ -69,8 +69,8 @@ export default function AppCTA() {
                   background: '#1d4ed8',
                   color: '#d4a017',
                   fontStyle: 'italic',
-                  padding: '0 0.16em',
-                  lineHeight: 1.0,
+                  padding: '0 0.06em',
+                  lineHeight: 0.95,
                   verticalAlign: 'baseline',
                 }}
               >

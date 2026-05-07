@@ -49,7 +49,7 @@ export default function Support() {
           </h2>
           <p
             className="font-data italic m-0"
-            style={{ fontSize: 17, lineHeight: 1.6, color: 'rgba(255,255,255,0.7)' }}
+            style={{ fontSize: 17, lineHeight: 1.6, color: '#ffffff' }}
           >
             {t('support.tagline')}
           </p>
@@ -74,14 +74,14 @@ export default function Support() {
 
           <p
             className="m-0 mb-6"
-            style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(255,255,255,0.75)' }}
+            style={{ fontSize: 16, lineHeight: 1.7, color: '#ffffff' }}
           >
             {t('support.volunteer.body')}
           </p>
 
           <p
             className="font-data italic m-0 mb-10"
-            style={{ fontSize: 17, lineHeight: 1.6, color: 'rgba(255,255,255,0.7)' }}
+            style={{ fontSize: 17, lineHeight: 1.6, color: '#ffffff' }}
           >
             {t('support.volunteer.roles')}
           </p>
@@ -109,7 +109,7 @@ export default function Support() {
 
             <p
               className="font-mono uppercase m-0 text-center"
-              style={{ fontSize: 11, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)' }}
+              style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
             >
               {t('support.volunteer.trustLine')}
             </p>
@@ -123,7 +123,7 @@ export default function Support() {
         >
           <p
             className="font-data italic m-0"
-            style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.5)' }}
+            style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.9)' }}
           >
             {t('support.future')}
           </p>

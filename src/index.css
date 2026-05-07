@@ -321,22 +321,28 @@
   margin: 0 0 32px;
 }
 
-/* Italic outline keyword in EU-blue (institutional, matches global rule's blue intent) */
+/* Patrón A — solid blue block + yellow italic letters, tight to letterform.
+   Replaces the previous text-stroke outline which read as a transparent
+   ghost on photo. */
 .bs-hero-title em {
   font-style: italic;
-  color: transparent;
   font-weight: 900;
-  -webkit-text-stroke: 2px #003399;
-  text-stroke: 2px #003399;
-  paint-order: stroke;
+  color: #d4a017;
+  background: #1d4ed8;
+  display: inline-block;
+  padding: 0 0.05em;
+  line-height: 0.92;
+  vertical-align: baseline;
+  -webkit-text-stroke: 0;
+  text-stroke: 0;
 }
 
 .bs-hero-lead {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(18px, 2vw, 22px);
-  color: rgba(250, 250, 247, 0.85);
+  font-size: clamp(20px, 2vw, 24px);
+  color: #FFFFFF;
   max-width: 540px;
   line-height: 1.4;
   margin: 0 0 48px;

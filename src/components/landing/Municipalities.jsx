@@ -72,8 +72,8 @@ export default function Municipalities() {
                 background: BLUE,
                 color: YELLOW,
                 fontStyle: 'italic',
-                padding: '0 0.18em',
-                lineHeight: 1.0,
+                padding: '0 0.06em',
+                lineHeight: 0.95,
                 verticalAlign: 'baseline',
               }}
             >
