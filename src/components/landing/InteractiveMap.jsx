@@ -236,6 +236,35 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
           <StatRow label="Comboios ativos" value={fmt(p.comboios_ativos)} />
         </div>
 
+        {p.jf_nome && (
+          <div className="border-t border-border pt-6 mb-6">
+            <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/50 mb-2">
+              Junta de freguesia
+            </div>
+            <div className="font-display text-base font-black tracking-tightest text-foreground mb-1 leading-tight">
+              {p.jf_nome}
+            </div>
+            {p.jf_email && (
+              <a
+                href={`mailto:${p.jf_email}`}
+                className="text-xs font-mono text-foreground/70 hover:text-primary transition-colors break-all block"
+              >
+                {p.jf_email}
+              </a>
+            )}
+            {p.jf_url && (
+              <a
+                href={p.jf_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-mono text-foreground/50 hover:text-primary transition-colors break-all block mt-0.5"
+              >
+                {p.jf_url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+              </a>
+            )}
+          </div>
+        )}
+
         <div className="border-t border-border pt-6 mb-6">
           <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/50 mb-2">
             Câmara municipal
@@ -254,12 +283,20 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
         </div>
 
         <div className="space-y-3">
+          {p.jf_email && (
+            <a
+              href={`mailto:${p.jf_email}`}
+              className="w-full inline-flex items-center justify-between px-5 py-4 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Contactar junta <ArrowRight className="w-4 h-4" />
+            </a>
+          )}
           {p.camara_url && (
             <a
               href={p.camara_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-between px-5 py-4 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="w-full inline-flex items-center justify-between px-5 py-4 text-xs font-mono uppercase tracking-widest border border-foreground/25 text-foreground hover:bg-foreground/5 transition-colors"
             >
               Contactar câmara <ArrowRight className="w-4 h-4" />
             </a>
