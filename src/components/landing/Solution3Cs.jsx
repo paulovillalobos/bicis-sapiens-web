@@ -58,7 +58,7 @@ export default function Solution3Cs() {
                 fontStyle: 'italic',
                 fontWeight: 400,
                 lineHeight: 1.45,
-                color: 'rgba(255,255,255,0.9)',
+                color: '#ffffff',
               }}
             >
               {t('solution.tagline.line1')}

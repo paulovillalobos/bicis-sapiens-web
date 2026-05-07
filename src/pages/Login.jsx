@@ -7,8 +7,8 @@ import ForumWordmark from '@/components/landing/ForumWordmark';
 
 const YELLOW = '#d4a017';
 const BLUE   = '#1d4ed8';
-const FAINT  = 'rgba(255, 255, 255, 0.4)';
-const SOFT   = 'rgba(255, 255, 255, 0.7)';
+const FAINT  = '#ffffff';
+const SOFT   = '#ffffff';
 
 export default function Login() {
   const { t } = useI18n();

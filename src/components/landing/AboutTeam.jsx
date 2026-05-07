@@ -45,7 +45,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
           <span
             aria-hidden="true"
             className="font-data leading-none"
-            style={{ fontSize: 72, fontWeight: 400, color: 'rgba(255,255,255,0.85)' }}
+            style={{ fontSize: 72, fontWeight: 400, color: '#ffffff' }}
           >
             {initial}
           </span>
@@ -218,13 +218,13 @@ export default function AboutTeam() {
 
             {/* Bio narrative — REVIEW WITH RICARDO BEFORE LAUNCH */}
             <div className="flex flex-col gap-4 max-w-prose">
-              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: '#ffffff' }}>
                 {t('about.founder.bio.paragraph1')}
               </p>
-              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: '#ffffff' }}>
                 {t('about.founder.bio.paragraph2')}
               </p>
-              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+              <p className="m-0" style={{ fontSize: 14, lineHeight: 1.7, color: '#ffffff' }}>
                 {t('about.founder.bio.paragraph3')}
               </p>
             </div>

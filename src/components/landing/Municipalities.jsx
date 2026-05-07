@@ -5,12 +5,11 @@ import { useI18n } from '@/lib/i18n';
 const YELLOW   = '#d4a017';
 const BLUE     = '#1d4ed8';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
-// MUTED / SOFT / FAINT bumped from 0.4-0.7 to 0.85-0.95 in the typo
-// pass — secondary text leans on size/weight instead of opacity, no
-// grays anywhere on the site.
-const MUTED    = 'rgba(255, 255, 255, 0.95)';
-const SOFT     = 'rgba(255, 255, 255, 0.9)';
-const FAINT    = 'rgba(255, 255, 255, 0.85)';
+// MUTED / SOFT / FAINT collapsed to PURE WHITE — hierarchy via
+// size + weight, not opacity. Structural meta graduates to YELLOW.
+const MUTED    = '#ffffff';
+const SOFT     = '#ffffff';
+const FAINT    = '#ffffff';
 
 // =====================================================================
 // CONFIGURATION FLAGS — TEAM TO UPDATE BEFORE LAUNCH

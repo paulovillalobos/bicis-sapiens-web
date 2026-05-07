@@ -538,10 +538,10 @@
 .bs-principle-supporting {
   font-family: var(--font-body);
   font-style: normal;
-  font-weight: 400;
-  font-size: clamp(18px, 1.8vw, 22px);
+  font-weight: 500;
+  font-size: clamp(20px, 1.8vw, 24px);
   line-height: 1.55;
-  color: #FAFAF7;
+  color: #ffffff;
   margin: 2.5rem auto 0;
   max-width: 44ch;
 }
@@ -701,9 +701,10 @@
 }
 .bs-pause-quote p {
   font-family: var(--font-body);
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
+  color: #ffffff;
   margin: 0;
 }
 
@@ -722,8 +723,8 @@
   font-style: italic;
   line-height: 0.9;
   letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 1.5px #1d4ed8;
+  color: #1d4ed8;
+  -webkit-text-stroke: 0;
   margin: 0;
 }
 /* "ensemble" (FR) is longer — shrink so it doesn't overflow on mobile */

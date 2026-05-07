@@ -10,8 +10,8 @@ import ForumWordmark from '@/components/landing/ForumWordmark';
 const YELLOW   = '#d4a017';
 const BLUE     = '#1d4ed8';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
-const FAINT    = 'rgba(255, 255, 255, 0.4)';
-const SOFT     = 'rgba(255, 255, 255, 0.7)';
+const FAINT    = '#ffffff';
+const SOFT     = '#ffffff';
 const BODY     = 'rgba(255, 255, 255, 0.85)';
 
 const LOCALES = { pt, en: enUS, es, fr };
@@ -212,7 +212,7 @@ export default function ForumThread() {
             <Avatar name={thread.author_display_name} />
             <span style={{ color: '#fff', fontSize: 12 }}>{thread.author_display_name || '—'}</span>
             <span>{timeAgo}</span>
-            <span style={{ color: 'rgba(255,255,255,0.25)' }}>·</span>
+            <span style={{ color: '#d4a017' }}>·</span>
             <span>{repliesHeading.toLowerCase()}</span>
           </div>
 

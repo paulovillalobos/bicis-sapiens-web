@@ -123,7 +123,7 @@ export default function Support() {
         >
           <p
             className="font-data italic m-0"
-            style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(255,255,255,0.9)' }}
+            style={{ fontSize: 14, lineHeight: 1.6, color: '#ffffff' }}
           >
             {t('support.future')}
           </p>

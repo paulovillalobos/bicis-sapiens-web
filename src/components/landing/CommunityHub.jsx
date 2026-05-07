@@ -8,11 +8,10 @@ const YELLOW   = '#d4a017';
 const BLUE     = '#1d4ed8';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
 // "Soft" and "Faint" are no longer gray — per the typo pass we keep
-// secondary text near-white and lean on size/weight (not opacity) for
-// hierarchy. Anything that used to whisper at 0.4 either yells at 0.9
-// or graduates to YELLOW for structural meta.
-const SOFT     = 'rgba(255, 255, 255, 0.9)';
-const FAINT    = 'rgba(255, 255, 255, 0.85)';
+// secondary text PURE white and lean on size/weight (not opacity) for
+// hierarchy. Structural meta graduates to YELLOW.
+const SOFT     = '#ffffff';
+const FAINT    = '#ffffff';
 
 // =====================================================================
 // CIVIC AGENDA — five weekly questions, anonymous voting, no signup.

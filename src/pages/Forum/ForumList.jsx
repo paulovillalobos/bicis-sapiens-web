@@ -10,8 +10,8 @@ import ForumWordmark from '@/components/landing/ForumWordmark';
 const YELLOW   = '#d4a017';
 const BLUE     = '#1d4ed8';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
-const FAINT    = 'rgba(255, 255, 255, 0.4)';
-const SOFT     = 'rgba(255, 255, 255, 0.7)';
+const FAINT    = '#ffffff';
+const SOFT     = '#ffffff';
 
 const LOCALES = { pt, en: enUS, es, fr };
 const PAGE_SIZE = 30;
@@ -267,7 +267,7 @@ function ThreadRow({ thread, voted, lang, t, onVoteToggled }) {
               <span>{thread.author_display_name}</span>
             )}
             <span>{timeAgo}</span>
-            <span style={{ color: 'rgba(255,255,255,0.25)' }}>·</span>
+            <span style={{ color: '#d4a017' }}>·</span>
             <span>{repliesLabel}</span>
           </div>
         </div>

@@ -233,7 +233,7 @@ export default function BikeBus({ onJoinClick }) {
           style={{
             fontSize: 11,
             letterSpacing: '0.25em',
-            color: 'rgba(255,255,255,0.9)',
+            color: '#ffffff',
             marginTop: '1.25rem',
             marginBottom: '2.5rem',
           }}

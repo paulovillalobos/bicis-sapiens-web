@@ -380,7 +380,7 @@ export default function DataDashboard() {
               {porto.green}
               <sup className="align-super" style={{ fontSize: '0.45em' }}>m²</sup>
             </p>
-            <p className="m-0 mt-2" style={{ fontSize: 14, color: 'rgba(255,255,255,0.9)' }}>
+            <p className="m-0 mt-2" style={{ fontSize: 14, color: '#ffffff' }}>
               {t('numbers.greenSpace.caption')}
             </p>
             <p className="bs-data-oms-line m-0 mt-2" style={{ fontSize: 13, color: YELLOW }}>
@@ -393,7 +393,7 @@ export default function DataDashboard() {
               className="bs-data-fade-in m-0 mt-3 pt-3"
               style={{
                 fontSize: 12,
-                color: 'rgba(255,255,255,0.9)',
+                color: '#ffffff',
                 borderTop: `0.5px solid ${HAIRLINE_SOFT}`,
               }}
             >
@@ -453,7 +453,7 @@ export default function DataDashboard() {
         <p
           key={`sources-${displayedCity}`}
           className="bs-data-fade-in font-mono uppercase m-0 mt-6"
-          style={{ fontSize: 10, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.85)' }}
+          style={{ fontSize: 10, letterSpacing: '0.1em', color: '#ffffff' }}
         >
           {t('data.source')}: {sources.Porto} / {sources[displayedCity]}
         </p>
