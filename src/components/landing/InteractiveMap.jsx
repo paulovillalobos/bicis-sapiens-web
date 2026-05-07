@@ -1,20 +1,96 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
-import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMap } from 'react-leaflet';
+import { MapContainer, GeoJSON, ZoomControl, useMap, Marker, Polyline } from 'react-leaflet';
+import L from 'leaflet';
 import { Search, X, ArrowRight, RotateCcw, GitCompare, Shield } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
-// Greater Porto bounds (lat/lng) — covers the 7 municípios
-const PORTO_BOUNDS = [[40.95, -8.85], [41.36, -8.30]];
-const PORTO_CENTER = [41.155, -8.55];
-const PORTO_ZOOM = 11;
+// Wider bounds so Atlantic ocean and Iberian context are visible alongside
+// the AMP cluster — not just a tight crop of the freguesias.
+const PORTO_BOUNDS = [[40.80, -9.85], [41.55, -7.85]];
+const PORTO_CENTER = [41.155, -8.85];
+const PORTO_ZOOM = 10;
 
-// CARTO Dark Matter (no labels) — institutional dark, near-obsidian
-const TILE_URL = 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png';
-const TILE_ATTR =
-  '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &middot; ' +
-  '&copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>';
+// Editorial geography stack — replaces the previous CARTO Dark Matter tile
+// layer, which couldn't distinguish ocean from land. Now: navy ocean as
+// the map container background + a hand-drawn Iberian Peninsula polygon
+// filled with site bg #0a0a0a so the coastline reads as an obsidian/navy
+// boundary. No third-party tiles, no labels we don't control.
+const NAVY_OCEAN = '#0a1929';
+
+// Simplified Iberian Peninsula outline (~37 vertices). Resolution is
+// intentionally low — per brief, surrounding territory should feel
+// "casi fantasma", not atlas-precise. Coordinates as [lng, lat].
+const IBERIA_GEOJSON = {
+  type: 'FeatureCollection',
+  features: [{
+    type: 'Feature',
+    properties: { name: 'Iberian Peninsula' },
+    geometry: {
+      type: 'Polygon',
+      coordinates: [[
+        [-9.30, 42.90], [-9.00, 43.50], [-7.80, 43.55], [-6.50, 43.55],
+        [-5.50, 43.45], [-4.50, 43.45], [-3.50, 43.45], [-2.50, 43.40],
+        [-1.80, 43.35], [-1.40, 43.25], [-0.50, 42.95], [ 0.30, 42.85],
+        [ 1.00, 42.70], [ 2.20, 42.45], [ 3.20, 42.30], [ 3.30, 41.90],
+        [ 2.50, 41.55], [ 1.00, 41.10], [ 0.50, 40.50], [ 0.00, 39.50],
+        [-0.30, 38.80], [-0.70, 37.90], [-1.50, 37.40], [-2.50, 36.80],
+        [-4.00, 36.60], [-5.30, 36.10], [-6.30, 36.50], [-7.40, 37.10],
+        [-8.50, 37.05], [-8.95, 37.05], [-9.00, 38.00], [-9.50, 38.65],
+        [-9.40, 39.30], [-9.10, 40.00], [-8.85, 40.50], [-8.75, 41.00],
+        [-8.75, 41.70], [-8.85, 42.00], [-8.95, 42.50], [-9.30, 42.90],
+      ]],
+    },
+  }],
+};
+
+const IBERIA_STYLE = {
+  fillColor: '#0a0a0a',
+  fillOpacity: 1,
+  color: 'rgba(255, 255, 255, 0.10)',
+  weight: 0.5,
+};
+
+// Andrew's monotone-chain convex hull. Used to wrap a faint white halo
+// around the AMP cluster so the eye reads "this is Greater Porto" at a
+// glance, against the surrounding peninsula.
+function convexHull(points) {
+  if (!points || points.length < 3) return points || [];
+  const pts = points.slice().sort((a, b) => (a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]));
+  const cross = (O, A, B) => (A[0] - O[0]) * (B[1] - O[1]) - (A[1] - O[1]) * (B[0] - O[0]);
+  const lower = [];
+  for (const p of pts) {
+    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop();
+    lower.push(p);
+  }
+  const upper = [];
+  for (let i = pts.length - 1; i >= 0; i--) {
+    const p = pts[i];
+    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop();
+    upper.push(p);
+  }
+  upper.pop();
+  lower.pop();
+  return lower.concat(upper);
+}
+
+// Cartographic labels via Leaflet divIcon — non-interactive, styled in
+// index.css under .bs-map-label-{ocean,porto}.
+const OCEAN_LABEL_ICON = L.divIcon({
+  className: '',
+  html: '<span class="bs-map-label bs-map-label-ocean">OCEANO ATLÂNTICO</span>',
+  iconSize: [200, 24],
+  iconAnchor: [100, 12],
+});
+const PORTO_LABEL_ICON = L.divIcon({
+  className: '',
+  html: '<span class="bs-map-label bs-map-label-porto">PORTO</span>',
+  iconSize: [180, 50],
+  iconAnchor: [90, 25],
+});
+const OCEAN_LABEL_POS = [41.10, -9.55];
+const PORTO_LABEL_POS = [41.55, -8.20];
 
 const norm = (s) => (s || '').toString().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const fmt = (n) => (n == null || Number.isNaN(n) ? '—' : Number(n).toLocaleString('pt-PT'));
@@ -483,6 +559,26 @@ export default function InteractiveMap() {
   const compareOpen = !!selectedB;
   const panelOpen = !!selectedA;
 
+  // Convex hull of all freguesia ring vertices → the AMP halo polyline.
+  // [lng, lat] in input/output; we flip to [lat, lng] for Leaflet rendering.
+  const ampHullLatLng = useMemo(() => {
+    if (!geojson?.features?.length) return null;
+    const points = [];
+    for (const f of geojson.features) {
+      const g = f.geometry;
+      if (!g) continue;
+      if (g.type === 'Polygon') {
+        for (const ring of g.coordinates) for (const pt of ring) points.push([pt[0], pt[1]]);
+      } else if (g.type === 'MultiPolygon') {
+        for (const poly of g.coordinates) for (const ring of poly) for (const pt of ring) points.push([pt[0], pt[1]]);
+      }
+    }
+    const hull = convexHull(points);
+    if (hull.length < 3) return null;
+    const closed = [...hull, hull[0]];
+    return closed.map(([lng, lat]) => [lat, lng]);
+  }, [geojson]);
+
   return (
     <section id="map" ref={sectionRef} className="reveal-section bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-6">
@@ -511,17 +607,49 @@ export default function InteractiveMap() {
           <MapContainer
             center={PORTO_CENTER}
             zoom={PORTO_ZOOM}
-            minZoom={9}
+            minZoom={8}
             maxZoom={16}
             zoomControl={false}
             scrollWheelZoom={false}
             className="w-full h-full bs-map"
-            style={{ background: '#050505' }}
+            style={{ background: NAVY_OCEAN }}
           >
-            <TileLayer url={TILE_URL} attribution={TILE_ATTR} subdomains="abcd" maxZoom={20} />
+            {/* Iberian Peninsula context — fills the navy bg with site-bg
+                land, leaving only the ocean visible as navy. Coastline as
+                a faint hairline. Non-interactive. */}
+            <GeoJSON
+              data={IBERIA_GEOJSON}
+              style={() => IBERIA_STYLE}
+              interactive={false}
+            />
             <FreguesiasLayer data={geojson} onClick={handleClick} selectedDicofres={selectedDicofres} />
+            {/* AMP halo — single white perimeter around the cluster */}
+            {ampHullLatLng && (
+              <Polyline
+                positions={ampHullLatLng}
+                pathOptions={{
+                  color: '#ffffff',
+                  weight: 1,
+                  opacity: 0.65,
+                  interactive: false,
+                }}
+              />
+            )}
+            {/* Cartographic labels */}
+            <Marker
+              position={OCEAN_LABEL_POS}
+              icon={OCEAN_LABEL_ICON}
+              interactive={false}
+              keyboard={false}
+            />
+            <Marker
+              position={PORTO_LABEL_POS}
+              icon={PORTO_LABEL_ICON}
+              interactive={false}
+              keyboard={false}
+            />
             <ZoomControl position="bottomright" />
-            <FitBoundsOnMount bounds={PORTO_BOUNDS} options={{ padding: [40, 40] }} />
+            <FitBoundsOnMount bounds={PORTO_BOUNDS} options={{ padding: [20, 20] }} />
             <CtrlWheelZoom />
             <ResetController trigger={resetTick} />
             <FlyToFeature feature={flyTarget} />

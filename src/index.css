@@ -1247,3 +1247,30 @@
   text-transform: uppercase;
   cursor: pointer;
 }
+
+/* =========================================================================
+   MAP CARTOGRAPHIC LABELS — editorial, non-interactive divIcons.
+   ========================================================================= */
+.bs-map-label {
+  pointer-events: none;
+  white-space: nowrap;
+  display: inline-block;
+  text-align: center;
+}
+.bs-map-label-ocean {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.72);
+  text-transform: uppercase;
+}
+.bs-map-label-porto {
+  font-family: var(--font-data);
+  font-size: clamp(28px, 2.6vw, 36px);
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+}
