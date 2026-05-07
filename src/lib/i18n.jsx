@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 const translations = {
   pt: {
-    nav: { manifesto: 'Manifesto', dados: 'Dados', solucao: 'Solução', mapa: 'Mapa', comboios: 'Comboios', app: 'App', comunidade: 'Comunidade', municipios: 'Municípios', sobre: 'Sobre', doar: 'Apoia-nos' },
+    nav: { manifesto: 'Manifesto', dados: 'Dados', solucao: 'Solução', mapa: 'Mapa', comboios: 'Comboios', app: 'App', comunidade: 'Comunidade', municipios: 'Municípios', sobre: 'Sobre', doar: 'Apoia-nos', ctaShort: 'Junta-te' },
     hero: {
       tagline: 'O espaço público é de todos.\nA cidade também.',
       tagline_html: 'O espaço público<br>é de <em>todos</em>.<br>A cidade também.',
@@ -510,7 +510,7 @@ const translations = {
     },
   },
   en: {
-    nav: { manifesto: 'Manifesto', dados: 'Data', solucao: 'Solution', mapa: 'Map', comboios: 'Bike Bus', app: 'App', comunidade: 'Community', municipios: 'Municipalities', sobre: 'About', doar: 'Support us' },
+    nav: { manifesto: 'Manifesto', dados: 'Data', solucao: 'Solution', mapa: 'Map', comboios: 'Bike Bus', app: 'App', comunidade: 'Community', municipios: 'Municipalities', sobre: 'About', doar: 'Support us', ctaShort: 'Join' },
     hero: {
       tagline: 'Public space belongs to everyone.\nSo does the city.',
       tagline_html: 'Public space<br>belongs to <em>everyone</em>.<br>The city too.',
@@ -1018,7 +1018,7 @@ const translations = {
     },
   },
   es: {
-    nav: { manifesto: 'Manifiesto', dados: 'Datos', solucao: 'Solución', mapa: 'Mapa', comboios: 'Bici Bus', app: 'App', comunidade: 'Comunidad', municipios: 'Municipios', sobre: 'Sobre', doar: 'Apóyanos' },
+    nav: { manifesto: 'Manifiesto', dados: 'Datos', solucao: 'Solución', mapa: 'Mapa', comboios: 'Bici Bus', app: 'App', comunidade: 'Comunidad', municipios: 'Municipios', sobre: 'Sobre', doar: 'Apóyanos', ctaShort: 'Únete' },
     hero: {
       tagline: 'El espacio público es de todos.\nLa ciudad también.',
       tagline_html: 'El espacio público<br>es de <em>todos</em>.<br>La ciudad también.',
@@ -1526,7 +1526,7 @@ const translations = {
     },
   },
   fr: {
-    nav: { manifesto: 'Manifeste', dados: 'Données', solucao: 'Solution', mapa: 'Carte', comboios: 'Vélo Bus', app: 'App', comunidade: 'Communauté', municipios: 'Municipalités', sobre: 'À propos', doar: 'Soutiens-nous' },
+    nav: { manifesto: 'Manifeste', dados: 'Données', solucao: 'Solution', mapa: 'Carte', comboios: 'Vélo Bus', app: 'App', comunidade: 'Communauté', municipios: 'Municipalités', sobre: 'À propos', doar: 'Soutiens-nous', ctaShort: 'Rejoins' },
     hero: {
       tagline: 'L\'espace public appartient à tous.\nLa ville aussi.',
       tagline_html: 'L\'espace public<br>appartient à <em>tous</em>.<br>La ville aussi.',

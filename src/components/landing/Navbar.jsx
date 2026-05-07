@@ -1,140 +1,208 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Globe, ChevronDown } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
-import { Menu, X } from 'lucide-react';
 
 const LANGS = ['PT', 'EN', 'ES', 'FR'];
 
+// Bike Bus = the "star" item per brief — always rendered as solid blue.
+const NAV_ITEMS = [
+  { key: 'manifesto',  href: '#manifesto'  },
+  { key: 'dados',      href: '#data'       },
+  { key: 'mapa',       href: '#map'        },
+  { key: 'comboios',   href: '#bikeBus',  active: true },
+  { key: 'comunidade', href: '#community'  },
+  { key: 'doar',       href: '#support'    },
+];
+
 export default function Navbar({ onJoinClick }) {
   const { lang, setLang, t } = useI18n();
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const langWrapRef = useRef(null);
 
+  // Body scroll lock while the fullscreen menu is open
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', handler, { passive: true });
-    return () => window.removeEventListener('scroll', handler);
+    if (menuOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [menuOpen]);
+
+  // ESC closes either dropdown
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        setLangOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const navItems = [
-    { key: 'manifesto', href: '#manifesto' },
-    { key: 'dados', href: '#data' },
-    { key: 'mapa', href: '#map' },
-    { key: 'comboios', href: '#bikeBus' },
-    { key: 'comunidade', href: '#community' },
-    { key: 'doar', href: '#support' },
-  ];
+  // Click outside the lang dropdown closes it
+  useEffect(() => {
+    if (!langOpen) return;
+    const onClick = (e) => {
+      if (langWrapRef.current && !langWrapRef.current.contains(e.target)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onClick);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, [langOpen]);
+
+  const handleJoin = useCallback(() => {
+    setMenuOpen(false);
+    onJoinClick?.();
+  }, [onJoinClick]);
+
+  const pickLang = (l) => {
+    setLang(l.toLowerCase());
+    setLangOpen(false);
+  };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-      scrolled
-        ? 'bg-background/85 backdrop-blur-xl border-b border-border/40'
-        : 'bg-gradient-to-b from-background/85 via-background/40 to-transparent backdrop-blur-[2px]'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
-            <img src="/logo-solid.svg" alt="Bicis Sapiens" width="36" height="36" className="w-9 h-9" />
-            <span className="font-display text-lg font-black tracking-tightest text-foreground">
-              Bicis <i className="text-primary">Sapiens</i>
-            </span>
-          </a>
+    <>
+      <nav className="bs-nav">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
 
-          {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navItems.map(item => (
-              <a
-                key={item.key}
-                href={item.href}
-                className={`px-3 py-2 text-xs font-mono uppercase tracking-widest transition-colors ${
-                  scrolled
-                    ? 'text-foreground/55 hover:text-foreground hover:bg-secondary'
-                    : 'text-foreground/70 hover:text-foreground hover:bg-foreground/5'
-                }`}
-              >
-                {t(`nav.${item.key}`)}
-              </a>
-            ))}
-          </div>
+            {/* Logo */}
+            <a href="#" className="flex items-center gap-3">
+              <img src="/logo-solid.svg" alt="Bicis Sapiens" width="36" height="36" className="w-9 h-9" />
+              <span className="font-display text-lg font-black tracking-tightest text-foreground">
+                Bicis <i className="text-primary">Sapiens</i>
+              </span>
+            </a>
 
-          {/* Right side */}
-          <div className="flex items-center gap-3">
-            {/* Language selector */}
-            <div className="hidden sm:flex items-center gap-0.5 bg-secondary/50 backdrop-blur p-0.5 border border-border">
-              {LANGS.map(l => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l.toLowerCase())}
-                  className={`px-2 py-1 text-xs font-mono uppercase tracking-widest transition-all ${
-                    lang === l.toLowerCase()
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-foreground/55 hover:text-foreground'
-                  }`}
+            {/* Desktop nav pills (lg+) */}
+            <div className="hidden lg:flex items-center gap-2">
+              {NAV_ITEMS.map((item) => (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className={`bs-nav-pill ${item.active ? 'bs-nav-pill-active' : ''}`}
                 >
-                  {l}
-                </button>
+                  {t(`nav.${item.key}`)}
+                </a>
               ))}
             </div>
 
-            {/* CTA */}
-            <button
-              onClick={onJoinClick}
-              className="hidden md:inline-flex items-center px-4 py-2.5 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-            >
-              {t('hero.cta')}
-            </button>
+            {/* Right cluster */}
+            <div className="flex items-center gap-2">
 
-            {/* Mobile menu */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden p-2 text-foreground transition-colors"
-            >
-              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border">
-          <div className="px-4 py-4 space-y-1">
-            {navItems.map(item => (
-              <a
-                key={item.key}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="block px-3 py-2.5 text-xs font-mono uppercase tracking-widest text-foreground hover:bg-secondary"
-              >
-                {t(`nav.${item.key}`)}
-              </a>
-            ))}
-            <div className="pt-3 border-t border-border mt-3">
-              <div className="flex items-center gap-1 mb-3">
-                {LANGS.map(l => (
-                  <button
-                    key={l}
-                    onClick={() => { setLang(l.toLowerCase()); setMenuOpen(false); }}
-                    className={`px-3 py-1.5 text-xs font-mono uppercase tracking-widest transition-all ${
-                      lang === l.toLowerCase()
-                        ? 'bg-primary text-primary-foreground'
-                        : 'text-foreground/55 hover:text-foreground bg-secondary'
-                    }`}
-                  >
-                    {l}
-                  </button>
-                ))}
+              {/* Lang dropdown — always visible on lg+, hidden on mobile (lives inside fullscreen menu instead) */}
+              <div className="relative hidden md:block" ref={langWrapRef}>
+                <button
+                  type="button"
+                  className="bs-nav-lang-trigger"
+                  aria-haspopup="listbox"
+                  aria-expanded={langOpen}
+                  onClick={() => setLangOpen((v) => !v)}
+                >
+                  <Globe size={14} strokeWidth={1.75} />
+                  <span>{lang.toUpperCase()}</span>
+                  <ChevronDown
+                    size={12}
+                    strokeWidth={2}
+                    style={{
+                      transition: 'transform 200ms ease-out',
+                      transform: langOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                    }}
+                  />
+                </button>
+                {langOpen && (
+                  <div role="listbox" className="bs-nav-lang-panel">
+                    {LANGS.map((l) => {
+                      const active = lang === l.toLowerCase();
+                      return (
+                        <button
+                          key={l}
+                          type="button"
+                          role="option"
+                          aria-selected={active}
+                          onClick={() => pickLang(l)}
+                          className={`bs-nav-lang-option ${active ? 'is-active' : ''}`}
+                        >
+                          {l}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
+
+              {/* CTA — full label on lg+, short on md, hidden on sm */}
               <button
-                onClick={() => { onJoinClick(); setMenuOpen(false); }}
-                className="w-full px-4 py-3 text-xs font-mono uppercase tracking-widest bg-primary text-primary-foreground"
+                type="button"
+                onClick={handleJoin}
+                className="bs-nav-cta hidden md:inline-flex"
               >
-                {t('hero.cta')}
+                <span className="hidden lg:inline">{t('hero.cta')}</span>
+                <span className="hidden md:inline lg:hidden">{t('nav.ctaShort')}</span>
+                <span aria-hidden="true">→</span>
+              </button>
+
+              {/* Hamburger (lg-) */}
+              <button
+                type="button"
+                onClick={() => setMenuOpen((v) => !v)}
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={menuOpen}
+                className={`bs-nav-hamburger lg:hidden ${menuOpen ? 'is-open' : ''}`}
+              >
+                <span className="bs-nav-hamburger-icon" aria-hidden="true" />
               </button>
             </div>
           </div>
         </div>
+      </nav>
+
+      {/* Fullscreen mobile / tablet menu */}
+      {menuOpen && (
+        <div className="bs-nav-mobile-menu lg:hidden" role="dialog" aria-modal="true">
+          <ul className="bs-nav-mobile-list">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.key}>
+                <a
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`bs-nav-mobile-item ${item.active ? 'is-active' : ''}`}
+                >
+                  {t(`nav.${item.key}`)}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="bs-nav-mobile-footer">
+            {/* Lang as 4 visible pills inside the menu — there's space here */}
+            <div className="bs-nav-mobile-langs" role="radiogroup" aria-label="Language">
+              {LANGS.map((l) => {
+                const active = lang === l.toLowerCase();
+                return (
+                  <button
+                    key={l}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    onClick={() => setLang(l.toLowerCase())}
+                    className={`bs-nav-pill ${active ? 'bs-nav-pill-active' : ''}`}
+                  >
+                    {l}
+                  </button>
+                );
+              })}
+            </div>
+            <button type="button" onClick={handleJoin} className="bs-nav-mobile-cta">
+              {t('hero.cta')}
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
       )}
-    </nav>
+    </>
   );
 }

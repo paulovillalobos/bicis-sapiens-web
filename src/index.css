@@ -21,7 +21,10 @@
     --secondary: 0 0% 9%;
     --secondary-foreground: 60 14% 97%;
     --muted: 0 0% 12%;
-    --muted-foreground: 60 6% 65%;
+    /* Was 60 6% 65% — a desaturated gray. Bumped to bone-with-high-lightness
+       so anything tagged `text-muted-foreground` reads as bone, not gray.
+       Hierarchy comes from size + tracking, not gray fade. */
+    --muted-foreground: 60 12% 92%;
     --accent: 50 100% 52%;          /* #FFD60A EU yellow — small details only */
     --accent-foreground: 0 0% 4%;
     --destructive: 0 84% 60%;
@@ -64,12 +67,41 @@
     font-weight: 900;
     letter-spacing: -0.03em;
   }
-  /* Italic Playfair in EU-blue for keywords inside titles */
-  h1 em, h2 em, h3 em, h4 em,
-  h1 i, h2 i, h3 i, h4 i {
+  /* Principal headline accent — solid blue block + yellow italic letterform.
+     Same pattern as the hero title em. Applied to h1/h2 by default because
+     those are the section-level "pegar fuerte" headlines.
+     Calmer h3/h4 keep an italic yellow tint with no block. Per-section
+     overrides (e.g. .bs-principle-mega em) can opt back to calm.
+
+     `em.font-normal` (or any em explicitly weight-controlled inline) escapes
+     this block treatment — used by the AboutTeam/Support editorial sublines
+     where the accent stays calm yellow italic without the rectangle. */
+  h1 em, h2 em,
+  h1 i, h2 i {
     font-style: italic;
-    color: hsl(var(--primary));
     font-weight: 900;
+    color: #d4a017;
+    background: #1d4ed8;
+    display: inline-block;
+    padding: 0 0.05em;
+    line-height: 0.92;
+    vertical-align: baseline;
+  }
+  h3 em, h4 em,
+  h3 i, h4 i {
+    font-style: italic;
+    color: #FFD60A;
+    font-weight: 900;
+  }
+  /* Editorial calm accent inside large headlines — opt out of the block by
+     setting font-weight inline. Used by AboutTeam and Support taglines. */
+  h1 em.font-normal, h2 em.font-normal,
+  h1 i.font-normal, h2 i.font-normal {
+    background: transparent;
+    display: inline;
+    padding: 0;
+    line-height: inherit;
+    font-weight: 400;
   }
   /* Selection */
   ::selection {
@@ -90,13 +122,16 @@
   font-family: var(--font-mono);
 }
 
-/* Eyebrow / metadata utility — JetBrains Mono uppercase 0.4em */
+/* Eyebrow / metadata utility — JetBrains Mono uppercase. Tracking pulled in
+   from 0.4em → 0.18em so it reads as confident type rather than spaced-out
+   wireframe. Size bumped one step (12px → 14px). */
 .eyebrow {
   font-family: var(--font-mono);
   text-transform: uppercase;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.18em;
   font-weight: 500;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
+  color: #FAFAF7;
 }
 
 /* Animated counter */
@@ -124,13 +159,14 @@
   font-family: var(--font-body) !important;
 }
 .leaflet-control-attribution {
-  background: rgba(10,10,10,0.6) !important;
-  color: hsl(var(--muted-foreground)) !important;
+  background: rgba(10,10,10,0.7) !important;
+  color: rgba(250, 250, 247, 0.92) !important;
   font-family: var(--font-mono) !important;
-  font-size: 9px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
 }
 .leaflet-control-attribution a {
-  color: hsl(var(--muted-foreground)) !important;
+  color: rgba(250, 250, 247, 0.92) !important;
 }
 
 /* Leaflet zoom control — institutional sharp corners */
@@ -171,11 +207,12 @@
 .leaflet-tooltip.bs-tooltip::before { display: none !important; }
 .bs-tt-eyebrow {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: rgba(250, 250, 247, 0.55);
-  margin-bottom: 2px;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  color: #FFD60A;
+  margin-bottom: 3px;
 }
 .bs-tt-name {
   font-family: var(--font-display);
@@ -297,17 +334,18 @@
 .bs-hero-counter,
 .bs-hero-eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.4em;
+  font-size: 13px;                /* +1 step from 11px */
+  letter-spacing: 0.2em;          /* tighter from 0.4em */
   text-transform: uppercase;
+  font-weight: 500;
   margin: 0;
 }
 .bs-hero-counter {
-  color: #FFD60A;        /* yellow lives ONLY here */
+  color: #FFD60A;        /* structural counter — yellow */
   margin-bottom: 8px;
 }
 .bs-hero-eyebrow {
-  color: rgba(250, 250, 247, 0.55);  /* bone muted */
+  color: #FAFAF7;        /* full bone — no more 0.55 fade */
   margin-bottom: 32px;
 }
 
@@ -341,9 +379,9 @@
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(20px, 2vw, 24px);
+  font-size: clamp(22px, 2.2vw, 28px);   /* up one step from 20-24 */
   color: #FFFFFF;
-  max-width: 540px;
+  max-width: 600px;
   line-height: 1.4;
   margin: 0 0 48px;
 }
@@ -360,9 +398,9 @@
   gap: 8px;
   padding: 16px 28px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;            /* +1 step from 11px */
   font-weight: 500;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.16em;     /* tighter from 0.3em */
   text-transform: uppercase;
   text-decoration: none;
   border: none;
@@ -409,8 +447,8 @@
 }
 .bs-ticker-item {
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.2em;
+  font-size: 14px;          /* +1 step */
+  letter-spacing: 0.16em;   /* tighter */
   font-weight: 500;
   color: #FFFFFF;
   text-transform: uppercase;
@@ -495,9 +533,10 @@
 .bs-principle-chapter {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.4em;
+  font-size: 13px;            /* +1 step */
+  letter-spacing: 0.18em;     /* tighter */
   text-transform: uppercase;
+  font-weight: 500;
   color: #FFD60A;
   margin-bottom: 1.5rem;
   /* Marker doesn't get the parent text-shadow */
@@ -506,9 +545,9 @@
 
 .bs-principle-eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 14px;            /* +1 step */
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;     /* tighter */
   font-weight: 500;
   color: #FFFFFF;
   margin: 0 0 2.5rem;
@@ -527,23 +566,29 @@
 
 /* Highlighted keyword: EU-yellow italic Playfair, no background, no
    marker box — clean type floating over the photo. Inherits the
-   subtle parent text-shadow for legibility on any zone of the image. */
+   subtle parent text-shadow for legibility on any zone of the image.
+   Override the global block+yellow rule because principles are over
+   imagery and stay calm per the editorial brief. */
 .bs-principle-mega em,
 .bs-principle-mega i {
   font-style: italic;
   font-weight: 900;
   color: #FFD60A;
+  background: transparent;
+  display: inline;
+  padding: 0;
+  line-height: inherit;
 }
 
 .bs-principle-supporting {
   font-family: var(--font-body);
   font-style: normal;
   font-weight: 500;
-  font-size: clamp(20px, 1.8vw, 24px);
+  font-size: clamp(22px, 2vw, 28px);   /* +1 step */
   line-height: 1.55;
   color: #ffffff;
   margin: 2.5rem auto 0;
-  max-width: 44ch;
+  max-width: 46ch;
 }
 
 /* Final colophon — magazine sign-off */
@@ -961,4 +1006,241 @@
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* =========================================================================
+   NAVBAR — pill system (mirrors §02 bs-data-pill canon).
+   Each nav item is a self-contained pill with subtle border. Active item
+   ("Bike Bus") and CTA fill solid blue. CTA on tablet shrinks to short
+   label via inline span swap.
+   ========================================================================= */
+.bs-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.10);
+}
+.bs-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.95rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.20);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease-out,
+    border-color 200ms ease-out,
+    color 200ms ease-out;
+}
+.bs-nav-pill:hover {
+  background: rgba(29, 78, 216, 0.10);
+  border-color: rgba(29, 78, 216, 0.7);
+}
+.bs-nav-pill-active,
+.bs-nav-pill-active:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+.bs-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: 8px;
+  background: #1d4ed8;
+  border: 0.5px solid #1d4ed8;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out;
+}
+.bs-nav-cta:hover {
+  background: #1944c0;
+  border-color: #1944c0;
+}
+
+/* Lang dropdown — compact pill that expands a vertical list */
+.bs-nav-lang-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 0.5px solid rgba(255, 255, 255, 0.20);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out;
+}
+.bs-nav-lang-trigger:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.40);
+}
+.bs-nav-lang-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 7rem;
+  background: #0a0a0a;
+  border: 0.5px solid rgba(255, 255, 255, 0.20);
+  border-radius: 8px;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  z-index: 60;
+}
+.bs-nav-lang-option {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms ease-out;
+}
+.bs-nav-lang-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.bs-nav-lang-option.is-active {
+  color: #d4a017;
+}
+
+/* Hamburger — 2 chunky lines, editorial weight */
+.bs-nav-hamburger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+}
+.bs-nav-hamburger-icon {
+  display: block;
+  width: 22px;
+  height: 14px;
+  position: relative;
+}
+.bs-nav-hamburger-icon::before,
+.bs-nav-hamburger-icon::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2.5px;
+  background: #ffffff;
+  transition: transform 200ms ease-out, top 200ms ease-out, opacity 200ms ease-out;
+}
+.bs-nav-hamburger-icon::before { top: 0; }
+.bs-nav-hamburger-icon::after  { top: 11px; }
+.bs-nav-hamburger.is-open .bs-nav-hamburger-icon::before {
+  top: 5.5px;
+  transform: rotate(45deg);
+}
+.bs-nav-hamburger.is-open .bs-nav-hamburger-icon::after {
+  top: 5.5px;
+  transform: rotate(-45deg);
+}
+
+/* Fullscreen mobile menu — editorial, generous spacing */
+.bs-nav-mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 1.5rem 2.5rem;
+  overflow-y: auto;
+  animation: bs-nav-menu-in 200ms ease-out both;
+}
+@keyframes bs-nav-menu-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.bs-nav-mobile-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.bs-nav-mobile-item {
+  font-family: var(--font-data);
+  font-size: clamp(28px, 7vw, 36px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.25rem 0;
+}
+.bs-nav-mobile-item.is-active {
+  font-style: italic;
+  color: #1d4ed8;
+}
+.bs-nav-mobile-footer {
+  margin-top: auto;
+  padding-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.bs-nav-mobile-langs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.bs-nav-mobile-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  background: #1d4ed8;
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
