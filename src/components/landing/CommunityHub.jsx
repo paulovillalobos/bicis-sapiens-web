@@ -7,8 +7,12 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 const YELLOW   = '#d4a017';
 const BLUE     = '#1d4ed8';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
-const SOFT     = 'rgba(255, 255, 255, 0.7)';
-const FAINT    = 'rgba(255, 255, 255, 0.4)';
+// "Soft" and "Faint" are no longer gray — per the typo pass we keep
+// secondary text near-white and lean on size/weight (not opacity) for
+// hierarchy. Anything that used to whisper at 0.4 either yells at 0.9
+// or graduates to YELLOW for structural meta.
+const SOFT     = 'rgba(255, 255, 255, 0.9)';
+const FAINT    = 'rgba(255, 255, 255, 0.85)';
 
 // =====================================================================
 // CIVIC AGENDA — five weekly questions, anonymous voting, no signup.
@@ -137,7 +141,7 @@ export default function CommunityHub() {
           <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
           <span
             className="font-mono uppercase font-medium"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
           >
             {t('civic_agenda.kicker')}
           </span>
@@ -154,7 +158,17 @@ export default function CommunityHub() {
           }}
         >
           {t('civic_agenda.headline.prefix')}{' '}
-          <span style={{ fontStyle: 'italic', color: BLUE }}>
+          <span
+            style={{
+              display: 'inline-block',
+              background: BLUE,
+              color: YELLOW,
+              fontStyle: 'italic',
+              padding: '0 0.18em',
+              lineHeight: 1.0,
+              verticalAlign: 'baseline',
+            }}
+          >
             {t('civic_agenda.headline.accent')}
           </span>
         </h2>
@@ -162,11 +176,11 @@ export default function CommunityHub() {
         <p
           className="font-data italic m-0 mb-12"
           style={{
-            fontSize: 18,
+            fontSize: 22,
             fontWeight: 400,
             lineHeight: 1.45,
-            color: SOFT,
-            maxWidth: 600,
+            color: '#ffffff',
+            maxWidth: 640,
           }}
         >
           {t('civic_agenda.subline')}
@@ -177,11 +191,11 @@ export default function CommunityHub() {
           className="flex flex-wrap items-baseline gap-x-3 gap-y-2 pb-3 mb-12"
           style={{ borderBottom: `0.5px solid ${HAIRLINE}` }}
         >
-          <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}>
+          <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>
             {t('civic_agenda.week.label')} · {weekRange}
           </span>
           <span aria-hidden="true" style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
-          <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: SOFT }}>
+          <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>
             {t('civic_agenda.week.votes').replace('{N}', String(displayedTotalVotes))}
           </span>
           <span className="sm:ml-auto" />
@@ -203,7 +217,7 @@ export default function CommunityHub() {
         {loading ? (
           <p
             className="font-mono uppercase"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
           >
             {t('forum.loading')}
           </p>
@@ -237,20 +251,20 @@ export default function CommunityHub() {
         >
           <span
             className="font-mono uppercase font-medium block mb-4"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
           >
             {t('civic_agenda.deepForum.kicker')}
           </span>
           <p
             className="font-data m-0 mb-6"
-            style={{ fontSize: 18, fontWeight: 400, color: '#fff', lineHeight: 1.5 }}
+            style={{ fontSize: 20, fontWeight: 400, color: '#fff', lineHeight: 1.5 }}
           >
             {t('civic_agenda.deepForum.body')}
           </p>
           <Link
             to="/comunidade/foro"
             className="font-mono uppercase font-medium inline-block hover:opacity-80 transition-opacity"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
           >
             {t('civic_agenda.deepForum.cta')}
           </Link>
@@ -315,7 +329,7 @@ function QuestionCard({ index, total, question, myOptionKey, onVote, t }) {
           <span style={{ color: 'rgba(255,255,255,0.20)', margin: '0 0.5em' }}>·</span>
           <span style={{ color: FAINT }}>{t(`${qPath}.category`)}</span>
         </div>
-        <span className="font-mono uppercase" style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}>
+        <span className="font-mono uppercase" style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}>
           {t('civic_agenda.card.votes').replace('{N}', String(cardVotes))}
         </span>
       </div>
@@ -354,7 +368,7 @@ function QuestionCard({ index, total, question, myOptionKey, onVote, t }) {
       {hasVoted && (
         <p
           className="font-mono uppercase text-center m-0 mt-5"
-          style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+          style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
         >
           {t('civic_agenda.card.thanked')}
         </p>
@@ -448,14 +462,14 @@ function EmptyState({ t }) {
     <div className="text-center mx-auto" style={{ paddingTop: '2rem', paddingBottom: '2rem', maxWidth: 600 }}>
       <p
         className="font-data italic m-0 mb-6"
-        style={{ fontSize: 22, fontWeight: 400, color: '#fff', lineHeight: 1.4 }}
+        style={{ fontSize: 24, fontWeight: 400, color: '#fff', lineHeight: 1.4 }}
       >
         {t('civic_agenda.empty.headline')}
       </p>
       <Link
         to="/comunidade/login"
         className="font-mono uppercase inline-block hover:opacity-80 transition-opacity"
-        style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+        style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#d4a017' }}
       >
         {t('civic_agenda.empty.cta')}
       </Link>

@@ -45,7 +45,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
           <span
             aria-hidden="true"
             className="font-data leading-none"
-            style={{ fontSize: 72, fontWeight: 400, color: 'rgba(255,255,255,0.3)' }}
+            style={{ fontSize: 72, fontWeight: 400, color: 'rgba(255,255,255,0.85)' }}
           >
             {initial}
           </span>
@@ -176,7 +176,7 @@ export default function AboutTeam() {
             />
             <p
               className="font-mono uppercase m-0 mt-3"
-              style={{ fontSize: 11, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)' }}
+              style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
             >
               {t('about.founder.photoCaption')}
             </p>
@@ -236,23 +236,23 @@ export default function AboutTeam() {
                 and keep only Origem · México · Base · Porto. */}
             <div
               className="mt-8 pt-6 border-t border-white/15 flex flex-wrap gap-x-6 gap-y-2 font-mono uppercase"
-              style={{ fontSize: 11, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}
+              style={{ fontSize: 11, letterSpacing: '0.2em', color: '#d4a017' }}
             >
               <span>
                 {t('about.founder.metadata.originLabel')}{' · '}
-                <span style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <span style={{ color: '#ffffff' }}>
                   {t('about.founder.metadata.originValue')}
                 </span>
               </span>
               <span>
                 {t('about.founder.metadata.sinceLabel')}{' · '}
-                <span style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <span style={{ color: '#ffffff' }}>
                   {t('about.founder.metadata.sinceValue')}
                 </span>
               </span>
               <span>
                 {t('about.founder.metadata.beforeLabel')}{' · '}
-                <span style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <span style={{ color: '#ffffff' }}>
                   {t('about.founder.metadata.beforeValue')}
                 </span>
               </span>
@@ -304,7 +304,7 @@ export default function AboutTeam() {
 
           <p
             className="mt-6 text-right font-mono uppercase m-0"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: 'rgba(255,255,255,0.4)' }}
+            style={{ fontSize: 11, letterSpacing: '0.3em', color: '#d4a017' }}
           >
             {t('about.advisors.growing')}
           </p>

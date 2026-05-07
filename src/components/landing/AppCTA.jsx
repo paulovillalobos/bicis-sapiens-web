@@ -51,7 +51,10 @@ export default function AppCTA() {
         <div className="grid lg:grid-cols-[2fr_3fr] gap-16 lg:gap-20 items-center">
           {/* COPY — left on desktop, below phone on mobile */}
           <div className="order-2 lg:order-1">
-            <span className="font-mono text-[11px] tracking-widest uppercase text-eu-yellow">
+            <span
+              className="font-mono uppercase text-eu-yellow"
+              style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500 }}
+            >
               06 — {t('app.title')}
             </span>
 
@@ -60,14 +63,29 @@ export default function AppCTA() {
               style={{ fontSize: 'clamp(48px, 6.5vw, 80px)', lineHeight: 0.95 }}
             >
               {t('app.headline.prefix')}{' '}
-              <em className="text-eu-blue">{t('app.headline.accent')}</em>
+              <span
+                style={{
+                  display: 'inline-block',
+                  background: '#1d4ed8',
+                  color: '#d4a017',
+                  fontStyle: 'italic',
+                  padding: '0 0.16em',
+                  lineHeight: 1.0,
+                  verticalAlign: 'baseline',
+                }}
+              >
+                {t('app.headline.accent')}
+              </span>
             </h2>
 
-            <p className="mt-8 font-body text-[18px] leading-relaxed text-bone/70 max-w-[480px]">
+            <p className="mt-8 font-body text-[20px] leading-[1.55] text-bone max-w-[520px]">
               {t('app.subtitle')}
             </p>
 
-            <p className="mt-6 font-mono text-[10px] tracking-widest uppercase text-bone/40 max-w-[480px]">
+            <p
+              className="mt-6 font-mono uppercase max-w-[520px]"
+              style={{ fontSize: 12, letterSpacing: '0.2em', color: '#d4a017', fontWeight: 500 }}
+            >
               {t('app.taglineMono')}
             </p>
 
@@ -92,13 +110,17 @@ export default function AppCTA() {
                 </button>
               </div>
 
-              <p className="mt-4 font-mono text-[10px] tracking-widest uppercase text-bone/40">
+              <p
+                className="mt-4 font-mono uppercase"
+                style={{ fontSize: 12, letterSpacing: '0.2em', color: '#fff', fontWeight: 500 }}
+              >
                 {t('app.socialProof')}
               </p>
 
               <a
                 href="#support"
-                className="inline-block mt-6 font-body text-sm text-bone/55 hover:text-eu-yellow transition-colors"
+                className="inline-block mt-6 font-body hover:text-eu-yellow transition-colors"
+                style={{ fontSize: 16, color: '#fff', textDecoration: 'underline', textUnderlineOffset: 4, textDecorationColor: 'rgba(255,255,255,0.35)' }}
               >
                 {t('app.supportLink')} →
               </a>

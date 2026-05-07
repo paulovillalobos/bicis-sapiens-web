@@ -403,9 +403,10 @@
 }
 .bs-ticker-item {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  color: #FAFAF7;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  color: #FFFFFF;
   text-transform: uppercase;
   padding-right: 32px;
 }
@@ -499,10 +500,11 @@
 
 .bs-principle-eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.4em;
-  color: rgba(250, 250, 247, 0.7);
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  color: #FFFFFF;
   margin: 0 0 2.5rem;
 }
 

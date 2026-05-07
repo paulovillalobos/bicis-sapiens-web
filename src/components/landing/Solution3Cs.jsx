@@ -58,7 +58,7 @@ export default function Solution3Cs() {
                 fontStyle: 'italic',
                 fontWeight: 400,
                 lineHeight: 1.45,
-                color: 'rgba(255,255,255,0.7)',
+                color: 'rgba(255,255,255,0.9)',
               }}
             >
               {t('solution.tagline.line1')}
@@ -92,9 +92,10 @@ export default function Solution3Cs() {
                   <span
                     className="font-mono uppercase"
                     style={{
-                      fontSize: 10,
-                      letterSpacing: '0.25em',
-                      color: 'rgba(255,255,255,0.4)',
+                      fontSize: 12,
+                      letterSpacing: '0.2em',
+                      fontWeight: 500,
+                      color: '#d4a017',
                     }}
                   >
                     {t(`solution.${key}.role`)}
@@ -119,9 +120,9 @@ export default function Solution3Cs() {
                 <p
                   className="m-0 mb-6"
                   style={{
-                    fontSize: 14,
-                    lineHeight: 1.6,
-                    color: 'rgba(255,255,255,0.65)',
+                    fontSize: 17,
+                    lineHeight: 1.65,
+                    color: '#ffffff',
                   }}
                 >
                   {t(`solution.${key}.desc`)}
@@ -136,9 +137,9 @@ export default function Solution3Cs() {
                     <li
                       key={j}
                       style={{
-                        fontSize: 14,
-                        lineHeight: 2,
-                        color: 'rgba(255,255,255,0.85)',
+                        fontSize: 16,
+                        lineHeight: 1.85,
+                        color: '#ffffff',
                       }}
                     >
                       {item}
@@ -159,9 +160,10 @@ export default function Solution3Cs() {
           <p
             className="font-mono uppercase m-0"
             style={{
-              fontSize: 11,
-              letterSpacing: '0.25em',
-              color: 'rgba(255,255,255,0.4)',
+              fontSize: 12,
+              letterSpacing: '0.2em',
+              fontWeight: 500,
+              color: '#d4a017',
               marginBottom: '0.75rem',
             }}
           >

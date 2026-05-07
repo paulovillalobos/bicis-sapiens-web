@@ -53,7 +53,7 @@ function StatBlock({ value, label, italicBlue }) {
         style={{
           fontSize: 9,
           letterSpacing: '0.25em',
-          color: 'rgba(255,255,255,0.4)',
+          color: '#d4a017',
           marginTop: '0.5rem',
         }}
       >
@@ -132,7 +132,7 @@ function InternationalCell({ city, t }) {
           style={{
             fontSize: 9,
             letterSpacing: '0.3em',
-            color: 'rgba(255,255,255,0.4)',
+            color: '#d4a017',
           }}
         >
           {t(`bikeBus.countries.${city.countryKey}`)}
@@ -145,7 +145,7 @@ function InternationalCell({ city, t }) {
         style={{
           fontSize: 13,
           fontStyle: 'italic',
-          color: 'rgba(255,255,255,0.65)',
+          color: '#ffffff',
           lineHeight: 1.5,
           marginBottom: '1.5rem',
           maxWidth: '52ch',
@@ -233,7 +233,7 @@ export default function BikeBus({ onJoinClick }) {
           style={{
             fontSize: 11,
             letterSpacing: '0.25em',
-            color: 'rgba(255,255,255,0.55)',
+            color: 'rgba(255,255,255,0.9)',
             marginTop: '1.25rem',
             marginBottom: '2.5rem',
           }}

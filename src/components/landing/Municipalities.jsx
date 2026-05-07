@@ -5,9 +5,12 @@ import { useI18n } from '@/lib/i18n';
 const YELLOW   = '#d4a017';
 const BLUE     = '#1d4ed8';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
-const MUTED    = 'rgba(255, 255, 255, 0.65)';
-const SOFT     = 'rgba(255, 255, 255, 0.7)';
-const FAINT    = 'rgba(255, 255, 255, 0.4)';
+// MUTED / SOFT / FAINT bumped from 0.4-0.7 to 0.85-0.95 in the typo
+// pass — secondary text leans on size/weight instead of opacity, no
+// grays anywhere on the site.
+const MUTED    = 'rgba(255, 255, 255, 0.95)';
+const SOFT     = 'rgba(255, 255, 255, 0.9)';
+const FAINT    = 'rgba(255, 255, 255, 0.85)';
 
 // =====================================================================
 // CONFIGURATION FLAGS — TEAM TO UPDATE BEFORE LAUNCH
@@ -47,7 +50,7 @@ export default function Municipalities() {
           <span aria-hidden="true" style={{ width: 32, height: 1, background: YELLOW }} />
           <span
             className="font-mono uppercase font-medium m-0"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
           >
             {t('municipalities.kicker')}
           </span>
@@ -63,7 +66,17 @@ export default function Municipalities() {
             style={{ fontSize: 'clamp(32px, 4.5vw, 44px)', fontWeight: 400, color: '#fff' }}
           >
             {t('municipalities.headline.prefix')}{' '}
-            <span style={{ fontStyle: 'italic', color: BLUE }}>
+            <span
+              style={{
+                display: 'inline-block',
+                background: BLUE,
+                color: YELLOW,
+                fontStyle: 'italic',
+                padding: '0 0.18em',
+                lineHeight: 1.0,
+                verticalAlign: 'baseline',
+              }}
+            >
               {t('municipalities.headline.accent')}
             </span>{' '}
             {t('municipalities.headline.suffix')}
@@ -73,11 +86,11 @@ export default function Municipalities() {
             <p
               className="font-data m-0"
               style={{
-                fontSize: 17,
+                fontSize: 20,
                 fontStyle: 'italic',
                 fontWeight: 400,
                 lineHeight: 1.45,
-                color: SOFT,
+                color: '#ffffff',
               }}
             >
               {t('municipalities.tagline.line1')}
@@ -93,7 +106,7 @@ export default function Municipalities() {
           <div className="flex items-baseline gap-4 mb-10 flex-wrap">
             <span
               className="font-mono uppercase font-medium m-0"
-              style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+              style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
             >
               {t('municipalities.offering.kicker')}
             </span>
@@ -125,7 +138,7 @@ export default function Municipalities() {
                   </span>
                   <span
                     className="font-mono uppercase"
-                    style={{ fontSize: 10, letterSpacing: '0.25em', color: FAINT }}
+                    style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
                   >
                     {t(`municipalities.phases.${key}.role`)}
                   </span>
@@ -148,7 +161,7 @@ export default function Municipalities() {
                 {/* duration */}
                 <p
                   className="font-mono uppercase m-0 mb-4"
-                  style={{ fontSize: 10, letterSpacing: '0.25em', color: FAINT }}
+                  style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
                 >
                   {t(`municipalities.phases.${key}.duration`)}
                 </p>
@@ -156,7 +169,7 @@ export default function Municipalities() {
                 {/* description */}
                 <p
                   className="m-0"
-                  style={{ fontSize: 14, lineHeight: 1.6, color: MUTED }}
+                  style={{ fontSize: 17, lineHeight: 1.65, color: '#ffffff' }}
                 >
                   {t(`municipalities.phases.${key}.desc`)}
                 </p>
@@ -182,7 +195,7 @@ export default function Municipalities() {
           {/* card kicker */}
           <span
             className="font-mono uppercase font-medium m-0 block mb-6"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
           >
             {t('municipalities.partner.kicker')}
           </span>
@@ -203,7 +216,7 @@ export default function Municipalities() {
             </h3>
             <span
               className="font-mono uppercase"
-              style={{ fontSize: 10, letterSpacing: '0.3em', color: YELLOW }}
+              style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
             >
               {t('municipalities.partner.tag')}
             </span>
@@ -223,7 +236,7 @@ export default function Municipalities() {
           */}
           <p
             className="font-data m-0"
-            style={{ fontSize: 16, lineHeight: 1.5, color: '#fff' }}
+            style={{ fontSize: 18, lineHeight: 1.55, color: '#fff' }}
           >
             {t('municipalities.partner.description')}
           </p>
@@ -240,7 +253,7 @@ export default function Municipalities() {
               target="_blank"
               rel="noreferrer noopener"
               className="font-mono uppercase mt-6 inline-block transition-opacity hover:opacity-80"
-              style={{ fontSize: 10, letterSpacing: '0.3em', color: YELLOW }}
+              style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
             >
               {t('municipalities.partner.docLink')}
             </a>
@@ -251,7 +264,7 @@ export default function Municipalities() {
         <div className="mb-16">
           <span
             className="font-mono uppercase font-medium m-0 block mb-6"
-            style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+            style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
           >
             {t('municipalities.team.kicker')}
           </span>
@@ -277,7 +290,7 @@ export default function Municipalities() {
             */}
             <p
               className="m-0"
-              style={{ fontSize: 14, lineHeight: 1.7, color: SOFT }}
+              style={{ fontSize: 17, lineHeight: 1.7, color: '#ffffff' }}
             >
               {t('municipalities.team.description')}
             </p>
@@ -297,7 +310,7 @@ export default function Municipalities() {
               background: BLUE,
               color: '#fff',
               padding: '1.5rem',
-              fontSize: 16,
+              fontSize: 17,
               fontWeight: 500,
             }}
           >
@@ -312,7 +325,7 @@ export default function Municipalities() {
                 target="_blank"
                 rel="noreferrer noopener"
                 className="font-mono uppercase inline-block transition-opacity hover:opacity-80"
-                style={{ fontSize: 11, letterSpacing: '0.3em', color: YELLOW }}
+                style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: YELLOW }}
               >
                 {t('municipalities.cta.secondary')}
               </a>
@@ -320,7 +333,7 @@ export default function Municipalities() {
               <span
                 className="font-mono uppercase inline-block cursor-not-allowed select-none"
                 aria-disabled="true"
-                style={{ fontSize: 11, letterSpacing: '0.3em', color: FAINT }}
+                style={{ fontSize: 12, letterSpacing: '0.2em', fontWeight: 500, color: '#ffffff' }}
               >
                 {t('municipalities.cta.secondary')}
               </span>
