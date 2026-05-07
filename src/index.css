@@ -1274,3 +1274,16 @@
   text-transform: uppercase;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
 }
+
+/* Atlas-style country label — tracked uppercase, faint white. Sits on
+   land, anchors the cluster geographically (PORTUGAL / ESPAÑA). */
+.bs-map-label-country {
+  font-family: var(--font-data);
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+}

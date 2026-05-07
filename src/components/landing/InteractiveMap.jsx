@@ -6,11 +6,12 @@ import L from 'leaflet';
 import { Search, X, ArrowRight, RotateCcw, GitCompare, Shield } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
-// Wider bounds so Atlantic ocean and Iberian context are visible alongside
-// the AMP cluster — not just a tight crop of the freguesias.
-const PORTO_BOUNDS = [[40.80, -9.85], [41.55, -7.85]];
-const PORTO_CENTER = [41.155, -8.85];
-const PORTO_ZOOM = 10;
+// Wider bounds so the Atlantic AND a meaningful slice of Spain are
+// both visible alongside the AMP cluster — needed so PORTUGAL and
+// ESPAÑA labels can sit on their respective land masses, atlas-style.
+const PORTO_BOUNDS = [[40.55, -9.65], [41.60, -6.40]];
+const PORTO_CENTER = [41.10, -8.00];
+const PORTO_ZOOM = 9;
 
 // CARTO Dark Matter no-labels — gives subtle urban features (cities,
 // roads) without competing labels. Tile layer underpins the editorial
@@ -117,44 +118,53 @@ function convexHull(points) {
 }
 
 // Cartographic labels via Leaflet divIcon — non-interactive, styled in
-// index.css under .bs-map-label-{ocean,porto}.
-const OCEAN_LABEL_ICON = L.divIcon({
+// index.css under .bs-map-label-{ocean,porto}. Built per render so they
+// follow the active i18n locale.
+const escapeHtml = (s) => String(s || '').replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+));
+const buildOceanIcon = (label) => L.divIcon({
   className: '',
-  html: '<span class="bs-map-label bs-map-label-ocean">OCEANO ATLÂNTICO</span>',
-  iconSize: [200, 24],
-  iconAnchor: [100, 12],
+  html: `<span class="bs-map-label bs-map-label-ocean">${escapeHtml(String(label).toUpperCase())}</span>`,
+  iconSize: [220, 24],
+  iconAnchor: [110, 12],
 });
-const PORTO_LABEL_ICON = L.divIcon({
+// Atlas-style country label — tracked uppercase, faint white. Used for
+// PORTUGAL and ESPAÑA so the eye anchors the cluster geographically.
+// "PORTO" as a city label is gone (the cluster + halo already say it).
+const buildCountryIcon = (label) => L.divIcon({
   className: '',
-  html: '<span class="bs-map-label bs-map-label-porto">PORTO</span>',
-  iconSize: [180, 50],
-  iconAnchor: [90, 25],
+  html: `<span class="bs-map-label bs-map-label-country">${escapeHtml(String(label).toUpperCase())}</span>`,
+  iconSize: [240, 32],
+  iconAnchor: [120, 16],
 });
-const OCEAN_LABEL_POS = [41.10, -9.55];
-const PORTO_LABEL_POS = [41.55, -8.20];
+const OCEAN_LABEL_POS    = [40.95, -9.30];
+const PORTUGAL_LABEL_POS = [40.75, -8.30];   // SW of cluster, on Portuguese land
+const SPAIN_LABEL_POS    = [41.20, -7.10];   // east of border, Spanish side
 
 const norm = (s) => (s || '').toString().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const fmt = (n) => (n == null || Number.isNaN(n) ? '—' : Number(n).toLocaleString('pt-PT'));
 
 // --- Skeleton --------------------------------------------------------------
-function Skeleton() {
+function Skeleton({ label }) {
   return (
     <div className="absolute inset-0 grid place-items-center pointer-events-none z-[300] bg-background">
       <div className="font-mono text-[13px] uppercase tracking-[0.18em] text-foreground/85 animate-pulse">
-        A carregar geometria CAOP…
+        {label}
       </div>
     </div>
   );
 }
 
 // --- Reset / Compare buttons ----------------------------------------------
-function MapButtons({ onReset, onClearCompare, hasCompare }) {
+function MapButtons({ onReset, onClearCompare, hasCompare, resetLabel, exitCompareLabel }) {
   return (
     <div className="absolute bottom-32 right-4 z-[400] flex flex-col gap-2">
       {hasCompare && (
         <button
           onClick={onClearCompare}
-          title="Sair da comparação"
+          title={exitCompareLabel}
+          aria-label={exitCompareLabel}
           className="w-9 h-9 grid place-items-center bg-background/90 backdrop-blur border border-border text-foreground hover:text-primary hover:border-primary transition-colors"
         >
           <GitCompare className="w-4 h-4" />
@@ -162,7 +172,8 @@ function MapButtons({ onReset, onClearCompare, hasCompare }) {
       )}
       <button
         onClick={onReset}
-        title="Reset"
+        title={resetLabel}
+        aria-label={resetLabel}
         className="w-9 h-9 grid place-items-center bg-background/90 backdrop-blur border border-border text-foreground hover:text-foreground hover:border-foreground transition-colors"
       >
         <RotateCcw className="w-4 h-4" />
@@ -244,8 +255,11 @@ function StatRow({ label, value, unit }) {
 }
 
 // --- Brasão (heraldic shield) — image with skeleton + onError fallback ----
-function Brasao({ src, name, dicofre }) {
+function Brasao({ src, name, dicofre, t }) {
   const [status, setStatus] = useState(src ? 'loading' : 'missing');
+
+  // {0}-style placeholder substitution for the i18n strings
+  const fmtName = (key) => String((t && t(key)) || '').replace('{0}', name);
 
   if (!src || status === 'missing') {
     // Elegant fallback: outlined Shield icon + DICOFRE in mono
@@ -253,7 +267,7 @@ function Brasao({ src, name, dicofre }) {
       <div
         className="group w-[120px] h-[120px] mx-auto mb-2 flex flex-col items-center justify-center transition-transform duration-200 hover:scale-[1.05]"
         style={{ padding: 16 }}
-        aria-label={`Brasão de ${name} — em falta`}
+        aria-label={fmtName('map.brasaoMissingAria')}
       >
         <Shield
           className="w-10 h-10 text-foreground"
@@ -290,7 +304,7 @@ function Brasao({ src, name, dicofre }) {
       )}
       <img
         src={src}
-        alt={`Brasão de ${name}`}
+        alt={fmtName('map.brasaoAlt')}
         loading="lazy"
         decoding="async"
         className="relative w-full h-full object-contain"
@@ -307,7 +321,7 @@ function Brasao({ src, name, dicofre }) {
 }
 
 // --- Side panel for one freguesia ----------------------------------------
-function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
+function FreguesiaPanel({ feature, onClose, label, brasoesMap, t }) {
   if (!feature) return null;
   const p = feature.properties;
   const verdePerHab = p.populacao > 0 ? Math.round((p.area_verde_m2 || 0) / p.populacao) : null;
@@ -323,7 +337,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
           </div>
           <button
             onClick={onClose}
-            aria-label="Fechar"
+            aria-label={t('map.tooltip.close')}
             className="p-1 -mr-1 -mt-1 text-foreground hover:text-primary transition-colors"
           >
             <X className="w-5 h-5" />
@@ -334,7 +348,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
           {p.nome}
         </h3>
 
-        <Brasao src={brasaoSrc} name={p.nome} dicofre={p.dicofre} />
+        <Brasao src={brasaoSrc} name={p.nome} dicofre={p.dicofre} t={t} />
 
         {brasaoEntry?.attribution && (
           <p className="text-center font-mono text-[13px] uppercase tracking-[0.18em] text-foreground mb-6">
@@ -344,19 +358,19 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
         {!brasaoEntry?.attribution && <div className="mb-6" />}
 
         <div className="space-y-0 mb-8">
-          <StatRow label="População" value={fmt(p.populacao)} />
-          <StatRow label="Área" value={fmt(p.area_km2)} unit="km²" />
-          <StatRow label="Densidade" value={fmt(p.densidade)} unit="hab/km²" />
-          <StatRow label="Escolas" value={fmt(p.num_escolas)} />
-          <StatRow label="Área verde" value={fmt(p.area_verde_m2)} unit="m²" />
-          <StatRow label="m² verde / hab" value={fmt(verdePerHab)} unit="m²" />
-          <StatRow label="Comboios ativos" value={fmt(p.comboios_ativos)} />
+          <StatRow label={t('map.panel.stats.populacao')} value={fmt(p.populacao)} />
+          <StatRow label={t('map.panel.stats.area')} value={fmt(p.area_km2)} unit="km²" />
+          <StatRow label={t('map.panel.stats.densidade')} value={fmt(p.densidade)} unit={t('map.panel.stats.densidadeUnit')} />
+          <StatRow label={t('map.panel.stats.escolas')} value={fmt(p.num_escolas)} />
+          <StatRow label={t('map.panel.stats.areaVerde')} value={fmt(p.area_verde_m2)} unit="m²" />
+          <StatRow label={t('map.panel.stats.verdePerHab')} value={fmt(verdePerHab)} unit="m²" />
+          <StatRow label={t('map.panel.stats.comboios')} value={fmt(p.comboios_ativos)} />
         </div>
 
         {p.jf_nome && (
           <div className="border-t border-border pt-6 mb-6">
             <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mb-2">
-              Junta de freguesia
+              {t('map.panel.junta')}
             </div>
             <div className="font-display text-base font-black tracking-tightest text-foreground mb-1 leading-tight">
               {p.jf_nome}
@@ -384,7 +398,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
 
         <div className="border-t border-border pt-6 mb-6">
           <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mb-2">
-            Câmara municipal
+            {t('map.panel.camara')}
           </div>
           <div className="font-display text-base font-black tracking-tightest text-foreground mb-1">
             {p.camara_nome || '—'}
@@ -405,7 +419,7 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
               href={`mailto:${p.jf_email}`}
               className="w-full inline-flex items-center justify-between px-5 py-4 text-[13px] font-mono uppercase tracking-[0.18em] bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
-              Contactar junta <ArrowRight className="w-4 h-4" />
+              {t('map.panel.contactJunta')} <ArrowRight className="w-4 h-4" />
             </a>
           )}
           {p.camara_url && (
@@ -415,19 +429,19 @@ function FreguesiaPanel({ feature, onClose, label, brasoesMap }) {
               rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-between px-5 py-4 text-[13px] font-mono uppercase tracking-[0.18em] border border-foreground/25 text-foreground hover:bg-foreground/5 transition-colors"
             >
-              Contactar câmara <ArrowRight className="w-4 h-4" />
+              {t('map.panel.contactCamara')} <ArrowRight className="w-4 h-4" />
             </a>
           )}
           <button className="w-full inline-flex items-center justify-between px-5 py-4 text-[13px] font-mono uppercase tracking-[0.18em] border border-foreground/25 text-foreground hover:bg-foreground/5 transition-colors">
-            Propostas para esta freguesia <ArrowRight className="w-4 h-4" />
+            {t('map.panel.proposals')} <ArrowRight className="w-4 h-4" />
           </button>
         </div>
 
         {p._todo && p._todo.length > 0 && (
           <div className="mt-8 pt-6 border-t border-border/40 text-[13px] font-mono text-foreground leading-relaxed">
-            <div className="uppercase tracking-[0.18em] mb-1.5 text-foreground/85">Dados em desenvolvimento</div>
+            <div className="uppercase tracking-[0.18em] mb-1.5 text-foreground/85">{t('map.panel.todoLabel')}</div>
             <ul className="space-y-1">
-              {p._todo.map((t, i) => <li key={i}>· {t}</li>)}
+              {p._todo.map((todoItem, i) => <li key={i}>· {todoItem}</li>)}
             </ul>
           </div>
         )}
@@ -514,6 +528,11 @@ export default function InteractiveMap() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [resetTick, setResetTick] = useState(0);
   const [flyTarget, setFlyTarget] = useState(null);
+
+  // Localized cartographic label icons — rebuilt when locale changes
+  const oceanIcon    = useMemo(() => buildOceanIcon(t('map.labels.ocean')), [t]);
+  const portugalIcon = useMemo(() => buildCountryIcon('Portugal'), []);
+  const spainIcon    = useMemo(() => buildCountryIcon('España'),  []);
 
   useEffect(() => {
     let cancelled = false;
@@ -624,23 +643,22 @@ export default function InteractiveMap() {
     <section id="map" ref={sectionRef} className="reveal-section bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-6">
         <span className="font-mono text-[13px] tracking-[0.18em] font-medium uppercase text-accent">
-          05 — {t('map.title') || 'Mapa'}
+          05 — {t('map.title')}
         </span>
         <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black mt-3 tracking-tightest text-foreground max-w-3xl">
-          A cidade <i>vista</i> por freguesia.
+          {t('map.headline.pre')}<i>{t('map.headline.accent')}</i>{t('map.headline.post')}
         </h2>
         <p className="text-foreground text-base sm:text-lg max-w-2xl mt-4 font-body leading-relaxed">
-          {t('map.subtitle') || 'Explora a Grande Área Metropolitana do Porto.'}
-          {' '}Clica numa freguesia para ver os dados. Numa segunda para comparar.
+          {t('map.subtitle')}
         </p>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative w-full h-[60vh] min-h-[420px] max-h-[640px] bg-background border border-border overflow-hidden">
-        {loading && <Skeleton />}
+        {loading && <Skeleton label={t('map.skeleton')} />}
         {error && (
           <div className="absolute inset-0 grid place-items-center text-foreground/95 font-mono text-sm z-[400]">
-            Erro a carregar dados: {error}
+            {t('map.errorPrefix')} {error}
           </div>
         )}
 
@@ -681,29 +699,40 @@ export default function InteractiveMap() {
 
             <FreguesiasLayer data={geojson} onClick={handleClick} selectedDicofres={selectedDicofres} />
 
-            {/* AMP halo — single white perimeter around the cluster */}
+            {/* AMP halo — subtle white hairline around the cluster.
+                Was reading as a "cage" / frame; thinned + faded so it
+                feels like a cartographic edge instead. */}
             {ampHullLatLng && (
               <Polyline
                 positions={ampHullLatLng}
                 pathOptions={{
                   color: '#ffffff',
-                  weight: 1,
-                  opacity: 0.65,
+                  weight: 0.75,
+                  opacity: 0.28,
                   interactive: false,
                 }}
               />
             )}
 
-            {/* Cartographic labels */}
+            {/* Cartographic labels — atlas-style country names + ocean.
+                The cluster + halo say "this is Porto"; the country
+                labels do the geography ("we're in Portugal, that's
+                Spain"). */}
             <Marker
               position={OCEAN_LABEL_POS}
-              icon={OCEAN_LABEL_ICON}
+              icon={oceanIcon}
               interactive={false}
               keyboard={false}
             />
             <Marker
-              position={PORTO_LABEL_POS}
-              icon={PORTO_LABEL_ICON}
+              position={PORTUGAL_LABEL_POS}
+              icon={portugalIcon}
+              interactive={false}
+              keyboard={false}
+            />
+            <Marker
+              position={SPAIN_LABEL_POS}
+              icon={spainIcon}
               interactive={false}
               keyboard={false}
             />
@@ -726,7 +755,7 @@ export default function InteractiveMap() {
               onChange={(e) => { setSearch(e.target.value); setSearchOpen(true); }}
               onFocus={() => setSearchOpen(true)}
               onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
-              placeholder="Buscar freguesia…"
+              placeholder={t('map.searchPlaceholder')}
               className="w-full pl-9 pr-3 py-2.5 text-[13px] font-mono uppercase tracking-[0.18em] bg-background/95 backdrop-blur border border-border text-foreground placeholder:text-foreground/85 focus:outline-none focus:border-primary"
             />
           </div>
@@ -751,41 +780,43 @@ export default function InteractiveMap() {
           )}
           {searchOpen && search.trim() && matches.length === 0 && (
             <div className="mt-1 bg-background/95 backdrop-blur border border-border px-3 py-2.5 text-[13px] font-mono uppercase tracking-[0.18em] text-foreground/85">
-              Sem resultados
+              {t('map.noResults')}
             </div>
           )}
         </div>
 
         <MapButtons
-          onReset={() => setResetTick(t => t + 1)}
+          onReset={() => setResetTick(prev => prev + 1)}
           onClearCompare={() => setSelectedB(null)}
           hasCompare={compareOpen}
+          resetLabel={t('map.controls.reset')}
+          exitCompareLabel={t('map.controls.exitCompare')}
         />
 
         {/* Legend */}
         {stats && (
           <div className="absolute bottom-4 left-4 z-[400] bg-background/85 backdrop-blur border border-border p-4 w-[280px] sm:w-[320px]">
             <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-accent mb-3">
-              Greater Porto
+              {t('map.legend.region')}
             </div>
             <div className="grid grid-cols-3 gap-3">
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {stats.freguesias}
                 </div>
-                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">Freguesias</div>
+                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">{t('map.legend.parishes')}</div>
               </div>
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {stats.municipios}
                 </div>
-                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">Municípios</div>
+                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">{t('map.legend.municipalities')}</div>
               </div>
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {(stats.populacao / 1e6).toFixed(2)}M
                 </div>
-                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">Habitantes</div>
+                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">{t('map.legend.inhabitants')}</div>
               </div>
             </div>
           </div>
@@ -802,11 +833,11 @@ export default function InteractiveMap() {
               className={`fixed lg:absolute z-[500] left-0 right-0 bottom-0 lg:left-auto lg:top-0 h-[80vh] lg:h-full ${compareOpen ? 'lg:w-[840px]' : 'lg:w-[420px]'} w-full bg-background border-t lg:border-t-0 lg:border-l border-border animate-fade-in-up flex flex-row overflow-hidden`}
             >
               <div className="w-full lg:w-[420px] h-full overflow-hidden">
-                <FreguesiaPanel feature={selectedA} onClose={closePanelA} label="Freguesia A" brasoesMap={brasoesMap} />
+                <FreguesiaPanel feature={selectedA} onClose={closePanelA} label={t('map.slot.a')} brasoesMap={brasoesMap} t={t} />
               </div>
               {compareOpen && (
                 <div className="hidden lg:block lg:w-[420px] h-full overflow-hidden border-l border-border">
-                  <FreguesiaPanel feature={selectedB} onClose={() => setSelectedB(null)} label="Freguesia B" brasoesMap={brasoesMap} />
+                  <FreguesiaPanel feature={selectedB} onClose={() => setSelectedB(null)} label={t('map.slot.b')} brasoesMap={brasoesMap} t={t} />
                 </div>
               )}
             </div>
@@ -817,21 +848,20 @@ export default function InteractiveMap() {
         {/* Source attribution + scroll hint — sits below the map, breathes ~70px */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pt-5 pb-10">
           <p className="text-[13px] font-mono uppercase tracking-[0.18em] text-foreground leading-relaxed max-w-3xl">
-            Geometria CAOP via GeoAPI.pt &middot; População: INE 2021 (parcial) + estimativas por densidade municipal &middot;
-            Brasões: Wikipedia / Wikimedia Commons &middot; juntas de freguesia &middot; Heráldica de Portugal &middot; direitos dos respetivos detentores.
+            {t('map.attribution')}
           </p>
           <div className="hidden sm:flex items-center gap-2 text-foreground font-mono text-[13px] uppercase tracking-[0.4em]">
-            <span>⌘ + scroll para zoom</span>
+            <span>{t('map.zoomHint')}</span>
           </div>
         </div>
 
         {/* Scroll hint — invites the user to continue past the map */}
         <a
           href="#bikeBus"
-          aria-label="Continuar para a próxima secção"
+          aria-label={t('map.continueAria')}
           className="scroll-indicator flex flex-col items-center gap-1 pb-8 text-foreground hover:text-foreground transition-colors"
         >
-          <span className="font-mono text-[13px] uppercase tracking-[0.5em]">Continuar</span>
+          <span className="font-mono text-[13px] uppercase tracking-[0.5em]">{t('map.continue')}</span>
           <span aria-hidden="true" className="text-base leading-none">↓</span>
         </a>
       </div>
