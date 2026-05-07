@@ -6,12 +6,13 @@ import L from 'leaflet';
 import { Search, X, ArrowRight, RotateCcw, GitCompare, Shield } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
-// Wider bounds so the Atlantic AND a meaningful slice of Spain are
-// both visible alongside the AMP cluster — needed so PORTUGAL and
-// ESPAÑA labels can sit on their respective land masses, atlas-style.
-const PORTO_BOUNDS = [[40.55, -9.65], [41.60, -6.40]];
-const PORTO_CENTER = [41.10, -8.00];
-const PORTO_ZOOM = 9;
+// Bounds expanded south so the country reads like a country (Google
+// places the "Portugal" label around lat 39.5 — we widen far enough
+// to host the label near that geographic center while keeping the
+// AMP cluster anchored in the upper third of the frame).
+const PORTO_BOUNDS = [[39.30, -9.85], [41.70, -6.30]];
+const PORTO_CENTER = [40.50, -8.10];
+const PORTO_ZOOM = 8;
 
 // CARTO Dark Matter no-labels — gives subtle urban features (cities,
 // roads) without competing labels. Tile layer underpins the editorial
@@ -30,11 +31,11 @@ const TILE_ATTR =
 //      can place Porto inside Portugal vs the surrounding peninsula.
 //   4. Freguesias (intact)
 //   5. AMP halo + cartographic labels (Porto / Oceano Atlântico)
-// Brighter midnight blue — the previous #0a1929 was too close to
-// obsidian to read as water. This sits in the Economist / Bloomberg
-// dark-map range: present, evidently blue, still respectful of the
-// dark theme.
-const NAVY_OCEAN = '#0e2e5e';
+// Saturated water blue — the previous #0e2e5e still read as "dark
+// theme detail". This is closer to a Google-Maps-style ocean: clearly
+// reads as water at a glance, just darker so the editorial composition
+// holds.
+const NAVY_OCEAN = '#1f6dc8';
 
 // Simplified Iberian Peninsula outline (~37 vertices, [lng, lat]).
 // Used as the HOLE in the ocean donut. Low res by design.
@@ -142,9 +143,9 @@ const buildCountryIcon = (label) => L.divIcon({
   iconSize: [240, 32],
   iconAnchor: [120, 16],
 });
-const OCEAN_LABEL_POS    = [40.95, -9.30];
-const PORTUGAL_LABEL_POS = [40.75, -8.30];   // SW of cluster, on Portuguese land
-const SPAIN_LABEL_POS    = [41.20, -7.10];   // east of border, Spanish side
+const OCEAN_LABEL_POS    = [40.30, -9.40];
+const PORTUGAL_LABEL_POS = [39.80, -8.15];   // Google-style geographic center
+const SPAIN_LABEL_POS    = [41.20, -7.10];   // (kept for future revival)
 
 const norm = (s) => (s || '').toString().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const fmt = (n) => (n == null || Number.isNaN(n) ? '—' : Number(n).toLocaleString('pt-PT'));
@@ -702,20 +703,10 @@ export default function InteractiveMap() {
 
             <FreguesiasLayer data={geojson} onClick={handleClick} selectedDicofres={selectedDicofres} />
 
-            {/* AMP halo — subtle white hairline around the cluster.
-                Was reading as a "cage" / frame; thinned + faded so it
-                feels like a cartographic edge instead. */}
-            {ampHullLatLng && (
-              <Polyline
-                positions={ampHullLatLng}
-                pathOptions={{
-                  color: '#ffffff',
-                  weight: 0.75,
-                  opacity: 0.28,
-                  interactive: false,
-                }}
-              />
-            )}
+            {/* AMP halo removed — the colored cluster reads as Porto
+                on its own; the halo was always going to feel like a
+                frame around it. Convex-hull computation kept above in
+                case we ever want to revive a different treatment. */}
 
             {/* Cartographic labels — atlas-style country names + ocean.
                 The cluster + halo say "this is Porto"; the country
