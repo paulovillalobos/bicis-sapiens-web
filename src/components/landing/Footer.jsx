@@ -81,13 +81,13 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-base text-background/85 max-w-xs leading-relaxed">
-              Movimento cívico para uma cidade 100% amiga da bicicleta.
+              {t('footer.tagline')}
             </p>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">Contacto</h4>
+            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">{t('footer.contactHeading')}</h4>
             <div className="space-y-2">
               <a href="mailto:hola@bicisapiens.org" className="flex items-center gap-2 text-base text-background/90 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" /> hola@bicisapiens.org
@@ -97,7 +97,7 @@ export default function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">Social</h4>
+            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">{t('footer.socialHeading')}</h4>
             <div className="space-y-2 text-base text-background/90">
               <a href="#" className="block hover:text-primary transition-colors">Instagram</a>
               <a href="#" className="block hover:text-primary transition-colors">Twitter / X</a>
@@ -108,7 +108,7 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">Legal</h4>
+            <h4 className="font-display text-base font-black tracking-tightest text-background mb-4">{t('footer.legalHeading')}</h4>
             <div className="space-y-2 text-base text-background/90">
               <a href="#" className="block hover:text-primary transition-colors">{t('footer.privacy')}</a>
               <a href="#" className="block hover:text-primary transition-colors">{t('footer.cookies')}</a>
@@ -119,7 +119,7 @@ export default function Footer() {
 
         <div className="border-t border-background/15 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[13px] text-background/85 font-mono font-medium">
-            © {new Date().getFullYear()} Bicis Sapiens. {t('footer.made')} <Heart className="w-3 h-3 inline text-destructive" /> no Porto.
+            © {new Date().getFullYear()} Bicis Sapiens. {t('footer.madeWith')} <Heart className="w-3 h-3 inline text-destructive" /> {t('footer.madeIn')}.
           </p>
           <p className="text-[13px] text-background/85 font-mono font-medium">bicisapiens.org</p>
         </div>
