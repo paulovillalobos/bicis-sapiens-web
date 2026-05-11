@@ -42,7 +42,7 @@ export default function Support() {
             style={{ fontSize: 'clamp(32px, 4vw, 44px)' }}
           >
             {t('support.headline.pre')}
-            <em className="italic font-normal" style={{ color: '#5b8e3a' }}>
+            <em className="italic font-normal" style={{ color: '#B8E835' }}>
               {t('support.headline.accent')}
             </em>
             {t('support.headline.post')}
@@ -96,13 +96,13 @@ export default function Support() {
                 padding: '1.25rem 1.5rem',
                 fontSize: 16,
                 fontWeight: 500,
-                background: '#5b8e3a',
+                background: '#B8E835',
                 color: '#ffffff',
                 borderRadius: 4,
                 textDecoration: 'none',
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = '#4a7c2e'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = '#5b8e3a'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#A0CC20'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = '#B8E835'; }}
             >
               {t('support.volunteer.cta')} <span aria-hidden="true">→</span>
             </a>

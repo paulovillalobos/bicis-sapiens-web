@@ -6,7 +6,7 @@ import { isSupabaseConfigured } from '@/lib/supabaseClient';
 import ForumWordmark from '@/components/landing/ForumWordmark';
 
 const YELLOW = '#d4a017';
-const BLUE   = '#5b8e3a';
+const BLUE   = '#B8E835';
 const FAINT  = '#ffffff';
 const SOFT   = '#ffffff';
 

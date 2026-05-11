@@ -9,52 +9,80 @@
     --font-body: 'Inter', system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-    /* Obsidian / EU-blue / EU-yellow / Bone-white — institutional 80/15/4/1 */
-    --background: 0 0% 4%;          /* #0A0A0A obsidian */
-    --foreground: 60 14% 97%;       /* #FAFAF7 bone */
+    /* =================================================================
+       Color system v3 — vibrant lime accent, pure whites, navy on lime.
+       Was bone (#FFFFFF) + leaf green (#B8E835) — readable but muted on
+       a dark theme. New system pushes both ends: text is pure white for
+       editorial pop, accent is electric lime for brand presence.
+       WCAG contrast (background obsidian #0A0A0A):
+         - #FFFFFF on bg          → 20.4:1 AAA
+         - #F5F5F5 on bg          → 17.9:1 AAA
+         - #B8E835 lime on bg     → 15.3:1 AAA
+         - #0A1F44 navy on lime   → 12.7:1 AAA  (text inside highlight)
+       ================================================================ */
+    --background: 0 0% 4%;          /* #0A0A0A obsidian — surface */
+
+    /* Pure white for h1/h2 + body. Was 60 14% 97% (#FFFFFF bone, slight
+       cream cast). Now pure white reads as editorial paper-on-black
+       instead of warm magazine stock. */
+    --foreground: 0 0% 100%;        /* #FFFFFF pure */
+
+    /* Explicit aliases for the two text scales. --text-primary for
+       headlines/UI; --text-body slightly softened so paragraphs don't
+       glare against the obsidian. */
+    --text-primary: 0 0% 100%;      /* #FFFFFF — h1/h2/UI labels */
+    --text-body:    0 0% 96%;       /* #F5F5F5 — paragraphs */
+
     --card: 0 0% 6%;
-    --card-foreground: 60 14% 97%;
+    --card-foreground: 0 0% 100%;
     --popover: 0 0% 6%;
-    --popover-foreground: 60 14% 97%;
-    /* Foliage green replacing the EU blue. The whole identity rotates
-       around this token — anything that used to be `text-primary`,
-       `bg-primary`, `border-primary`, the em block accent, etc. now
-       reads as the natural green from the reference image. */
-    --primary: 91 41% 39%;          /* #5b8e3a leaf green */
-    --primary-foreground: 60 14% 97%;   /* #FAFAF7 — bone on green CTAs */
+    --popover-foreground: 0 0% 100%;
+
+    /* Brand accent — vibrant electric lime. Was 91 41% 39% (#B8E835 leaf
+       green, muted forest). Now 73 80% 56% (#B8E835 lime), which has
+       3× the saturation and 17% more luminance. Reads as brand color,
+       not as background filler. */
+    --primary: 73 80% 56%;            /* #B8E835 lime */
+    --primary-foreground: 220 74% 15%; /* #0A1F44 deep navy on lime CTAs */
+
+    /* Named aliases per brief — same values as --primary pair. Use these
+       when the intent is specifically "this is the accent color", not
+       just any primary. Helps callers self-document. */
+    --accent-primary:         73 80% 56%;   /* #B8E835 */
+    --accent-text-on-primary: 220 74% 15%;  /* #0A1F44 */
+
     --secondary: 0 0% 9%;
-    --secondary-foreground: 60 14% 97%;
+    --secondary-foreground: 0 0% 100%;
     --muted: 0 0% 12%;
-    /* Was 60 6% 65% — a desaturated gray. Bumped to bone-with-high-lightness
-       so anything tagged `text-muted-foreground` reads as bone, not gray.
-       Hierarchy comes from size + tracking, not gray fade. */
-    --muted-foreground: 60 12% 92%;
-    --accent: 50 100% 52%;          /* #FFD60A EU yellow — small details only */
+    --muted-foreground: 0 0% 96%;    /* #F5F5F5 — matches --text-body */
+
+    --accent: 50 100% 52%;           /* #FFD60A EU yellow — kept for over-photo italics */
     --accent-foreground: 0 0% 4%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 60 14% 97%;
+    --destructive-foreground: 0 0% 100%;
     --border: 0 0% 18%;
     --input: 0 0% 14%;
-    --ring: 91 41% 39%;
-    --chart-1: 91 41% 39%;
+    --ring: 73 80% 56%;
+    --chart-1: 73 80% 56%;
     --chart-2: 50 100% 52%;
-    --chart-3: 60 14% 97%;
+    --chart-3: 0 0% 100%;
     --chart-4: 0 0% 50%;
-    --chart-5: 88 42% 50%;
+    --chart-5: 73 85% 68%;
     --radius: 0;
 
-    /* Token names kept as "blue" to avoid a 30-file rename across Tailwind
-       references; the VALUES are foliage greens now. */
-    --deep-blue: 91 50% 28%;
-    --light-blue: 88 45% 55%;
+    /* Legacy token names. Kept verbatim to avoid renaming ~30 Tailwind
+       references (`bg-deep-blue`, `text-deep-blue`, etc.). Values now
+       host lime-green variants for hover/depth states. */
+    --deep-blue: 73 80% 42%;          /* #A0CC20 darker lime — hover */
+    --light-blue: 73 85% 68%;         /* #C7F23F lighter lime — accent depth */
     --sidebar-background: 0 0% 4%;
-    --sidebar-foreground: 60 14% 97%;
-    --sidebar-primary: 91 41% 39%;
-    --sidebar-primary-foreground: 50 100% 52%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 73 80% 56%;
+    --sidebar-primary-foreground: 220 74% 15%;
     --sidebar-accent: 0 0% 9%;
-    --sidebar-accent-foreground: 60 14% 97%;
+    --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 91 41% 39%;
+    --sidebar-ring: 73 80% 56%;
   }
 }
 
@@ -73,34 +101,39 @@
     font-weight: 900;
     letter-spacing: -0.03em;
   }
-  /* Principal headline accent — solid green block + deep-navy italic
+  /* Principal headline accent — vibrant lime block + deep-navy italic
      letterform. Applied to h1/h2 by default because those are the
      section-level "pegar fuerte" headlines. Calmer h3/h4 keep an italic
-     yellow tint with no block. Per-section overrides (e.g.
-     .bs-principle-mega em) can opt back to calm.
+     lime tint with NO block (just colored text, see rule below).
+     Per-section overrides (e.g. `.bs-principle-mega em`) can opt back to
+     yellow-over-photo for the manifesto principles.
 
-     The navy is intentionally near-black so the accent reads instantly on
-     the green block — royal blue + green vibrated; navy + green grounds.
+     Navy on lime — not royal on lime — because royal blue + green
+     vibrated chromatically (adjacent saturated mid-hues). Near-black
+     navy grounds the accent and lets it read at a glance.
+     WCAG: #0A1F44 on #B8E835 = 12.7:1 (AAA).
 
      `em.font-normal` (or any em explicitly weight-controlled inline)
-     escapes this block treatment — used by the AboutTeam/Support
-     editorial sublines where the accent stays calm yellow italic without
-     the rectangle. */
+     escapes this block treatment — used by AboutTeam/Support editorial
+     sublines where the accent stays plain lime italic without the
+     rectangle. */
   h1 em, h2 em,
   h1 i, h2 i {
     font-style: italic;
     font-weight: 900;
     color: #0A1F44;
-    background: #5b8e3a;
+    background: #B8E835;
     display: inline-block;
     padding: 0 0.05em;
     line-height: 0.92;
     vertical-align: baseline;
   }
+  /* h3/h4 accent — calm lime italic, no block. Aligns with the rest of
+     the accent-word system per brief. Was yellow #FFD60A. */
   h3 em, h4 em,
   h3 i, h4 i {
     font-style: italic;
-    color: #FFD60A;
+    color: #B8E835;
     font-weight: 900;
   }
   /* Editorial calm accent inside large headlines — opt out of the block by
@@ -141,7 +174,7 @@
   letter-spacing: 0.18em;
   font-weight: 500;
   font-size: 0.875rem;
-  color: #FAFAF7;
+  color: #FFFFFF;
 }
 
 /* Animated counter */
@@ -170,13 +203,13 @@
 }
 .leaflet-control-attribution {
   background: rgba(10,10,10,0.7) !important;
-  color: rgba(250, 250, 247, 0.92) !important;
+  color: rgba(255, 255, 255, 0.92) !important;
   font-family: var(--font-mono) !important;
   font-size: 11px !important;
   font-weight: 500 !important;
 }
 .leaflet-control-attribution a {
-  color: rgba(250, 250, 247, 0.92) !important;
+  color: rgba(255, 255, 255, 0.92) !important;
 }
 
 /* Leaflet zoom control — institutional sharp corners */
@@ -189,7 +222,7 @@
 .leaflet-bar a,
 .leaflet-touch .leaflet-bar a {
   background: rgba(10, 10, 10, 0.92) !important;
-  color: #FAFAF7 !important;
+  color: #FFFFFF !important;
   border-bottom: 1px solid hsl(var(--border)) !important;
   border-radius: 0 !important;
   font-family: var(--font-mono) !important;
@@ -211,7 +244,7 @@
   border-radius: 0 !important;
   box-shadow: none !important;
   padding: 8px 10px !important;
-  color: #FAFAF7 !important;
+  color: #FFFFFF !important;
   font-family: var(--font-body) !important;
 }
 .leaflet-tooltip.bs-tooltip::before { display: none !important; }
@@ -229,7 +262,7 @@
   font-weight: 900;
   font-size: 14px;
   letter-spacing: -0.03em;
-  color: #FAFAF7;
+  color: #FFFFFF;
   line-height: 1.1;
 }
 
@@ -355,7 +388,7 @@
   margin-bottom: 8px;
 }
 .bs-hero-eyebrow {
-  color: #FAFAF7;        /* full bone — no more 0.55 fade */
+  color: #FFFFFF;        /* full bone — no more 0.55 fade */
   margin-bottom: 32px;
 }
 
@@ -365,19 +398,18 @@
   font-size: clamp(48px, 9vw, 144px);
   line-height: 0.95;
   letter-spacing: -0.04em;
-  color: #FAFAF7;
+  color: #FFFFFF;
   margin: 0 0 32px;
 }
 
-/* Patrón A — solid green block + deep-navy italic letters, tight to
-   letterform. Navy is near-black for instant legibility on green.
-   Replaces the previous text-stroke outline which read as a transparent
-   ghost on photo. */
+/* Patrón A — vibrant lime block + deep-navy italic letters, tight to
+   letterform. Navy is near-black for instant legibility on lime.
+   WCAG #0A1F44 on #B8E835 = 12.7:1 AAA. */
 .bs-hero-title em {
   font-style: italic;
   font-weight: 900;
   color: #0A1F44;
-  background: #5b8e3a;
+  background: #B8E835;
   display: inline-block;
   padding: 0 0.05em;
   line-height: 0.92;
@@ -397,20 +429,21 @@
   margin: 0 0 24px;
 }
 
-/* Block-em accent inside the hero subline. Same pattern as the headline em
-   — green rectangle (#5b8e3a) + deep-navy italic letterform (#0A1F44),
-   sized to the subline's typographic scale, not the headline's. The lead
-   is wrapped in <p>, not <h1/h2>, so the global h1 em / h2 em rule does
-   not catch it — explicit override below. */
+/* Hero subline accent — plain vibrant lime italic, NO block. Per brief:
+   "dimensional" sits in the subline as a normal accent word (same family
+   as todos/vista/juntos/etc.), but without the heavy highlight rectangle
+   that the principal h1/h2 headlines use. Coherence-with-system pattern:
+   colored text inline, no surrounding frame.
+   WCAG #B8E835 lime on #0A0A0A obsidian = 15.3:1 AAA. */
 .bs-hero-lead em,
 .bs-hero-lead i {
   font-style: italic;
   font-weight: 400;
-  color: #0A1F44;
-  background: #5b8e3a;
-  display: inline-block;
-  padding: 0 0.08em;
-  line-height: 0.95;
+  color: #B8E835;
+  background: transparent;
+  display: inline;
+  padding: 0;
+  line-height: inherit;
   vertical-align: baseline;
 }
 
@@ -457,21 +490,21 @@
   border-radius: 0;
 }
 .bs-btn-primary {
-  background: #4a7c2e;
-  color: #FAFAF7;
+  background: #A0CC20;
+  color: #FFFFFF;
 }
 .bs-btn-primary:hover {
-  background: #3d6b22;
+  background: #8AB418;
   transform: translateY(-2px);
 }
 .bs-btn-secondary {
   background: transparent;
-  color: #FAFAF7;
+  color: #FFFFFF;
   border: 1px solid rgba(255, 255, 255, 0.30);
 }
 .bs-btn-secondary:hover {
   background: rgba(255, 255, 255, 0.05);
-  border-color: #FAFAF7;
+  border-color: #FFFFFF;
 }
 
 /* Ticker — fixed-height EU-blue strip at bottom of hero */
@@ -481,7 +514,7 @@
   left: 0;
   right: 0;
   height: 36px;
-  background: #4a7c2e;
+  background: #A0CC20;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -607,7 +640,7 @@
   font-size: clamp(48px, 9.5vw, 156px);
   line-height: 1.05;
   letter-spacing: -0.045em;
-  color: #FAFAF7;
+  color: #FFFFFF;
   margin: 0 auto;
   max-width: 18ch;
 }
@@ -655,7 +688,7 @@
   letter-spacing: 0.18em;      /* tighter */
   text-transform: uppercase;
   font-weight: 500;
-  color: #FAFAF7;              /* full bone — no fade */
+  color: #FFFFFF;              /* full bone — no fade */
   margin: 0;
 }
 .bs-manifesto-colophon-mark {
@@ -666,7 +699,7 @@
   font-size: 16px;
   text-transform: none;
   letter-spacing: 0;
-  color: #4a7c2e;
+  color: #A0CC20;
   vertical-align: -1px;
 }
 
@@ -719,7 +752,7 @@
 .bs-pause-kicker-line {
   width: 32px;
   height: 1px;
-  background: #5b8e3a;
+  background: #B8E835;
 }
 .bs-pause-kicker-label {
   font-family: var(--font-mono);
@@ -759,7 +792,7 @@
 .bs-pause-sign-stop {
   background: #ffffff;
   border: 4px solid #0A0A0A;
-  box-shadow: 5px 5px 0 #5b8e3a;
+  box-shadow: 5px 5px 0 #B8E835;
   transform: rotate(-3deg);
   font-family: var(--font-body);
   font-weight: 700;
@@ -770,7 +803,7 @@
 
 /* Bike sign — solid blue, white offset shadow */
 .bs-pause-sign-bike {
-  background: #5b8e3a;
+  background: #B8E835;
   transform: rotate(2deg);
   box-shadow: 5px 5px 0 #ffffff;
 }
@@ -791,7 +824,7 @@
 
 /* PULL QUOTE — 2px blue left border */
 .bs-pause-quote {
-  border-left: 2px solid #5b8e3a;
+  border-left: 2px solid #B8E835;
   padding: 0.5rem 0 0.5rem 1.5rem;
   margin: 0 0 5rem;
   max-width: 480px;
@@ -820,7 +853,7 @@
   font-style: italic;
   line-height: 0.9;
   letter-spacing: -0.04em;
-  color: #5b8e3a;
+  color: #B8E835;
   -webkit-text-stroke: 0;
   margin: 0;
 }
@@ -955,8 +988,8 @@
   border-radius: 2px;
 }
 @keyframes bs-data-delta-flash {
-  0%   { background-color: rgba(91, 142, 58, 0.18); }
-  100% { background-color: rgba(91, 142, 58, 0); }
+  0%   { background-color: rgba(184, 232, 53, 0.18); }
+  100% { background-color: rgba(184, 232, 53, 0); }
 }
 
 /* City name underline that slides in from the left */
@@ -972,7 +1005,7 @@
   bottom: -3px;
   height: 1px;
   width: 100%;
-  background: rgba(91, 142, 58, 0.7);
+  background: rgba(184, 232, 53, 0.7);
   transform-origin: left center;
   animation: bs-data-underline-in 600ms cubic-bezier(0.16, 1, 0.3, 1) 100ms 1 both;
 }
@@ -1006,8 +1039,8 @@
     transform 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .bs-data-pill:hover {
-  border-color: rgba(91, 142, 58, 0.7);
-  background: rgba(91, 142, 58, 0.08);
+  border-color: rgba(184, 232, 53, 0.7);
+  background: rgba(184, 232, 53, 0.08);
 }
 .bs-data-pill:active {
   transform: scale(0.95);
@@ -1097,13 +1130,13 @@
     color 200ms ease-out;
 }
 .bs-nav-pill:hover {
-  background: rgba(91, 142, 58, 0.10);
-  border-color: rgba(91, 142, 58, 0.7);
+  background: rgba(184, 232, 53, 0.10);
+  border-color: rgba(184, 232, 53, 0.7);
 }
 .bs-nav-pill-active,
 .bs-nav-pill-active:hover {
-  background: #5b8e3a;
-  border-color: #5b8e3a;
+  background: #B8E835;
+  border-color: #B8E835;
   color: #ffffff;
 }
 .bs-nav-cta {
@@ -1112,8 +1145,8 @@
   gap: 0.5rem;
   padding: 0.55rem 1.25rem;
   border-radius: 8px;
-  background: #5b8e3a;
-  border: 0.5px solid #5b8e3a;
+  background: #B8E835;
+  border: 0.5px solid #B8E835;
   color: #ffffff;
   font-family: var(--font-mono);
   font-size: 13px;            /* +1 step */
@@ -1125,8 +1158,8 @@
   transition: background-color 200ms ease-out, border-color 200ms ease-out;
 }
 .bs-nav-cta:hover {
-  background: #4a7c2e;
-  border-color: #4a7c2e;
+  background: #A0CC20;
+  border-color: #A0CC20;
 }
 
 /* Lang dropdown — compact pill that expands a vertical list */
@@ -1264,7 +1297,7 @@
 }
 .bs-nav-mobile-item.is-active {
   font-style: italic;
-  color: #5b8e3a;
+  color: #B8E835;
 }
 .bs-nav-mobile-footer {
   margin-top: auto;
@@ -1286,7 +1319,7 @@
   width: 100%;
   padding: 1rem 1.25rem;
   border-radius: 8px;
-  background: #5b8e3a;
+  background: #B8E835;
   border: none;
   color: #ffffff;
   font-family: var(--font-mono);

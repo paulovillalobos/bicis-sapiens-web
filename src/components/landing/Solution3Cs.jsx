@@ -4,7 +4,7 @@ import { useI18n } from '@/lib/i18n';
 // --- Theme tokens (this section uses the same dark editorial palette
 // as §02 — Porto in Numbers — to match the new visual system) ---
 const YELLOW   = '#d4a017';
-const BLUE     = '#5b8e3a';
+const BLUE     = '#B8E835';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
 
 const PILLARS = [

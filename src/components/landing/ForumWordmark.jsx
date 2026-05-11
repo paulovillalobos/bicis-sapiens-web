@@ -25,7 +25,7 @@ export default function ForumWordmark() {
         className="font-display tracking-tightest"
         style={{ fontSize: 17, fontWeight: 900, color: '#fff', lineHeight: 1 }}
       >
-        Bicis <i style={{ color: '#5b8e3a' }}>Sapiens</i>
+        Bicis <i style={{ color: '#B8E835' }}>Sapiens</i>
       </span>
     </Link>
   );

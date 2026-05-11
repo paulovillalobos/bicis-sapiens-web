@@ -43,7 +43,7 @@ export default function AppCTA() {
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background:
-            'radial-gradient(ellipse 60% 65% at 75% 50%, rgba(74, 124, 46, 0.45) 0%, rgba(74, 124, 46, 0.18) 32%, rgba(10, 10, 10, 0) 70%)',
+            'radial-gradient(ellipse 60% 65% at 75% 50%, rgba(160, 204, 32, 0.45) 0%, rgba(160, 204, 32, 0.18) 32%, rgba(10, 10, 10, 0) 70%)',
         }}
       />
 
@@ -66,7 +66,7 @@ export default function AppCTA() {
               <span
                 style={{
                   display: 'inline-block',
-                  background: '#5b8e3a',
+                  background: '#B8E835',
                   color: '#d4a017',
                   fontStyle: 'italic',
                   padding: '0 0.06em',
@@ -279,8 +279,8 @@ function Phone({ t }) {
                   />
 
                   {/* Origin — white circle with halo */}
-                  <circle cx="30" cy="115" r="6.5" fill="none" stroke="#FAFAF7" strokeWidth="0.8" opacity="0.45" />
-                  <circle cx="30" cy="115" r="3.5" fill="#FAFAF7" />
+                  <circle cx="30" cy="115" r="6.5" fill="none" stroke="#FFFFFF" strokeWidth="0.8" opacity="0.45" />
+                  <circle cx="30" cy="115" r="3.5" fill="#FFFFFF" />
 
                   {/* Destination — yellow pin */}
                   <circle cx="170" cy="28" r="5.5" fill="#FFD60A" stroke="#001F66" strokeWidth="1.5" />

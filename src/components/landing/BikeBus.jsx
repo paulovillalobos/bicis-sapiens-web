@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 // --- Theme tokens (same dark editorial system as §02 / §03) ---
 const YELLOW    = '#d4a017';
-const BLUE      = '#5b8e3a';
+const BLUE      = '#B8E835';
 const HAIRLINE  = 'rgba(255, 255, 255, 0.15)';
 const GRID_GAP  = 'rgba(255, 255, 255, 0.08)';
 const SECTION_BG = '#0a0a0a';
