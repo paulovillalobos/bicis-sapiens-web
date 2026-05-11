@@ -73,11 +73,14 @@
     font-weight: 900;
     letter-spacing: -0.03em;
   }
-  /* Principal headline accent — solid green block + royal-blue italic
+  /* Principal headline accent — solid green block + deep-navy italic
      letterform. Applied to h1/h2 by default because those are the
      section-level "pegar fuerte" headlines. Calmer h3/h4 keep an italic
      yellow tint with no block. Per-section overrides (e.g.
      .bs-principle-mega em) can opt back to calm.
+
+     The navy is intentionally near-black so the accent reads instantly on
+     the green block — royal blue + green vibrated; navy + green grounds.
 
      `em.font-normal` (or any em explicitly weight-controlled inline)
      escapes this block treatment — used by the AboutTeam/Support
@@ -87,7 +90,7 @@
   h1 i, h2 i {
     font-style: italic;
     font-weight: 900;
-    color: #1d4ed8;
+    color: #0A1F44;
     background: #5b8e3a;
     display: inline-block;
     padding: 0 0.05em;
@@ -366,13 +369,14 @@
   margin: 0 0 32px;
 }
 
-/* Patrón A — solid green block + royal-blue italic letters, tight to
-   letterform. Replaces the previous text-stroke outline which read as a
-   transparent ghost on photo. */
+/* Patrón A — solid green block + deep-navy italic letters, tight to
+   letterform. Navy is near-black for instant legibility on green.
+   Replaces the previous text-stroke outline which read as a transparent
+   ghost on photo. */
 .bs-hero-title em {
   font-style: italic;
   font-weight: 900;
-  color: #1d4ed8;
+  color: #0A1F44;
   background: #5b8e3a;
   display: inline-block;
   padding: 0 0.05em;
@@ -394,7 +398,7 @@
 }
 
 /* Block-em accent inside the hero subline. Same pattern as the headline em
-   — green rectangle (#5b8e3a) + royal-blue italic letterform (#1d4ed8),
+   — green rectangle (#5b8e3a) + deep-navy italic letterform (#0A1F44),
    sized to the subline's typographic scale, not the headline's. The lead
    is wrapped in <p>, not <h1/h2>, so the global h1 em / h2 em rule does
    not catch it — explicit override below. */
@@ -402,7 +406,7 @@
 .bs-hero-lead i {
   font-style: italic;
   font-weight: 400;
-  color: #1d4ed8;
+  color: #0A1F44;
   background: #5b8e3a;
   display: inline-block;
   padding: 0 0.08em;
