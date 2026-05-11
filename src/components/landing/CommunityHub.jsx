@@ -5,7 +5,7 @@ import { useScrollReveal } from '@/lib/useScrollReveal';
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 
 const YELLOW   = '#d4a017';
-const BLUE     = '#1d4ed8';
+const BLUE     = '#5b8e3a';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
 // "Soft" and "Faint" are no longer gray — per the typo pass we keep
 // secondary text PURE white and lean on size/weight (not opacity) for
@@ -300,7 +300,7 @@ function QuestionCard({ index, total, question, myOptionKey, onVote, t }) {
       style={{
         background: 'rgba(255, 255, 255, 0.04)',
         border: hasVoted
-          ? '0.5px solid rgba(29, 78, 216, 0.4)'
+          ? '0.5px solid rgba(91, 142, 58, 0.4)'
           : '0.5px solid rgba(255, 255, 255, 0.10)',
         borderRadius: 12,
         padding: 'clamp(1.25rem, 3vw, 2rem)',

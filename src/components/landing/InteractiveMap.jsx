@@ -471,7 +471,7 @@ function FreguesiasLayer({ data, onClick, selectedDicofres }) {
       sub.setStyle({
         fillColor: p.cor_principal,
         fillOpacity: 0.6,
-        color: isSelected ? '#003399' : '#FAFAF7',
+        color: isSelected ? '#4a7c2e' : '#FAFAF7',
         weight: isSelected ? 3 : 1.5,
         opacity: 1,
       });
@@ -491,7 +491,7 @@ function FreguesiasLayer({ data, onClick, selectedDicofres }) {
       mouseover: (e) => {
         const p = e.target.feature.properties;
         const sel = selectedRef.current.includes(p.dicofre);
-        e.target.setStyle({ fillOpacity: 0.9, color: '#003399', weight: sel ? 3 : 2 });
+        e.target.setStyle({ fillOpacity: 0.9, color: '#4a7c2e', weight: sel ? 3 : 2 });
         e.target.bringToFront();
       },
       mouseout: (e) => {
@@ -500,7 +500,7 @@ function FreguesiasLayer({ data, onClick, selectedDicofres }) {
         e.target.setStyle({
           fillColor: p.cor_principal,
           fillOpacity: 0.6,
-          color: sel ? '#003399' : '#FAFAF7',
+          color: sel ? '#4a7c2e' : '#FAFAF7',
           weight: sel ? 3 : 1.5,
         });
       },

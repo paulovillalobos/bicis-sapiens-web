@@ -19,7 +19,7 @@ const SHORT_NAMES = { Amsterdam: 'AMS', Paris: 'PAR', Copenhagen: 'CPH' };
 
 // --- Theme tokens ---
 const YELLOW         = '#d4a017';
-const BLUE           = '#1d4ed8';
+const BLUE           = '#5b8e3a';
 const CORAL          = '#b14545';   // Porto WORSE — burgundy/coral, fits palette
 const HAIRLINE       = 'rgba(255, 255, 255, 0.15)';
 const HAIRLINE_SOFT  = 'rgba(255, 255, 255, 0.08)';

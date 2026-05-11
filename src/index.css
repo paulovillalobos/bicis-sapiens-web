@@ -16,8 +16,12 @@
     --card-foreground: 60 14% 97%;
     --popover: 0 0% 6%;
     --popover-foreground: 60 14% 97%;
-    --primary: 225 100% 30%;        /* #003399 EU blue */
-    --primary-foreground: 60 14% 97%;   /* #FAFAF7 — yellow banished from buttons; only in counters */
+    /* Foliage green replacing the EU blue. The whole identity rotates
+       around this token — anything that used to be `text-primary`,
+       `bg-primary`, `border-primary`, the em block accent, etc. now
+       reads as the natural green from the reference image. */
+    --primary: 91 41% 39%;          /* #5b8e3a leaf green */
+    --primary-foreground: 60 14% 97%;   /* #FAFAF7 — bone on green CTAs */
     --secondary: 0 0% 9%;
     --secondary-foreground: 60 14% 97%;
     --muted: 0 0% 12%;
@@ -31,24 +35,26 @@
     --destructive-foreground: 60 14% 97%;
     --border: 0 0% 18%;
     --input: 0 0% 14%;
-    --ring: 225 100% 30%;
-    --chart-1: 225 100% 30%;
+    --ring: 91 41% 39%;
+    --chart-1: 91 41% 39%;
     --chart-2: 50 100% 52%;
     --chart-3: 60 14% 97%;
     --chart-4: 0 0% 50%;
-    --chart-5: 225 100% 50%;
+    --chart-5: 88 42% 50%;
     --radius: 0;
 
-    --deep-blue: 225 100% 22%;
-    --light-blue: 225 100% 50%;
+    /* Token names kept as "blue" to avoid a 30-file rename across Tailwind
+       references; the VALUES are foliage greens now. */
+    --deep-blue: 91 50% 28%;
+    --light-blue: 88 45% 55%;
     --sidebar-background: 0 0% 4%;
     --sidebar-foreground: 60 14% 97%;
-    --sidebar-primary: 225 100% 30%;
+    --sidebar-primary: 91 41% 39%;
     --sidebar-primary-foreground: 50 100% 52%;
     --sidebar-accent: 0 0% 9%;
     --sidebar-accent-foreground: 60 14% 97%;
     --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 225 100% 30%;
+    --sidebar-ring: 91 41% 39%;
   }
 }
 
@@ -81,7 +87,7 @@
     font-style: italic;
     font-weight: 900;
     color: #d4a017;
-    background: #1d4ed8;
+    background: #5b8e3a;
     display: inline-block;
     padding: 0 0.05em;
     line-height: 0.92;
@@ -366,7 +372,7 @@
   font-style: italic;
   font-weight: 900;
   color: #d4a017;
-  background: #1d4ed8;
+  background: #5b8e3a;
   display: inline-block;
   padding: 0 0.05em;
   line-height: 0.92;
@@ -387,7 +393,7 @@
 }
 
 /* Block-em accent inside the hero subline. Same pattern as the headline em
-   (#1d4ed8 royal blue rectangle + #d4a017 yellow italic letterform), but
+   (#5b8e3a royal blue rectangle + #d4a017 yellow italic letterform), but
    sized to the subline's typographic scale, not the headline's. The lead
    is wrapped in <p>, not <h1/h2>, so the global h1 em / h2 em rule does
    not catch it — explicit override below. */
@@ -396,7 +402,7 @@
   font-style: italic;
   font-weight: 400;
   color: #d4a017;
-  background: #1d4ed8;
+  background: #5b8e3a;
   display: inline-block;
   padding: 0 0.08em;
   line-height: 0.95;
@@ -446,11 +452,11 @@
   border-radius: 0;
 }
 .bs-btn-primary {
-  background: #003399;
+  background: #4a7c2e;
   color: #FAFAF7;
 }
 .bs-btn-primary:hover {
-  background: #002266;
+  background: #3d6b22;
   transform: translateY(-2px);
 }
 .bs-btn-secondary {
@@ -470,7 +476,7 @@
   left: 0;
   right: 0;
   height: 36px;
-  background: #003399;
+  background: #4a7c2e;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -655,7 +661,7 @@
   font-size: 16px;
   text-transform: none;
   letter-spacing: 0;
-  color: #003399;
+  color: #4a7c2e;
   vertical-align: -1px;
 }
 
@@ -708,7 +714,7 @@
 .bs-pause-kicker-line {
   width: 32px;
   height: 1px;
-  background: #1d4ed8;
+  background: #5b8e3a;
 }
 .bs-pause-kicker-label {
   font-family: var(--font-mono);
@@ -748,7 +754,7 @@
 .bs-pause-sign-stop {
   background: #ffffff;
   border: 4px solid #0A0A0A;
-  box-shadow: 5px 5px 0 #1d4ed8;
+  box-shadow: 5px 5px 0 #5b8e3a;
   transform: rotate(-3deg);
   font-family: var(--font-body);
   font-weight: 700;
@@ -759,7 +765,7 @@
 
 /* Bike sign — solid blue, white offset shadow */
 .bs-pause-sign-bike {
-  background: #1d4ed8;
+  background: #5b8e3a;
   transform: rotate(2deg);
   box-shadow: 5px 5px 0 #ffffff;
 }
@@ -780,7 +786,7 @@
 
 /* PULL QUOTE — 2px blue left border */
 .bs-pause-quote {
-  border-left: 2px solid #1d4ed8;
+  border-left: 2px solid #5b8e3a;
   padding: 0.5rem 0 0.5rem 1.5rem;
   margin: 0 0 5rem;
   max-width: 480px;
@@ -809,7 +815,7 @@
   font-style: italic;
   line-height: 0.9;
   letter-spacing: -0.04em;
-  color: #1d4ed8;
+  color: #5b8e3a;
   -webkit-text-stroke: 0;
   margin: 0;
 }
@@ -944,8 +950,8 @@
   border-radius: 2px;
 }
 @keyframes bs-data-delta-flash {
-  0%   { background-color: rgba(29, 78, 216, 0.18); }
-  100% { background-color: rgba(29, 78, 216, 0); }
+  0%   { background-color: rgba(91, 142, 58, 0.18); }
+  100% { background-color: rgba(91, 142, 58, 0); }
 }
 
 /* City name underline that slides in from the left */
@@ -961,7 +967,7 @@
   bottom: -3px;
   height: 1px;
   width: 100%;
-  background: rgba(29, 78, 216, 0.7);
+  background: rgba(91, 142, 58, 0.7);
   transform-origin: left center;
   animation: bs-data-underline-in 600ms cubic-bezier(0.16, 1, 0.3, 1) 100ms 1 both;
 }
@@ -995,8 +1001,8 @@
     transform 150ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .bs-data-pill:hover {
-  border-color: rgba(29, 78, 216, 0.7);
-  background: rgba(29, 78, 216, 0.08);
+  border-color: rgba(91, 142, 58, 0.7);
+  background: rgba(91, 142, 58, 0.08);
 }
 .bs-data-pill:active {
   transform: scale(0.95);
@@ -1086,13 +1092,13 @@
     color 200ms ease-out;
 }
 .bs-nav-pill:hover {
-  background: rgba(29, 78, 216, 0.10);
-  border-color: rgba(29, 78, 216, 0.7);
+  background: rgba(91, 142, 58, 0.10);
+  border-color: rgba(91, 142, 58, 0.7);
 }
 .bs-nav-pill-active,
 .bs-nav-pill-active:hover {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
+  background: #5b8e3a;
+  border-color: #5b8e3a;
   color: #ffffff;
 }
 .bs-nav-cta {
@@ -1101,8 +1107,8 @@
   gap: 0.5rem;
   padding: 0.55rem 1.25rem;
   border-radius: 8px;
-  background: #1d4ed8;
-  border: 0.5px solid #1d4ed8;
+  background: #5b8e3a;
+  border: 0.5px solid #5b8e3a;
   color: #ffffff;
   font-family: var(--font-mono);
   font-size: 13px;            /* +1 step */
@@ -1114,8 +1120,8 @@
   transition: background-color 200ms ease-out, border-color 200ms ease-out;
 }
 .bs-nav-cta:hover {
-  background: #1944c0;
-  border-color: #1944c0;
+  background: #4a7c2e;
+  border-color: #4a7c2e;
 }
 
 /* Lang dropdown — compact pill that expands a vertical list */
@@ -1253,7 +1259,7 @@
 }
 .bs-nav-mobile-item.is-active {
   font-style: italic;
-  color: #1d4ed8;
+  color: #5b8e3a;
 }
 .bs-nav-mobile-footer {
   margin-top: auto;
@@ -1275,7 +1281,7 @@
   width: 100%;
   padding: 1rem 1.25rem;
   border-radius: 8px;
-  background: #1d4ed8;
+  background: #5b8e3a;
   border: none;
   color: #ffffff;
   font-family: var(--font-mono);

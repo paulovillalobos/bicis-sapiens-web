@@ -43,7 +43,7 @@ export default function AppCTA() {
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background:
-            'radial-gradient(ellipse 60% 65% at 75% 50%, rgba(0, 51, 153, 0.45) 0%, rgba(0, 51, 153, 0.18) 32%, rgba(10, 10, 10, 0) 70%)',
+            'radial-gradient(ellipse 60% 65% at 75% 50%, rgba(74, 124, 46, 0.45) 0%, rgba(74, 124, 46, 0.18) 32%, rgba(10, 10, 10, 0) 70%)',
         }}
       />
 
@@ -66,7 +66,7 @@ export default function AppCTA() {
               <span
                 style={{
                   display: 'inline-block',
-                  background: '#1d4ed8',
+                  background: '#5b8e3a',
                   color: '#d4a017',
                   fontStyle: 'italic',
                   padding: '0 0.06em',

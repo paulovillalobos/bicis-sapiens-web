@@ -8,7 +8,7 @@ import { useSupabaseAuth } from '@/lib/SupabaseAuth';
 import ForumWordmark from '@/components/landing/ForumWordmark';
 
 const YELLOW   = '#d4a017';
-const BLUE     = '#1d4ed8';
+const BLUE     = '#5b8e3a';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
 const FAINT    = '#ffffff';
 const SOFT     = '#ffffff';

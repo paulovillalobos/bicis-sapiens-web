@@ -3,7 +3,7 @@ import { useI18n } from '@/lib/i18n';
 
 // --- Theme tokens (match §02 Porto in Numbers / §03 Solution / §04 BikeBus) ---
 const YELLOW   = '#d4a017';
-const BLUE     = '#1d4ed8';
+const BLUE     = '#5b8e3a';
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
 // MUTED / SOFT / FAINT collapsed to PURE WHITE — hierarchy via
 // size + weight, not opacity. Structural meta graduates to YELLOW.

@@ -69,7 +69,7 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
       {subtitle && (
         <p
           className="font-mono uppercase m-0 mt-2"
-          style={{ fontSize: 13, letterSpacing: '0.15em', color: '#1d4ed8' }}
+          style={{ fontSize: 13, letterSpacing: '0.15em', color: '#5b8e3a' }}
         >
           {subtitle}
         </p>
@@ -101,8 +101,8 @@ function AdvisorCell({ slug, initial, hasPhoto, role, name, subtitle, desc1, des
           style={{
             fontSize: 16,
             lineHeight: 1.4,
-            color: '#1d4ed8',
-            borderLeft: '2px solid #1d4ed8',
+            color: '#5b8e3a',
+            borderLeft: '2px solid #5b8e3a',
           }}
         >
           {pullQuote}
@@ -145,7 +145,7 @@ export default function AboutTeam() {
             style={{ fontSize: 'clamp(32px, 4.5vw, 48px)' }}
           >
             {t('about.headline.pre')}
-            <em className="italic font-normal" style={{ color: '#1d4ed8' }}>
+            <em className="italic font-normal" style={{ color: '#5b8e3a' }}>
               {t('about.headline.accent')}
             </em>
             {t('about.headline.post')}
@@ -198,7 +198,7 @@ export default function AboutTeam() {
             </h3>
             <p
               className="font-mono uppercase m-0 mb-8"
-              style={{ fontSize: 14, letterSpacing: '0.15em', color: '#1d4ed8' }}
+              style={{ fontSize: 14, letterSpacing: '0.15em', color: '#5b8e3a' }}
             >
               {t('about.founder.epithet')}
             </p>
@@ -209,8 +209,8 @@ export default function AboutTeam() {
               style={{
                 fontSize: 24,
                 lineHeight: 1.3,
-                color: '#1d4ed8',
-                borderLeft: '2px solid #1d4ed8',
+                color: '#5b8e3a',
+                borderLeft: '2px solid #5b8e3a',
               }}
             >
               {t('about.founder.pullQuote')}
