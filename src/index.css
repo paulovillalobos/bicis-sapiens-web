@@ -489,12 +489,16 @@
   transition: background-color 250ms ease, color 250ms ease, transform 250ms ease, border-color 250ms ease;
   border-radius: 0;
 }
+/* Primary CTA — vibrant lime bg + deep-navy text. White on lime was
+   unreadable; navy gives the AAA contrast needed for the most-clicked
+   surface on the site. */
 .bs-btn-primary {
-  background: #A0CC20;
-  color: #FFFFFF;
+  background: #B8E835;
+  color: #0A1F44;
 }
 .bs-btn-primary:hover {
-  background: #8AB418;
+  background: #A0CC20;
+  color: #0A1F44;
   transform: translateY(-2px);
 }
 .bs-btn-secondary {
@@ -507,14 +511,14 @@
   border-color: #FFFFFF;
 }
 
-/* Ticker — fixed-height EU-blue strip at bottom of hero */
+/* Ticker — fixed-height lime strip at bottom of hero */
 .bs-hero-ticker {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 36px;
-  background: #A0CC20;
+  background: #B8E835;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -531,7 +535,7 @@
   font-size: 14px;          /* +1 step */
   letter-spacing: 0.16em;   /* tighter */
   font-weight: 500;
-  color: #FFFFFF;
+  color: #0A1F44;           /* navy on lime bg — was #FFFFFF (unreadable) */
   text-transform: uppercase;
   padding-right: 32px;
 }
@@ -1137,7 +1141,7 @@
 .bs-nav-pill-active:hover {
   background: #B8E835;
   border-color: #B8E835;
-  color: #ffffff;
+  color: #0A1F44;           /* navy on lime — was white, unreadable */
 }
 .bs-nav-cta {
   display: inline-flex;
@@ -1147,7 +1151,7 @@
   border-radius: 8px;
   background: #B8E835;
   border: 0.5px solid #B8E835;
-  color: #ffffff;
+  color: #0A1F44;             /* navy on lime — was white, unreadable */
   font-family: var(--font-mono);
   font-size: 13px;            /* +1 step */
   font-weight: 500;
@@ -1160,6 +1164,7 @@
 .bs-nav-cta:hover {
   background: #A0CC20;
   border-color: #A0CC20;
+  color: #0A1F44;
 }
 
 /* Lang dropdown — compact pill that expands a vertical list */
@@ -1321,7 +1326,7 @@
   border-radius: 8px;
   background: #B8E835;
   border: none;
-  color: #ffffff;
+  color: #0A1F44;           /* navy on lime — was white, unreadable */
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 500;

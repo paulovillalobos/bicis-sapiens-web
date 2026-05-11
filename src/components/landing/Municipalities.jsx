@@ -3,7 +3,8 @@ import { useI18n } from '@/lib/i18n';
 
 // --- Theme tokens (match §02 Porto in Numbers / §03 Solution / §04 BikeBus) ---
 const YELLOW   = '#d4a017';
-const BLUE     = '#B8E835';
+const BLUE     = '#B8E835';   /* lime highlight bg */
+const NAVY     = '#0A1F44';   /* text inside lime blocks (AAA on lime) */
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
 // MUTED / SOFT / FAINT collapsed to PURE WHITE — hierarchy via
 // size + weight, not opacity. Structural meta graduates to YELLOW.
@@ -69,7 +70,7 @@ export default function Municipalities() {
               style={{
                 display: 'inline-block',
                 background: BLUE,
-                color: YELLOW,
+                color: NAVY,
                 fontStyle: 'italic',
                 padding: '0 0.06em',
                 lineHeight: 0.95,
@@ -307,7 +308,7 @@ export default function Municipalities() {
             className="block w-full text-center transition-opacity hover:opacity-90"
             style={{
               background: BLUE,
-              color: '#fff',
+              color: NAVY,
               padding: '1.5rem',
               fontSize: 17,
               fontWeight: 500,

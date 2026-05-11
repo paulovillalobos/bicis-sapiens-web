@@ -4,8 +4,9 @@ import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 
-const YELLOW   = '#d4a017';
-const BLUE     = '#B8E835';
+const YELLOW   = '#d4a017';   /* standalone yellow accents (kickers) */
+const BLUE     = '#B8E835';   /* lime — used as highlight block bg */
+const NAVY     = '#0A1F44';   /* deep navy — text inside lime blocks (WCAG AAA on lime) */
 const HAIRLINE = 'rgba(255, 255, 255, 0.15)';
 // "Soft" and "Faint" are no longer gray — per the typo pass we keep
 // secondary text PURE white and lean on size/weight (not opacity) for
@@ -161,7 +162,7 @@ export default function CommunityHub() {
             style={{
               display: 'inline-block',
               background: BLUE,
-              color: YELLOW,
+              color: NAVY,
               fontStyle: 'italic',
               padding: '0 0.06em',
               lineHeight: 0.95,

@@ -64,7 +64,7 @@ export default function AppCTA() {
                 style={{
                   display: 'inline-block',
                   background: '#B8E835',
-                  color: '#d4a017',
+                  color: '#0A1F44',
                   fontStyle: 'italic',
                   padding: '0 0.06em',
                   lineHeight: 0.95,

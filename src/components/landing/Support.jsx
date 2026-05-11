@@ -97,7 +97,7 @@ export default function Support() {
                 fontSize: 16,
                 fontWeight: 500,
                 background: '#B8E835',
-                color: '#ffffff',
+                color: '#0A1F44',
                 borderRadius: 4,
                 textDecoration: 'none',
               }}

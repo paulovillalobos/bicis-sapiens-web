@@ -4,7 +4,8 @@ import { ArrowRight } from 'lucide-react';
 
 // --- Theme tokens (same dark editorial system as §02 / §03) ---
 const YELLOW    = '#d4a017';
-const BLUE      = '#B8E835';
+const BLUE      = '#B8E835';   /* lime highlight bg */
+const NAVY      = '#0A1F44';   /* text inside lime blocks (AAA on lime) */
 const HAIRLINE  = 'rgba(255, 255, 255, 0.15)';
 const GRID_GAP  = 'rgba(255, 255, 255, 0.08)';
 const SECTION_BG = '#0a0a0a';
@@ -269,7 +270,7 @@ export default function BikeBus({ onJoinClick }) {
             className="inline-flex items-center justify-between transition-colors"
             style={{
               background: BLUE,
-              color: '#fff',
+              color: NAVY,
               padding: '1.25rem 1.5rem',
               fontSize: 14,
               fontWeight: 500,
@@ -278,7 +279,7 @@ export default function BikeBus({ onJoinClick }) {
               cursor: 'pointer',
               fontFamily: 'var(--font-body)',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = '#1638b3'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#A0CC20'; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = BLUE; }}
           >
             <span>{t('bikeBus.cta.primary')}</span>
