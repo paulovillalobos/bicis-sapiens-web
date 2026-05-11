@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useI18n } from '@/lib/i18n';
 import { useScrollReveal } from '@/lib/useScrollReveal';
-import { base44 } from '@/api/base44Client';
+import { submitSignup } from '@/lib/signups';
 import { ArrowRight, MapPin, Clock, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -16,16 +16,13 @@ export default function AppCTA() {
     e?.preventDefault();
     if (!email || submitting) return;
     setSubmitting(true);
-    try {
-      await base44.entities.Subscriber.create({
-        email,
-        type: 'app_waitlist',
-        consent_given: true,
-        language: lang,
-      });
-    } catch (_) {
-      // base44 may be unconfigured in dev — fail silently, still acknowledge
-    }
+    await submitSignup({
+      type: 'app_waitlist',
+      email,
+      language: lang,
+      consent_given: true,
+      source: 'app_waitlist_inline',
+    });
     setSubmitting(false);
     setEmail('');
     toast.success(t('join.success'));

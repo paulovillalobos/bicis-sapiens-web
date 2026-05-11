@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useI18n } from '@/lib/i18n';
-import { base44 } from '@/api/base44Client';
+import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
+import { submitSignup } from '@/lib/signups';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,14 +18,15 @@ export default function JoinModal({ open, onOpenChange }) {
     e.preventDefault();
     if (!form.email || !consent) return;
     setSubmitting(true);
-    await base44.entities.Subscriber.create({
+    await submitSignup({
+      type: 'movement',
       email: form.email,
       name: form.name,
       phone: form.phone,
       city: form.city,
-      type: 'movement',
-      consent_given: consent,
       language: lang,
+      consent_given: consent,
+      source: 'join_modal',
     });
     setSubmitting(false);
     setForm({ name: '', email: '', phone: '', city: '' });
