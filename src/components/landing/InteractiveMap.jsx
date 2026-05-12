@@ -782,30 +782,35 @@ export default function InteractiveMap() {
           exitCompareLabel={t('map.controls.exitCompare')}
         />
 
-        {/* Legend */}
+        {/* Legend — Greater Porto totals. Card widened from 280/320 →
+            300/360 so the 3 column labels (FREGUESIAS / MUNICÍPIOS /
+            HABITANTES) have room to breathe instead of glueing into
+            each other. Labels themselves tightened: text-[13px]
+            tracking-[0.18em] → text-[11px] tracking-[0.04em] (within
+            mono-char + tracking budget for a ~95px cell). */}
         {stats && (
-          <div className="absolute bottom-4 left-4 z-[400] bg-background/85 backdrop-blur border border-border p-4 w-[280px] sm:w-[320px]">
+          <div className="absolute bottom-4 left-4 z-[400] bg-background/85 backdrop-blur border border-border p-4 w-[300px] sm:w-[360px]">
             <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-accent mb-3">
               {t('map.legend.region')}
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-4">
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {stats.freguesias}
                 </div>
-                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">{t('map.legend.parishes')}</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.04em] font-medium text-foreground mt-1.5 whitespace-nowrap">{t('map.legend.parishes')}</div>
               </div>
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {stats.municipios}
                 </div>
-                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">{t('map.legend.municipalities')}</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.04em] font-medium text-foreground mt-1.5 whitespace-nowrap">{t('map.legend.municipalities')}</div>
               </div>
               <div>
                 <div className="font-display text-2xl sm:text-3xl font-black tracking-tightest text-foreground leading-none">
                   {(stats.populacao / 1e6).toFixed(2)}M
                 </div>
-                <div className="font-mono text-[13px] uppercase tracking-[0.18em] font-medium text-foreground mt-1.5">{t('map.legend.inhabitants')}</div>
+                <div className="font-mono text-[11px] uppercase tracking-[0.04em] font-medium text-foreground mt-1.5 whitespace-nowrap">{t('map.legend.inhabitants')}</div>
               </div>
             </div>
           </div>

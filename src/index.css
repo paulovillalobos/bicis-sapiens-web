@@ -1110,7 +1110,10 @@
   background: rgba(10, 10, 10, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.10);
+  /* Border removed — the backdrop blur + obsidian fill already separate
+     the nav from content scrolling behind it. The hairline was reading
+     as decorative chrome once the lime CTAs got brighter, so it had to
+     go. Type carries the section, not a frame. */
 }
 .bs-nav-pill {
   display: inline-flex;

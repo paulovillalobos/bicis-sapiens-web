@@ -26,6 +26,16 @@ const METHODOLOGY_PDF_AVAILABLE = false;
 //    "VÊ A DOCUMENTAÇÃO PÚBLICA" link is hidden entirely.
 const MATOSINHOS_DOC_URL = null;
 
+// ⚠️ Whole "Já trabalhamos com" partner block visibility. While false, the
+//    entire Matosinhos card is hidden from the page. Flip to true ONLY
+//    after the placeholder description in i18n.jsx
+//    (municipalities.partner.description) has been replaced with a real
+//    factual statement — including start date and measurable outcome —
+//    in ALL 4 LANGUAGES (pt/en/es/fr). Per brief: a municipality named
+//    without real information beside it reads worse than not naming it
+//    yet.
+const MATOSINHOS_PARTNER_VISIBLE = false;
+
 const CALENDLY_URL = 'https://calendly.com/rivivi/30min';
 const METHODOLOGY_PDF_PATH = '/docs/metodologia.pdf';
 
@@ -182,7 +192,13 @@ export default function Municipalities() {
           BLOCK 2 — JÁ TRABALHAMOS COM (Matosinhos credibility anchor).
           The only block on this section that uses a card surface — its
           singularity is what gives Matosinhos rhetorical weight.
+
+          Gated behind MATOSINHOS_PARTNER_VISIBLE because the placeholder
+          description in i18n still says "desde [data], [descrição
+          factual...]". A município partner named without real
+          information reads worse than not naming it yet — per brief.
         */}
+        {MATOSINHOS_PARTNER_VISIBLE && (
         <div
           className="mb-16"
           style={{
@@ -259,6 +275,7 @@ export default function Municipalities() {
             </a>
           )}
         </div>
+        )}
 
         {/* BLOCK 3 — A EQUIPA TÉCNICA */}
         <div className="mb-16">
