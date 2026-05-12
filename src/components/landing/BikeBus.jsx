@@ -228,9 +228,9 @@ export default function BikeBus({ onJoinClick }) {
           </div>
         </header>
 
-        {/* AGGREGATE STAT — small one-liner under the header, right-aligned */}
+        {/* AGGREGATE STAT — small one-liner under the header, centered */}
         <p
-          className="font-mono uppercase text-right m-0"
+          className="font-mono uppercase text-center m-0"
           style={{
             fontSize: 13,
             letterSpacing: '0.16em',
