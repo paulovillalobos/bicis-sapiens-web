@@ -16,14 +16,21 @@ export default function AppCTA() {
     e?.preventDefault();
     if (!email || submitting) return;
     setSubmitting(true);
-    await submitSignup({
-      type: 'app_waitlist',
-      email,
-      language: lang,
-      consent_given: true,
-      source: 'app_waitlist_inline',
-    });
-    setSubmitting(false);
+    try {
+      await submitSignup({
+        type: 'app_waitlist',
+        email,
+        language: lang,
+        consent_given: true,
+        source: 'app_waitlist_inline',
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error(t('join.error'));
+      return;
+    } finally {
+      setSubmitting(false);
+    }
     setEmail('');
     toast.success(t('join.success'));
   };

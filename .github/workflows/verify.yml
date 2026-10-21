@@ -31,5 +31,6 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm run build
+      - run: npm test
       - name: Test the checked-in ownership policy in PostgreSQL
         run: psql -v ON_ERROR_STOP=1 -f tests/notification-rls.sql

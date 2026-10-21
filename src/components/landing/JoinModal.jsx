@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useI18n } from '@/lib/i18n';
-import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 import { submitSignup } from '@/lib/signups';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { X } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function JoinModal({ open, onOpenChange }) {
@@ -18,17 +16,25 @@ export default function JoinModal({ open, onOpenChange }) {
     e.preventDefault();
     if (!form.email || !consent) return;
     setSubmitting(true);
-    await submitSignup({
-      type: 'movement',
-      email: form.email,
-      name: form.name,
-      phone: form.phone,
-      city: form.city,
-      language: lang,
-      consent_given: consent,
-      source: 'join_modal',
-    });
-    setSubmitting(false);
+    try {
+      await submitSignup({
+        type: 'movement',
+        email: form.email,
+        name: form.name,
+        phone: form.phone,
+        city: form.city,
+        language: lang,
+        consent_given: consent,
+        source: 'join_modal',
+      });
+    } catch (err) {
+      // Keep the form filled in so the person can try again.
+      console.error(err);
+      toast.error(t('join.error'));
+      return;
+    } finally {
+      setSubmitting(false);
+    }
     setForm({ name: '', email: '', phone: '', city: '' });
     setConsent(false);
     toast.success(t('join.success'));

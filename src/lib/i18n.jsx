@@ -397,6 +397,7 @@ const translations = {
       submit: 'Juntar-me',
       consent: 'Consinto o tratamento dos meus dados de acordo com a política de privacidade.',
       success: 'Obrigado! Vamos entrar em contacto.',
+      error: 'Não conseguimos guardar a tua inscrição. Tenta novamente daqui a pouco.',
     },
     forum: {
       kicker: '§07 / 13 — Fórum',
@@ -947,6 +948,7 @@ const translations = {
       submit: 'Join',
       consent: 'I consent to data processing according to the privacy policy.',
       success: 'Thank you! We\'ll be in touch.',
+      error: 'We couldn\'t save your sign-up. Please try again in a moment.',
     },
     forum: {
       kicker: '§07 / 13 — Forum',
@@ -1497,6 +1499,7 @@ const translations = {
       submit: 'Unirme',
       consent: 'Consiento el tratamiento de mis datos según la política de privacidad.',
       success: '¡Gracias! Nos pondremos en contacto.',
+      error: 'No pudimos guardar tu inscripción. Inténtalo de nuevo en un momento.',
     },
     forum: {
       kicker: '§07 / 13 — Foro',
@@ -2047,6 +2050,7 @@ const translations = {
       submit: 'Rejoindre',
       consent: 'Je consens au traitement de mes données selon la politique de confidentialité.',
       success: 'Merci ! Nous te contacterons bientôt.',
+      error: 'Nous n\'avons pas pu enregistrer ton inscription. Réessaie dans un instant.',
     },
     forum: {
       kicker: '§07 / 13 — Forum',
