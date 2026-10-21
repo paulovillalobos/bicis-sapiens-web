@@ -1,6 +1,6 @@
 # bicis-sapiens-web
 
-[![Verify build and RLS](https://github.com/imperiobaal69-web/bicis-sapiens-web/actions/workflows/verify.yml/badge.svg)](https://github.com/imperiobaal69-web/bicis-sapiens-web/actions/workflows/verify.yml)
+[![Verify build and RLS](https://github.com/paulovillalobos/bicis-sapiens-web/actions/workflows/verify.yml/badge.svg)](https://github.com/paulovillalobos/bicis-sapiens-web/actions/workflows/verify.yml)
 
 Website for Bicis Sapiens, a civic group in Porto that campaigns for streets
 built around people and bicycles. I built it for the group: a landing page with

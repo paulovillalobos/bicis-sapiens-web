@@ -1,6 +1,6 @@
 # Reproducible verification
 
-[![Build and RLS](https://github.com/imperiobaal69-web/bicis-sapiens-web/actions/workflows/verify.yml/badge.svg)](https://github.com/imperiobaal69-web/bicis-sapiens-web/actions/workflows/verify.yml)
+[![Build and RLS](https://github.com/paulovillalobos/bicis-sapiens-web/actions/workflows/verify.yml/badge.svg)](https://github.com/paulovillalobos/bicis-sapiens-web/actions/workflows/verify.yml)
 
 The workflow builds the application with Node 22 and runs `notification-rls.sql`
 against a fresh PostgreSQL 16 service. It applies the checked-in migration rather
